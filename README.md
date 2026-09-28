@@ -17,7 +17,7 @@ An independent full-stack railway reservation prototype inspired by the Indian R
 | :--- | :--- |
 | **What is this?** | An independent full-stack railway reservation prototype inspired by the Indian Railways (IRCTC) booking workflow. |
 | **What does it demonstrate?** | Clean modular vanilla web architecture, a native Node.js REST API with zero external dependencies, transactional SQLite persistence, and accessible UI design. |
-| **Can I see it live?** | **[Launch Live Web Demo](https://shubhamuttekar.github.io/irctc-nextgen-platform/)** (hosted on GitHub Pages with offline-resilient client). |
+| **Can I see it live?** | **[Launch Live Web Demo](https://shubhamuttekar.github.io/irctc-nextgen-platform/)**<br>**[Explore Interactive API Docs](https://shubhamuttekar.github.io/irctc-nextgen-platform/api-docs.html)** (hosted on GitHub Pages). |
 | **Quick Run (3 steps)** | `git clone https://github.com/Shubhamuttekar/irctc-nextgen-platform.git`<br>`cd irctc-nextgen-platform`<br>`node server/index.js` (Open `http://localhost:8086`) |
 
 ---
@@ -57,11 +57,13 @@ The system is self-contained:
 irctc-nextgen-platform/
 ├── assets/                 # Vector SVGs, icons, and official insignia assets
 ├── css/                    # Modular stylesheets (main, components, animations)
-├── docs/
-│   └── design-exploration/ # Iterative design sketches, audits, and research artifacts
+├── docs/                   # OpenAPI specification & design exploration artifacts
+│   ├── openapi.json        # Exported OpenAPI 3.0 specification
+│   └── design-exploration/ # Iterative design sketches, audits, and research
 ├── js/                     # Client application (ES modules, components, utilities)
-├── server/                 # REST API, OpenAPI docs, SQLite database & test suite
+├── server/                 # REST API, SQLite database & test suite
 ├── index.html              # Main single-page application entry point
+├── api-docs.html           # Interactive API Explorer & Swagger documentation
 ├── README.md               # Technical documentation and case study
 └── LICENSE                 # MIT License
 ```
@@ -318,7 +320,7 @@ All API endpoints communicate using standard JSON payloads over HTTP:
 | `GET` | `/api/trains/:trainNo` | Detailed train schedule & halt stations | `trainNo` path parameter | `{ "train_no": "22436", "halts": [ {...} ] }` |
 | `POST` | `/api/bookings` | Create ticket reservation | `{ "trainNo": "22436", "classCode": "CC", "journeyDate": "2026-09-30", "quota": "GN", "passengers": [...] }` | `{ "success": true, "pnr": "4829104821", "totalFare": 2898, "passengers": [...] }` |
 | `GET` | `/api/pnr/:pnrNo` | Query booking & charting status | `pnrNo` path parameter | `{ "pnr_no": "2847193852", "status": "CONFIRMED", "chart_status": "CHART PREPARED" }` |
-| `GET` | `/api/docs` | Interactive Swagger / OpenAPI playground | None | HTML documentation dashboard |
+| `GET` | `/api/docs` | Interactive Swagger / OpenAPI playground | None | HTML documentation dashboard ([Live Online](https://shubhamuttekar.github.io/irctc-nextgen-platform/api-docs.html)) |
 
 ---
 
@@ -400,7 +402,7 @@ To maintain clear and accurate engineering expectations, the following limitatio
 
 4. **Access the application:**
    * **Web Interface:** Open `http://localhost:8086/` in any modern web browser.
-   * **Interactive Swagger Documentation:** Open `http://localhost:8086/api/docs`.
+   * **Interactive Swagger Documentation:** Open `http://localhost:8086/api/docs` or `http://localhost:8086/api-docs.html`.
    * **Health Telemetry Endpoint:** Open `http://localhost:8086/api/health`.
 
 5. **Run automated tests:**
