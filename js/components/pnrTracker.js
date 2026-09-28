@@ -51,7 +51,7 @@ export class PnrTracker {
         <div class="pnr-result-card" style="text-align: center; padding: 40px;">
           <div style="display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--primary);">
             <svg class="min-icon spin-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>
-            <span style="font-weight: 600; font-size: 1.05rem;">Querying IRCTC Central PRS Passenger Charting Database for PNR ${this.currentPnr}...</span>
+            <span style="font-weight: 600; font-size: 1.05rem;">Querying reservation database for PNR ${this.currentPnr}...</span>
           </div>
         </div>
       `;
@@ -196,7 +196,7 @@ export class PnrTracker {
         <!-- Charting Notes & Actions Footer -->
         <div class="pnr-card-footer">
           <div class="chart-timestamp-note">
-            <svg class="min-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>${rec.chartPreparedTime || 'Instant e-Chart generated at IRCTC New Delhi Base'}
+            <svg class="min-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>${rec.chartPreparedTime || 'Simulated e-Chart generated for journey'}
           </div>
           <div class="pnr-actions">
             <button type="button" class="btn-secondary-pnr" id="btn-print-pnr"><svg class="min-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;margin-right:4px;"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>Print Journey Card</button>
@@ -229,7 +229,7 @@ export class PnrTracker {
         if (val.length === 10) {
           this.fetchPnr(val);
         } else {
-          alert('Please enter a valid 10-digit Indian Railways PNR number.');
+          alert('Please enter a valid 10-digit PNR number.');
         }
       });
     }
@@ -253,7 +253,7 @@ export class PnrTracker {
     const smsBtn = document.getElementById('btn-sms-pnr');
     if (smsBtn) {
       smsBtn.addEventListener('click', () => {
-        alert(`Status for PNR ${this.currentPnr} dispatched to registered passenger mobile via IRCTC SMS Gateway.`);
+        alert(`Simulated SMS notification dispatched for PNR ${this.currentPnr}.`);
       });
     }
   }

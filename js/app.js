@@ -44,7 +44,7 @@ class IrctcApp {
     // 1. Initialize Accessibility Suite
     this.a11ySuite = new A11ySuite();
 
-    // 2. Initialize Vande Bharat 60fps Motion Graphic Canvas
+    // 2. Initialize Vande Bharat Motion Graphic Canvas
     const canvas = document.getElementById('vande-bharat-canvas');
     if (canvas) {
       this.trainAnimation = new TrainAnimation(canvas, { defaultSpeed: 'highspeed' });

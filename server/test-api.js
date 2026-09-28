@@ -4,6 +4,7 @@
  */
 
 const {
+  db,
   getSystemHealth,
   searchTrains,
   getTrainByNo,
@@ -100,7 +101,94 @@ try {
 
   // Lookup invalid PNR
   const invalidPnr = getBookingByPnr('0000000000');
-  assert(invalidPnr === null, 'Non-existent PNR returns null');
+  assert(invalidPnr === null, 'Non-existent PNR returns null (404)');
+
+  // Test 6: Seat Inventory Deduction & Overbooking Protection
+  console.log('\n--- 6. Testing Seat Inventory Deduction & Overbooking Rejection ---');
+  const classBefore = db.prepare('SELECT available_seats FROM classes WHERE train_no = ? AND class_code = ?').get('12002', 'CC');
+  const seatsBefore = classBefore ? classBefore.available_seats : 0;
+  
+  const singlePaxBooking = createBooking({
+    trainNo: '12002',
+    classCode: 'CC',
+    journeyDate: '2026-09-30',
+    quota: 'GN',
+    travelInsurance: false,
+    paymentMethod: 'UPI / PhonePe',
+    passengers: [{ name: 'Single Traveler', age: 32, gender: 'M', berthPref: 'Window (WS)' }]
+  });
+  
+  const classAfter = db.prepare('SELECT available_seats FROM classes WHERE train_no = ? AND class_code = ?').get('12002', 'CC');
+  const seatsAfter = classAfter ? classAfter.available_seats : 0;
+  assert(seatsAfter === seatsBefore - 1, `Seat count decremented accurately: ${seatsBefore} -> ${seatsAfter}`);
+
+  // Test passenger quantity limit (> 6 passengers rejected)
+  let maxPaxRejected = false;
+  try {
+    createBooking({
+      trainNo: '12002',
+      classCode: 'CC',
+      journeyDate: '2026-09-30',
+      quota: 'GN',
+      passengers: Array.from({ length: 8 }, (_, i) => ({ name: `Excess Pax ${i}`, age: 25, gender: 'M' }))
+    });
+  } catch (err) {
+    maxPaxRejected = err.message.includes('Maximum 6 passengers allowed');
+  }
+  assert(maxPaxRejected === true, 'Excess passenger count (>6) rejected per booking rules');
+
+  // Test overbooking rejection: request 6 passengers on train with 4 seats (12424 / 1A)
+  const seats1ABefore = db.prepare('SELECT available_seats FROM classes WHERE train_no = ? AND class_code = ?').get('12424', '1A').available_seats;
+  let overbookingRejected = false;
+  let overbookingErrorMsg = '';
+  try {
+    createBooking({
+      trainNo: '12424',
+      classCode: '1A',
+      journeyDate: '2026-09-30',
+      quota: 'GN',
+      passengers: Array.from({ length: 6 }, (_, i) => ({ name: `Pax ${i + 1}`, age: 28, gender: 'M' }))
+    });
+  } catch (err) {
+    overbookingRejected = true;
+    overbookingErrorMsg = err.message;
+  }
+  assert(overbookingRejected === true, 'Overbooking request exceeding available seats rejected');
+  assert(overbookingErrorMsg.includes('Insufficient seats'), `Descriptive rejection message: "${overbookingErrorMsg}"`);
+  
+  const seats1AAfter = db.prepare('SELECT available_seats FROM classes WHERE train_no = ? AND class_code = ?').get('12424', '1A').available_seats;
+  assert(seats1AAfter === seats1ABefore, `Seat count unchanged after rejected booking (${seats1ABefore})`);
+
+  // Test 7: Atomic Transaction Rollback on Failure
+  console.log('\n--- 7. Testing Atomic SQLite Transaction Rollback on Mid-Flight Failure ---');
+  const bookingsCountBefore = db.prepare('SELECT count(*) as count FROM bookings').get().count;
+  const passengersCountBefore = db.prepare('SELECT count(*) as count FROM passengers').get().count;
+  const seatsBeforeFailure = db.prepare('SELECT available_seats FROM classes WHERE train_no = ? AND class_code = ?').get('12002', 'EC').available_seats;
+
+  let rollbackTriggered = false;
+  try {
+    createBooking({
+      trainNo: '12002',
+      classCode: 'EC',
+      journeyDate: '2026-09-30',
+      quota: 'GN',
+      passengers: [
+        { name: 'Legitimate Passenger 1', age: 30, gender: 'M' },
+        null // Triggers TypeError inside transaction loop after header is inserted
+      ]
+    });
+  } catch (err) {
+    rollbackTriggered = true;
+  }
+
+  const bookingsCountAfter = db.prepare('SELECT count(*) as count FROM bookings').get().count;
+  const passengersCountAfter = db.prepare('SELECT count(*) as count FROM passengers').get().count;
+  const seatsAfterFailure = db.prepare('SELECT available_seats FROM classes WHERE train_no = ? AND class_code = ?').get('12002', 'EC').available_seats;
+
+  assert(rollbackTriggered === true, 'Mid-flight transaction error triggered rollback catch block');
+  assert(bookingsCountAfter === bookingsCountBefore, `Zero orphan booking records created (${bookingsCountBefore} -> ${bookingsCountAfter})`);
+  assert(passengersCountAfter === passengersCountBefore, `Zero orphan passenger records persisted (${passengersCountBefore} -> ${passengersCountAfter})`);
+  assert(seatsAfterFailure === seatsBeforeFailure, `Available seats remain untouched on rollback (${seatsBeforeFailure})`);
 
   console.log('\n====================================================');
   console.log(`Diagnostic Complete: ${passed} Passed, ${failed} Failed`);

@@ -100,7 +100,7 @@ export class TatkalTimer {
     if (liveServerClockEl) {
       const timeStr = now.toLocaleTimeString('en-IN', { hour12: false });
       const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
-      liveServerClockEl.innerHTML = `<span class="clock-live-dot"></span> IRCTC CRIS SERVER TIME: <strong>${timeStr} IST</strong> (${dateStr})`;
+      liveServerClockEl.innerHTML = `<span class="clock-live-dot"></span> CURRENT DEMO TIME: <strong>${timeStr} IST</strong> (${dateStr})`;
     }
   }
 
@@ -119,12 +119,12 @@ export class TatkalTimer {
           <div class="tatkal-title-group">
             <span class="tatkal-icon" aria-hidden="true"><svg class="min-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
             <div>
-              <h3 class="tatkal-title" data-i18n="tatkal_heading">Official Tatkal Reservation Countdown Hub</h3>
-              <p class="tatkal-subtitle">CRIS Synchronized High-Priority Booking Windows</p>
+              <h3 class="tatkal-title" data-i18n="tatkal_heading">Tatkal Reservation Countdown Hub</h3>
+              <p class="tatkal-subtitle">Simulated AC and Non-AC Tatkal Booking Windows</p>
             </div>
           </div>
           <div id="live-server-clock" class="server-clock-badge" aria-live="polite">
-            <span class="clock-live-dot"></span> IRCTC CRIS SERVER TIME: --:--:-- IST
+            <span class="clock-live-dot"></span> CURRENT DEMO TIME: --:--:-- IST
           </div>
         </div>
 

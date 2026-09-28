@@ -202,7 +202,7 @@ function initSchema() {
 }
 
 // ---------------------------------------------------------
-// Seed Initial Authentic Trains & Bookings
+// Seed Initial Demo Trains & Bookings
 // ---------------------------------------------------------
 const SEED_TRAINS = [
   {
@@ -776,7 +776,7 @@ function seedDatabase() {
     return; // Already seeded
   }
 
-  console.log('[DB] Seeding authentic trains into database...');
+  console.log('[DB] Seeding demo train data...');
   const insertTrain = db.prepare(`
     INSERT INTO trains (
       train_no, train_name, type, from_code, from_name, to_code, to_name,
@@ -809,7 +809,7 @@ function seedDatabase() {
   }
 
   // Pre-seed sample bookings
-  console.log('[DB] Seeding standard Indian Railways PNR bookings...');
+  console.log('[DB] Seeding sample demo PNR bookings...');
   const insertBooking = db.prepare(`
     INSERT INTO bookings (
       pnr_no, train_no, train_name, journey_date, class_code,
@@ -847,7 +847,7 @@ function seedDatabase() {
   );
   insertPassenger.run('8371940285', 'Kavita Deshmukh', 29, 'F', 'Lower', 'WL 02 (High CNF Chance: 89%)', 'Veg Meal', 0);
 
-  console.log('[DB] Seeding complete! Database ready for high-concurrency requests.');
+  console.log('[DB] Seeding complete! Demo database ready.');
 }
 
 // Initialize tables and seed data
@@ -1064,7 +1064,7 @@ function generateAllocatedBerth(classCode, index, pref) {
 }
 
 /**
- * Create a Transactional Railway Reservation
+ * Create a Transactional Railway Reservation with Atomic SQLite Execution
  */
 function createBooking({ trainNo, classCode, journeyDate, quota = 'GN', passengers = [], travelInsurance = true, paymentMethod = 'UPI' }) {
   if (!trainNo) throw new Error('Missing trainNo');
@@ -1072,6 +1072,11 @@ function createBooking({ trainNo, classCode, journeyDate, quota = 'GN', passenge
   if (!journeyDate) throw new Error('Missing journeyDate');
   if (!Array.isArray(passengers) || passengers.length === 0) {
     throw new Error('At least one passenger is required');
+  }
+
+  const passengerCount = passengers.length;
+  if (passengerCount > 6) {
+    throw new Error('Maximum 6 passengers allowed per booking');
   }
 
   const train = getTrainByNo(trainNo);
@@ -1084,7 +1089,6 @@ function createBooking({ trainNo, classCode, journeyDate, quota = 'GN', passenge
   const baseRate = isTatkal ? (cls.tatkalFare || cls.fare * 1.2) : cls.fare;
 
   // Fare Calculation Engine (Base Fare + GST + Surcharges)
-  const passengerCount = passengers.length;
   const rawBaseTotal = baseRate * passengerCount;
   const reservationCharge = ['1A', 'EC'].includes(classCode) ? 60 * passengerCount : (['2A', '3A', 'CC'].includes(classCode) ? 40 * passengerCount : 20 * passengerCount);
   const superfastCharge = 45 * passengerCount;
@@ -1092,105 +1096,138 @@ function createBooking({ trainNo, classCode, journeyDate, quota = 'GN', passenge
   const insuranceCharge = travelInsurance ? +(0.35 * passengerCount).toFixed(2) : 0;
   const finalTotal = Math.round(rawBaseTotal + reservationCharge + superfastCharge + gst + insuranceCharge);
 
-  // Generate unique 10-digit PNR
-  let pnr = generatePnr();
-  let attempts = 0;
-  while (db.prepare('SELECT pnr_no FROM bookings WHERE pnr_no = ?').get(pnr) && attempts < 10) {
-    pnr = generatePnr();
-    attempts++;
+  // Pre-check seat availability before initiating transaction
+  const classRow = db.prepare('SELECT available_seats, tatkal_seats FROM classes WHERE train_no = ? AND class_code = ?').get(train.trainNo, classCode);
+  if (!classRow) {
+    throw new Error(`Class ${classCode} record not found for Train #${trainNo}`);
+  }
+  const currentAvailable = isTatkal ? classRow.tatkal_seats : classRow.available_seats;
+  if (currentAvailable < passengerCount) {
+    throw new Error(`Insufficient seats available in ${classCode}. Requested: ${passengerCount}, Available: ${currentAvailable}`);
   }
 
-  const createdAt = new Date().toISOString();
-  const status = 'CONFIRMED';
+  // Execute Atomic SQLite Transaction
+  db.exec('BEGIN TRANSACTION;');
+  try {
+    // Re-verify availability inside the transaction lock
+    const lockedClassRow = db.prepare('SELECT available_seats, tatkal_seats FROM classes WHERE train_no = ? AND class_code = ?').get(train.trainNo, classCode);
+    const lockedSeats = isTatkal ? lockedClassRow.tatkal_seats : lockedClassRow.available_seats;
+    if (lockedSeats < passengerCount) {
+      throw new Error(`Insufficient seats available in ${classCode}. Requested: ${passengerCount}, Available: ${lockedSeats}`);
+    }
 
-  // Insert Booking Header
-  const insertBooking = db.prepare(`
-    INSERT INTO bookings (
-      pnr_no, train_no, train_name, journey_date, class_code,
-      quota, total_fare, travel_insurance, payment_method, status, created_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `);
+    // Generate unique 10-digit demo PNR
+    let pnr = generatePnr();
+    let attempts = 0;
+    while (db.prepare('SELECT pnr_no FROM bookings WHERE pnr_no = ?').get(pnr) && attempts < 10) {
+      pnr = generatePnr();
+      attempts++;
+    }
 
-  insertBooking.run(
-    pnr, train.trainNo, train.trainName, journeyDate, classCode,
-    quota, finalTotal, travelInsurance ? 1 : 0, paymentMethod, status, createdAt
-  );
+    const createdAt = new Date().toISOString();
+    const status = 'CONFIRMED';
 
-  // Insert Passengers
-  const insertPassenger = db.prepare(`
-    INSERT INTO passengers (
-      pnr_no, name, age, gender, berth_pref, allocated_berth, meal_pref, sr_citizen
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-  `);
+    // Insert Booking Header
+    const insertBooking = db.prepare(`
+      INSERT INTO bookings (
+        pnr_no, train_no, train_name, journey_date, class_code,
+        quota, total_fare, travel_insurance, payment_method, status, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `);
 
-  const formattedPassengers = [];
-  passengers.forEach((p, idx) => {
-    const allocated = generateAllocatedBerth(classCode, idx, p.berthPref);
-    const srCitizen = (p.age >= 60) ? 1 : (p.srCitizen ? 1 : 0);
-
-    insertPassenger.run(
-      pnr,
-      p.name || `Passenger ${idx + 1}`,
-      Number(p.age) || 30,
-      p.gender || 'M',
-      p.berthPref || 'No Preference',
-      allocated.display,
-      p.mealPref || 'Veg Meal',
-      srCitizen
+    insertBooking.run(
+      pnr, train.trainNo, train.trainName, journeyDate, classCode,
+      quota, finalTotal, travelInsurance ? 1 : 0, paymentMethod, status, createdAt
     );
 
-    formattedPassengers.push({
-      id: idx + 1,
-      name: p.name,
-      age: Number(p.age) || 30,
-      gender: p.gender || 'M',
-      bookingStatus: `CNF - ${allocated.coach} / ${allocated.berthNo}`,
-      currentStatus: 'CONFIRMED (CNF)',
-      coach: allocated.coach,
-      berthNo: allocated.berthNo,
-      berthType: allocated.berthType,
-      statusClass: 'status-cnf',
-      mealPref: p.mealPref || 'Veg Meal'
+    // Insert Passengers
+    const insertPassenger = db.prepare(`
+      INSERT INTO passengers (
+        pnr_no, name, age, gender, berth_pref, allocated_berth, meal_pref, sr_citizen
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    const formattedPassengers = [];
+    passengers.forEach((p, idx) => {
+      const allocated = generateAllocatedBerth(classCode, idx, p.berthPref);
+      const srCitizen = (p.age >= 60) ? 1 : (p.srCitizen ? 1 : 0);
+
+      insertPassenger.run(
+        pnr,
+        p.name || `Passenger ${idx + 1}`,
+        Number(p.age) || 30,
+        p.gender || 'M',
+        p.berthPref || 'No Preference',
+        allocated.display,
+        p.mealPref || 'Veg Meal',
+        srCitizen
+      );
+
+      formattedPassengers.push({
+        id: idx + 1,
+        name: p.name || `Passenger ${idx + 1}`,
+        age: Number(p.age) || 30,
+        gender: p.gender || 'M',
+        bookingStatus: `CNF - ${allocated.coach} / ${allocated.berthNo}`,
+        currentStatus: 'CONFIRMED (CNF)',
+        coach: allocated.coach,
+        berthNo: allocated.berthNo,
+        berthType: allocated.berthType,
+        statusClass: 'status-cnf',
+        mealPref: p.mealPref || 'Veg Meal'
+      });
     });
-  });
 
-  // Deduct available seats
-  const newSeats = Math.max(0, cls.seats - passengerCount);
-  db.prepare('UPDATE classes SET available_seats = ? WHERE train_no = ? AND class_code = ?').run(
-    newSeats, train.trainNo, classCode
-  );
+    // Atomically deduct available seats (ensures non-negative count)
+    const newSeats = lockedSeats - passengerCount;
+    if (isTatkal) {
+      db.prepare('UPDATE classes SET tatkal_seats = ? WHERE train_no = ? AND class_code = ?').run(
+        newSeats, train.trainNo, classCode
+      );
+    } else {
+      db.prepare('UPDATE classes SET available_seats = ? WHERE train_no = ? AND class_code = ?').run(
+        newSeats, train.trainNo, classCode
+      );
+    }
 
-  return {
-    success: true,
-    pnr: pnr,
-    trainNo: train.trainNo,
-    trainName: train.trainName,
-    fromStation: `${train.fromStation} (${train.fromStationName})`,
-    toStation: `${train.toStation} (${train.toStationName})`,
-    boardingStation: train.fromStation,
-    journeyDate: journeyDate,
-    departureTime: train.departureTime,
-    arrivalTime: train.arrivalTime,
-    duration: train.duration,
-    classBooked: `${classCode} (${cls.name})`,
-    quota: `${quota} (${quota === 'TQ' ? 'Tatkal' : 'General'})`,
-    chartStatus: 'CHART PREPARED',
-    chartStatusColor: 'status-cnf',
-    passengers: formattedPassengers,
-    fareBreakdown: {
-      baseFare: rawBaseTotal,
-      reservationCharge,
-      superfastCharge,
-      gst,
-      travelInsurance: insuranceCharge,
-      totalFare: finalTotal
-    },
-    fareTotal: `₹ ${finalTotal.toLocaleString('en-IN')}`,
-    paymentMethod,
-    travelInsuranceOptIn: travelInsurance,
-    chartPreparedTime: `Instant e-Chart generated at IRCTC New Delhi Gateway on ${new Date().toLocaleDateString('en-GB')}`,
-    createdAt
-  };
+    db.exec('COMMIT;');
+
+    return {
+      success: true,
+      pnr: pnr,
+      trainNo: train.trainNo,
+      trainName: train.trainName,
+      fromStation: `${train.fromStation} (${train.fromStationName})`,
+      toStation: `${train.toStation} (${train.toStationName})`,
+      boardingStation: train.fromStation,
+      journeyDate: journeyDate,
+      departureTime: train.departureTime,
+      arrivalTime: train.arrivalTime,
+      duration: train.duration,
+      classBooked: `${classCode} (${cls.name})`,
+      quota: `${quota} (${quota === 'TQ' ? 'Tatkal' : 'General'})`,
+      chartStatus: 'CHART PREPARED',
+      chartStatusColor: 'status-cnf',
+      passengers: formattedPassengers,
+      remainingSeats: newSeats,
+      fareBreakdown: {
+        baseFare: rawBaseTotal,
+        reservationCharge,
+        superfastCharge,
+        gst,
+        travelInsurance: insuranceCharge,
+        totalFare: finalTotal
+      },
+      fareTotal: `₹ ${finalTotal.toLocaleString('en-IN')}`,
+      paymentMethod,
+      travelInsuranceOptIn: travelInsurance,
+      chartPreparedTime: `Simulated e-Chart generated on ${new Date().toLocaleDateString('en-GB')}`,
+      createdAt
+    };
+  } catch (err) {
+    db.exec('ROLLBACK;');
+    throw err;
+  }
 }
 
 /**

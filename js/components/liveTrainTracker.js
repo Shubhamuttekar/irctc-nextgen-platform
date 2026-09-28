@@ -23,13 +23,13 @@ export class LiveTrainTracker {
     const isLate = live.delayMinutes > 0;
 
     this.container.innerHTML = `
-      <section class="live-tracker-section" aria-label="Live Train Running Status">
+      <section class="live-tracker-section" aria-label="Simulated Train Running Status">
         <!-- Live Tracker Header Bar -->
         <div class="live-header-card">
           <div class="live-title-row">
             <div class="live-tag-group">
               <span class="live-gps-pulse"></span>
-              <span class="live-badge-pill">CRIS NTES SATELLITE TRACKER</span>
+              <span class="live-badge-pill">SIMULATED TRAIN STATUS TRACKER</span>
             </div>
             <div class="live-train-selector">
               <label for="live-train-select" class="selector-label">Select Train:</label>
@@ -49,7 +49,7 @@ export class LiveTrainTracker {
             <span class="route-subtitle">${train.fromStationName} (${train.fromStation}) <svg class="min-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;margin:0 4px;vertical-align:middle;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg> ${train.toStationName} (${train.toStation})</span>
           </div>
 
-          <!-- Live GPS Telemetry Dashboard -->
+          <!-- Simulated Telemetry Dashboard -->
           <div class="telemetry-dashboard-grid">
             <!-- Telemetry Box 1: Status & Delay -->
             <div class="telemetry-box ${isLate ? 'border-late' : 'border-ontime'}">
@@ -63,9 +63,9 @@ export class LiveTrainTracker {
               <span class="tele-subtext">${live.delayMinutes === 0 ? 'Exact Right Time (0 min delay)' : `${live.delayMinutes} mins delay against schedule`}</span>
             </div>
 
-            <!-- Telemetry Box 2: Current GPS Position -->
+            <!-- Telemetry Box 2: Current Simulated Position -->
             <div class="telemetry-box">
-              <span class="tele-lbl">ESTIMATED GPS LOCATION</span>
+              <span class="tele-lbl">SIMULATED TRAIN LOCATION</span>
               <span class="tele-val-bold">${live.currentLocation}</span>
               <span class="tele-subtext">Next: <strong>${live.nextStation}</strong> (ETA: ${live.etaNextStation})</span>
             </div>
@@ -101,7 +101,7 @@ export class LiveTrainTracker {
           <div class="timeline-card-header">
             <h3 class="halts-title">Scheduled Station Halts & Telemetry Milestones</h3>
             <button type="button" class="btn-refresh-gps" id="btn-refresh-gps-ping">
-              <svg class="min-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;margin-right:4px;"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>Refresh Satellite Fix
+              <svg class="min-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;margin-right:4px;"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>Refresh Simulation
             </button>
           </div>
 
@@ -174,13 +174,13 @@ export class LiveTrainTracker {
 
     if (refreshBtn) {
       refreshBtn.addEventListener('click', () => {
-        refreshBtn.innerHTML = '<svg class="min-icon spin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Syncing CRIS GPS...';
+        refreshBtn.innerHTML = '<svg class="min-icon spin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Updating Simulation...';
         refreshBtn.disabled = true;
         setTimeout(() => {
-          refreshBtn.innerHTML = '<svg class="min-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;margin-right:4px;color:var(--status-green);"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>GPS Synced Just Now';
+          refreshBtn.innerHTML = '<svg class="min-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;margin-right:4px;color:var(--status-green);"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Simulation Updated Just Now';
           setTimeout(() => {
             if (document.getElementById('btn-refresh-gps-ping')) {
-              refreshBtn.innerHTML = '<svg class="min-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;margin-right:4px;"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>Refresh Satellite Fix';
+              refreshBtn.innerHTML = '<svg class="min-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;margin-right:4px;"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>Refresh Simulation';
               refreshBtn.disabled = false;
             }
           }, 1800);

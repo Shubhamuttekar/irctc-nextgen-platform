@@ -1,6 +1,6 @@
 /**
  * Vande Bharat Express 2.0 Dynamic Canvas Motion Graphic
- * 60 FPS Parallax Simulation with OHE Catenary, Speed Streaks, Pantograph Sparks, and Interactive Speed Toggle
+ * Dynamic Canvas Parallax Simulation with OHE Catenary, Speed Streaks, Pantograph Sparks, and Interactive Speed Toggle
  */
 
 export class TrainAnimation {
@@ -355,7 +355,7 @@ export class TrainAnimation {
       const poleX = x - shift;
       if (poleX < -40 || poleX > w + 40) continue;
 
-      // Steel girder OHE Mast (Official Indian Railways Mast Grey / Galvanized Silver)
+      // Steel girder OHE Mast (Standard Mast Grey / Galvanized Silver)
       const mastGrad = ctx.createLinearGradient(poleX - 6, 0, poleX + 6, 0);
       mastGrad.addColorStop(0, '#94a3b8');
       mastGrad.addColorStop(0.5, '#f1f5f9');

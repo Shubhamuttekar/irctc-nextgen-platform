@@ -1,6 +1,6 @@
 # 🚆 IRCTC Redesign Prototype: Full-Stack Railway Reservation System
 
-[![Node.js Version](https://img.shields.io/badge/Node.js-v22.23%2B-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![Node.js Version](https://img.shields.io/badge/Node.js-v22%2B-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![Database](https://img.shields.io/badge/Database-SQLite_3_(node:sqlite)-003B57?logo=sqlite&logoColor=white)](https://nodejs.org/api/sqlite.html)
 [![Dependencies](https://img.shields.io/badge/Dependencies-Zero_External_NPM-blueviolet)](#5-technology-stack)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -329,17 +329,20 @@ All API endpoints communicate using standard JSON payloads over HTTP:
 The repository includes an automated integration test suite in `server/test-api.js`.
 
 ### Running Tests Locally:
-```powershell
+```bash
 cd server
-node test-api.js
+npm test
+# Or: node test-api.js
 ```
 
-### Test Coverage Breakdown (27 Automated Assertions):
+### Test Coverage Breakdown (36 Automated Assertions):
 * **Database & Health (4 tests):** Verifies SQLite connection, schema initialization, and pre-seeded record counts.
 * **Search Engine (4 tests):** Verifies route matching (`NDLS` ➔ `BSB`), fare retrieval, and class availability reporting.
-* **Train Timetable & Halts (3 tests):** Verifies train lookup (`12002` Bhopal Shatabdi), intermediate halts parsing, and 404 handling for invalid train numbers.
+* **Train Timetable & Halts (4 tests):** Verifies train lookup (`12002` Bhopal Shatabdi), intermediate halts parsing, and 404 handling for invalid train numbers.
 * **Transactional Reservation (6 tests):** Validates payload schema, computes GST and base fare, decrements seat counts, generates 10-digit numeric PNR, and assigns coach/berth numbers.
-* **PNR Status Lookup (10 tests):** Verifies querying newly created bookings, retrieving pre-seeded confirmed (`2847193852`), RAC (`6491028471`), and waitlist records, and testing 404 behavior on non-existent PNRs.
+* **PNR Status Lookup (9 tests):** Verifies querying newly created bookings, retrieving pre-seeded confirmed (`2847193852`), RAC (`6491028471`), and waitlist records, and testing 404 behavior on non-existent PNRs.
+* **Seat Inventory & Overbooking Protection (5 tests):** Verifies accurate seat inventory decrements, enforces 6-passenger booking limit rules, rejects overbooking requests exceeding capacity, and guarantees inventory remains untouched on failure.
+* **Atomic Transaction Rollback (4 tests):** Proves atomic SQLite transaction rollback on mid-flight failure, verifying zero partial booking records, zero orphan passenger rows, and pristine seat counts.
 
 ---
 
@@ -407,7 +410,9 @@ To maintain clear and accurate engineering expectations, the following limitatio
 
 5. **Run automated tests:**
    ```bash
-   node server/test-api.js
+   cd server
+   npm test
+   # Or from root directory: node server/test-api.js
    ```
 
 ---
