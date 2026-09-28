@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 260" width="100%" height="100%" role="img" aria-label="State Emblem of India - Lion Capital of Ashoka with Satyameva Jayate">
+  <defs>
+    <!-- Regal Sarnath Gold Gradients -->
+    <linearGradient id="emblemGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffbeb"/>
+      <stop offset="25%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#eab308"/>
+      <stop offset="75%" stop-color="#ca8a04"/>
+      <stop offset="100%" stop-color="#854d0e"/>
+    </linearGradient>
+
+    <linearGradient id="emblemGoldShine" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#fef08a"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+
+    <linearGradient id="emblemBronzeDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#854d0e"/>
+      <stop offset="100%" stop-color="#451a03"/>
+    </linearGradient>
+
+    <linearGradient id="abacusNavy" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0c2340"/>
+      <stop offset="100%" stop-color="#061220"/>
+    </linearGradient>
+
+    <filter id="emblemShadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#emblemShadow)">
+    <!-- ================= 1. THE FOUR LIONS (3 VISIBLE) ================= -->
+    <!-- Front Central Lion -->
+    <g fill="url(#emblemGoldGrad)" stroke="#713f12" stroke-width="0.8" stroke-linejoin="round">
+      <!-- Crown & Cranium -->
+      <path d="M110 18 C100 18 92 26 92 38 C92 46 95 53 101 57 C97 63 97 72 102 79 C105 83 110 85 110 85 C110 85 115 83 118 79 C123 72 123 63 119 57 C125 53 128 46 128 38 C128 26 120 18 110 18 Z"/>
+      
+      <!-- Mane Strands (Volumetric layers) -->
+      <path d="M94 42 C86 48 84 62 87 74 C89 81 94 88 100 93 C104 96 110 97 110 97 C110 97 116 96 120 93 C126 88 131 81 133 74 C136 62 134 48 126 42"/>
+      <path d="M98 52 C94 60 95 70 99 77 C102 82 107 85 110 85 C113 85 118 82 121 77 C125 70 126 60 122 52" fill="none" stroke="#713f12" stroke-width="1"/>
+      <path d="M102 54 C104 58 107 60 110 60 C113 60 116 58 118 54" fill="none" stroke="#713f12" stroke-width="1"/>
+
+      <!-- Facial Features -->
+      <!-- Eyes & Brow -->
+      <ellipse cx="104" cy="38" rx="2.5" ry="3.5" fill="#451a03"/>
+      <ellipse cx="116" cy="38" rx="2.5" ry="3.5" fill="#451a03"/>
+      <circle cx="104.5" cy="37.5" r="0.8" fill="#ffffff"/>
+      <circle cx="116.5" cy="37.5" r="0.8" fill="#ffffff"/>
+      <!-- Snout & Whiskers Pad -->
+      <polygon points="110,43 106,48 114,48" fill="#451a03"/>
+      <path d="M106 48 C106 52 110 54 110 54 C110 54 114 52 114 48" fill="none" stroke="#451a03" stroke-width="1.2"/>
+      <line x1="102" y1="49" x2="98" y2="48" stroke="#713f12" stroke-width="0.8"/>
+      <line x1="102" y1="51" x2="97" y2="52" stroke="#713f12" stroke-width="0.8"/>
+      <line x1="118" y1="49" x2="122" y2="48" stroke="#713f12" stroke-width="0.8"/>
+      <line x1="118" y1="51" x2="123" y2="52" stroke="#713f12" stroke-width="0.8"/>
+
+      <!-- Left Lion (Profile View - Dignified posture) -->
+      <path d="M91 32 C80 30 72 39 71 50 C70 59 74 68 80 74 C78 79 79 88 84 94 C88 97 93 99 95 100 C93 93 91 85 91 79 C85 75 82 69 82 61 C82 52 87 45 94 41 Z"/>
+      <ellipse cx="78" cy="48" rx="2.2" ry="3.2" fill="#451a03"/>
+      <circle cx="78.5" cy="47.5" r="0.7" fill="#ffffff"/>
+
+      <!-- Right Lion (Profile View - Dignified posture) -->
+      <path d="M129 32 C140 30 148 39 149 50 C150 59 146 68 140 74 C142 79 141 88 136 94 C132 97 127 99 125 100 C127 93 129 85 129 79 C135 75 138 69 138 61 C138 52 133 45 126 41 Z"/>
+      <ellipse cx="142" cy="48" rx="2.2" ry="3.2" fill="#451a03"/>
+      <circle cx="141.5" cy="47.5" r="0.7" fill="#ffffff"/>
+
+      <!-- Regal Front Forelegs / Paws Supporting Structure -->
+      <!-- Center-Left Leg -->
+      <path d="M99 98 L99 146 C99 149 96 152 92 152 L89 152 L89 156 L110 156 L110 152 C106 152 103 149 103 146 L103 98 Z"/>
+      <!-- Center-Right Leg -->
+      <path d="M121 98 L121 146 C121 149 124 152 128 152 L131 152 L131 156 L110 156 L110 152 C114 152 117 149 117 146 L117 98 Z"/>
+      <!-- Outer Left Paw -->
+      <path d="M84 102 L80 148 L87 154 L90 148 L90 106 Z"/>
+      <!-- Outer Right Paw -->
+      <path d="M136 102 L140 148 L133 154 L130 148 L130 106 Z"/>
+    </g>
+
+    <!-- ================= 2. THE CIRCULAR ABACUS PLATFORM ================= -->
+    <!-- Abacus Base Foundation -->
+    <rect x="36" y="156" width="148" height="28" rx="3.5" fill="url(#abacusNavy)" stroke="url(#emblemGoldGrad)" stroke-width="2"/>
+    <rect x="38" y="158" width="144" height="24" rx="2" fill="none" stroke="#ca8a04" stroke-width="0.8"/>
+
+    <!-- Central Ashoka Chakra on Abacus (24 Spokes) -->
+    <g transform="translate(110, 170)">
+      <!-- Outer wheel rim -->
+      <circle cx="0" cy="0" r="11" fill="#ffffff" stroke="#0c2340" stroke-width="1.8"/>
+      <circle cx="0" cy="0" r="9.5" fill="none" stroke="#1e40af" stroke-width="0.6"/>
+      <!-- Hub -->
+      <circle cx="0" cy="0" r="2.8" fill="#0c2340"/>
+      <circle cx="0" cy="0" r="1.2" fill="#ffffff"/>
+      <!-- 24 Spokes -->
+      <g stroke="#0c2340" stroke-width="0.75">
+        <line x1="0" y1="-9.5" x2="0" y2="9.5"/>
+        <line x1="-9.5" y1="0" x2="9.5" y2="0"/>
+        <line x1="-6.7" y1="-6.7" x2="6.7" y2="6.7"/>
+        <line x1="-6.7" y1="6.7" x2="6.7" y2="-6.7"/>
+        <line x1="-3.6" y1="-8.8" x2="3.6" y2="8.8"/>
+        <line x1="3.6" y1="-8.8" x2="-3.6" y2="8.8"/>
+        <line x1="-8.8" y1="-3.6" x2="8.8" y2="3.6"/>
+        <line x1="8.8" y1="-3.6" x2="-8.8" y2="3.6"/>
+        <!-- 8 intermediate spokes for full 24-spoke precision -->
+        <line x1="-1.9" y1="-9.3" x2="1.9" y2="9.3"/>
+        <line x1="1.9" y1="-9.3" x2="-1.9" y2="9.3"/>
+        <line x1="-9.3" y1="-1.9" x2="9.3" y2="1.9"/>
+        <line x1="9.3" y1="-1.9" x2="-9.3" y2="1.9"/>
+      </g>
+    </g>
+
+    <!-- Galloping Horse (Left on Abacus - Symbol of Speed and Energy) -->
+    <g fill="url(#emblemGoldGrad)" stroke="#713f12" stroke-width="0.5">
+      <path d="M50 176 C48 172 52 167 56 166 C60 165 64 167 68 166 C72 165 75 160 79 162 C82 165 80 170 76 172 C73 174 70 176 67 178 C64 179 61 178 57 180 L52 179 Z"/>
+      <path d="M54 179 L51 183 L53 183 L56 180 Z"/>
+      <path d="M72 176 L75 183 L77 183 L75 175 Z"/>
+    </g>
+
+    <!-- Bull (Right on Abacus - Symbol of Steadfastness and Hard Work) -->
+    <g fill="url(#emblemGoldGrad)" stroke="#713f12" stroke-width="0.5">
+      <path d="M168 176 C170 172 166 167 162 166 C158 165 154 167 150 166 C146 165 143 160 139 162 C136 165 138 170 142 172 C145 174 148 176 151 178 C154 179 157 178 161 180 L166 179 Z"/>
+      <path d="M164 179 L167 183 L165 183 L162 180 Z"/>
+      <path d="M146 176 L143 183 L141 183 L143 175 Z"/>
+    </g>
+
+    <!-- Mini Ashoka Chakras on Left and Right of Abacus -->
+    <circle cx="43" cy="170" r="3" fill="#ffffff" stroke="#0c2340" stroke-width="0.8"/>
+    <circle cx="177" cy="170" r="3" fill="#ffffff" stroke="#0c2340" stroke-width="0.8"/>
+
+    <!-- ================= 3. INVERTED LOTUS BASE ================= -->
+    <g fill="url(#emblemGoldGrad)" stroke="#713f12" stroke-width="1.2">
+      <!-- Main bell lotus curve -->
+      <path d="M48 184 C48 184 62 203 110 203 C158 203 172 184 172 184 C172 184 158 196 110 196 C62 196 48 184 48 184 Z"/>
+      <!-- Petal ribs -->
+      <path d="M58 184 C70 198 110 200 110 200 C110 200 150 198 162 184" fill="none" stroke="#713f12" stroke-width="1"/>
+      <path d="M78 184 C86 195 110 197 110 197 C110 197 134 195 142 184" fill="none" stroke="#713f12" stroke-width="1"/>
+    </g>
+
+    <!-- ================= 4. NATIONAL MOTTO: सत्यमेव जयते ================= -->
+    <g text-anchor="middle">
+      <!-- Devanagari Script Inscription in Deep Regal Gold -->
+      <text x="110" y="228" font-family="'Noto Sans Devanagari', 'Segoe UI', Arial, sans-serif" font-weight="900" font-size="19" fill="url(#emblemGoldShine)" stroke="#451a03" stroke-width="0.6" letter-spacing="1.5">
+        सत्यमेव जयते
+      </text>
+      <!-- Subtitle Translation -->
+      <text x="110" y="246" font-family="'Inter', 'Segoe UI', sans-serif" font-weight="800" font-size="9" fill="#fef08a" letter-spacing="2.5">
+        TRUTH ALONE TRIUMPHS
+      </text>
+    </g>
+  </g>
+</svg>

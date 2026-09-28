@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" data-font-size="md">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Independent full-stack railway reservation prototype inspired by the IRCTC booking experience. Built with native Node.js, embedded SQLite persistence, and an interactive Canvas simulation using seeded demo data." />
+  <meta name="theme-color" content="#0c2340" />
+  <title>IRCTC Redesign Prototype | Independent Full-Stack Railway Reservation Project</title>
+
+  <!-- Google Fonts for crisp typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Devanagari:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/main.css?v=5.0" />
+  <link rel="stylesheet" href="css/components.css?v=5.0" />
+  <link rel="stylesheet" href="css/animations.css?v=5.0" />
+</head>
+<body>
+  <!-- A11y Skip to Main Content Link -->
+  <a href="#primary-tab-viewport" class="skip-to-content">Skip to primary content</a>
+
+  <!-- ==========================================================================
+       1. GOVERNMENT OF INDIA & ACCESSIBILITY TOP STRIP
+       ========================================================================== -->
+  <header class="gov-top-strip" role="banner">
+    <div class="gov-strip-container">
+      <div class="gov-title-col">
+        <span class="gov-flag-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 16" width="18" height="12" style="border-radius: 2px; overflow: hidden; display: block; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">
+            <rect width="24" height="5.33" fill="#ff9933"/>
+            <rect y="5.33" width="24" height="5.33" fill="#ffffff"/>
+            <rect y="10.67" width="24" height="5.33" fill="#138808"/>
+            <circle cx="12" cy="8" r="2" fill="none" stroke="#000080" stroke-width="0.6"/>
+          </svg>
+        </span>
+        <span class="gov-text-en">GOVERNMENT OF INDIA</span>
+        <span class="gov-text-divider">•</span>
+        <span class="gov-text-en">MINISTRY OF RAILWAYS</span>
+        <span class="gov-text-divider">•</span>
+        <span class="gov-text-hi">भारतीय रेल</span>
+      </div>
+
+      <!-- Accessibility Toolbar -->
+      <div class="gov-a11y-col" role="region" aria-label="Accessibility controls">
+        <!-- Font Size Scaling -->
+        <div class="a11y-font-group" title="Adjust Font Size">
+          <span class="a11y-label" data-i18n="font_size">Font:</span>
+          <button type="button" class="btn-font-scale" data-scale="sm" aria-label="Decrease Font Size (A-)">A-</button>
+          <button type="button" class="btn-font-scale active" data-scale="md" aria-label="Default Font Size (A)">A</button>
+          <button type="button" class="btn-font-scale" data-scale="lg" aria-label="Increase Font Size (A+)">A+</button>
+        </div>
+
+        <!-- High Contrast Mode Toggle -->
+        <button type="button" id="btn-toggle-contrast" class="btn-contrast-toggle" aria-pressed="false" title="Toggle High Contrast Accessible View">
+          <svg class="min-icon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>
+          <span data-i18n="high_contrast">High Contrast</span>
+        </button>
+
+        <!-- Multi-Language Switcher -->
+        <div class="lang-picker">
+          <label for="select-language" class="visually-hidden" style="display:none;">Select Portal Language</label>
+          <select id="select-language" class="lang-select" aria-label="Select Portal Language">
+            <option value="en">English (EN)</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="bn">বাংলা (Bengali)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="mr">मराठी (Marathi)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Portfolio Prototype Disclaimer Banner -->
+  <div class="prototype-disclaimer-banner" role="note" style="background:#fffbeb; color:#92400e; border-bottom:1px solid #fde68a; font-size:12px; padding:7px 16px; text-align:center; font-weight:500;">
+    <strong>Independent Portfolio Prototype:</strong> Built for demonstration using seeded mock data. Not affiliated with, endorsed by, or connected to IRCTC, CRIS, or the Ministry of Railways.
+  </div>
+
+  <!-- ==========================================================================
+       2. OFFICIAL MAIN PORTAL HEADER & BRANDING CLUSTER
+       ========================================================================== -->
+  <nav class="portal-main-header" aria-label="Main Railway Navigation">
+    <div class="header-container">
+      <!-- Authentic 3-Insignias Branding Cluster -->
+      <div class="branding-cluster">
+        <!-- State Emblem of India -->
+        <div class="emblem-wrapper" title="State Emblem of India (Ashoka Lion Capital)">
+          <img src="assets/icons/lion_capital.svg" alt="State Emblem of India" class="brand-img" />
+        </div>
+
+        <div class="brand-divider" aria-hidden="true"></div>
+
+        <!-- Indian Railways Official Seal -->
+        <div class="railways-seal-wrapper" title="Indian Railways Official Seal">
+          <img src="assets/icons/indian_railways_seal.svg" alt="Indian Railways Crest" class="brand-img" />
+        </div>
+
+        <!-- IRCTC Corporate Identity Logo -->
+        <div class="irctc-logo-wrapper" title="Indian Railway Catering and Tourism Corporation Ltd.">
+          <img src="assets/icons/irctc_logo.svg" alt="IRCTC Official Monogram" class="brand-img" />
+        </div>
+      </div>
+
+      <!-- Capsule Navigation Bar (Official Pill Bar: HOME | TRAINS | MEALS | LOYALTY | E-WALLET | ALERTS | CONTACT US) -->
+      <div id="capsule-nav-container"></div>
+
+      <!-- User Actions & Helpline -->
+      <div class="header-actions">
+        <a href="/api/docs" target="_blank" class="helpline-badge" style="text-decoration:none; background:rgba(2,132,199,0.18); border-color:rgba(56,189,248,0.3); color:#38bdf8;" title="View Interactive REST API & Swagger Explorer">
+          <svg class="min-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <span>API Docs</span>
+        </a>
+        <button type="button" id="btn-railway-helpline" class="helpline-badge" aria-label="RailMadad 24x7 Railway Customer Helpline 139" title="24x7 RailMadad Customer Helpline">
+          <svg class="min-icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span data-i18n="nav_help">Railway Helpline: 139</span>
+        </button>
+        <button type="button" class="btn-user-login" id="btn-user-profile" aria-label="User Account">
+          <span data-i18n="btn_login">LOGIN</span>
+          <span class="tricolor-rail-line" role="presentation"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Official Tricolor Decorative Ribbon -->
+  <div class="portal-tricolor-ribbon" role="presentation"></div>
+
+  <!-- ==========================================================================
+       3. HERO BANNER WITH 60FPS DYNAMIC VANDE BHARAT CANVAS MOTION GRAPHICS
+       ========================================================================== -->
+  <section class="hero-motion-banner" aria-label="High Speed Railway Showcase">
+    <!-- 60 FPS HTML5 Dynamic Canvas Simulation -->
+    <canvas id="vande-bharat-canvas" class="hero-canvas"></canvas>
+
+    <!-- Content Overlay HUD -->
+    <div class="hero-content-overlay">
+      <div class="hero-top-cluster">
+        <!-- Vande Bharat 2.0 Aerodynamic Badge -->
+        <div class="vande-bharat-badge-wrap">
+          <img src="assets/icons/vande_bharat_badge.svg" alt="Vande Bharat 2.0 Semi High Speed 160 km/h" class="vb-badge-img" />
+        </div>
+
+        <!-- Interactive Speed Switch Toggle (130 km/h vs 160 km/h) -->
+        <div class="hero-speed-controls">
+          <button type="button" id="btn-toggle-train-speed" class="btn-speed-toggle active" title="Toggle Train Throttle Mode">
+            <span class="speed-toggle-icon" aria-hidden="true"><svg class="min-icon" viewBox="0 0 24 24" width="14" height="14"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+            <span>TRACTION SPEED:</span>
+            <strong id="speed-toggle-val">160 KM/H</strong>
+            <span class="speed-mode-tag">HIGH SPEED</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-bottom-cluster">
+        <div class="hero-motto-block">
+          <h1 class="hero-main-title" data-i18n="hero_title">Safety, Speed & Punctuality</h1>
+          <p class="hero-main-sub" data-i18n="hero_sub">Official Indian Railways Next-Gen Digital Booking Platform</p>
+        </div>
+
+        <!-- Feature Highlight Pills -->
+        <div class="hero-feature-tags" role="list">
+          <span class="feat-pill" role="listitem"><svg class="min-icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Kavach Collision Protection</span>
+          <span class="feat-pill" role="listitem"><svg class="min-icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Zero-Delay Instant Confirmation</span>
+          <span class="feat-pill" role="listitem"><svg class="min-icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> 256-Bit NPCI / RBI Secured</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       4. MAIN PORTAL BODY & TABBED VIEWPORTS
+       ========================================================================== -->
+  <main id="primary-tab-viewport" class="portal-main-content">
+    <div class="page-container">
+
+      <!-- VIEW 1: BOOK TICKETS & UNIFIED AVAILABILITY MATRIX -->
+      <section id="view-book-tickets" class="portal-view view-active">
+        <!-- Smart Search Engine Widget with 180° Station Swap -->
+        <div id="search-engine-container"></div>
+
+        <!-- Real-Time Tatkal Countdown Hub -->
+        <div id="tatkal-timer-container"></div>
+
+        <!-- Unified Availability Matrix & Train Cards Results -->
+        <div id="trains-results-container"></div>
+      </section>
+
+      <!-- VIEW 2: LIVE PNR STATUS ENQUIRY -->
+      <section id="view-pnr-status" class="portal-view hidden">
+        <div id="pnr-tracker-container"></div>
+      </section>
+
+      <!-- VIEW 3: LIVE TRAIN RUNNING STATUS (GPS SIMULATOR) -->
+      <section id="view-live-tracking" class="portal-view hidden">
+        <div id="live-tracker-container"></div>
+      </section>
+
+      <!-- VIEW 4: COACH & BERTHS LAYOUTS DIRECT VIEW -->
+      <section id="view-coach-explorer" class="portal-view hidden">
+        <div class="tatkal-card" style="text-align: center; padding: 40px 20px;">
+          <h2 style="font-size: 1.4rem; color: #0c2340; margin-bottom: 10px;">Interactive Coach & Berth Layout Blueprint</h2>
+          <p style="color: #64748b; max-width: 600px; margin: 0 auto 20px auto;">
+            Explore authentic 2D architectural seating diagrams of Indian Railways 3A (AC 3-Tier), 2A (AC 2-Tier), SL (Sleeper), and CC (AC Chair Car) rakes.
+          </p>
+          <button type="button" class="btn-primary-search" style="display: inline-flex; width: auto; padding: 0 28px;" onclick="window.irctcApp.coachVisualizer.show(null, '3A')">
+            <svg class="min-icon" viewBox="0 0 24 24" width="16" height="16" style="margin-right: 6px;" aria-hidden="true"><path d="M4 18v3M20 18v3M6 18h12a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2zM6 6V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/></svg> Launch Coach Visualizer Modal
+          </button>
+        </div>
+      </section>
+
+      <!-- VIEW 5: DEDICATED TATKAL HUB -->
+      <section id="view-tatkal-hub" class="portal-view hidden">
+        <div class="tatkal-card" style="margin-top: 0;">
+          <h2 style="font-size: 1.4rem; color: #0c2340; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <svg class="min-icon" viewBox="0 0 24 24" width="20" height="20" style="color: #ff671f;" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Official Tatkal Reservation Rules & Guidelines
+          </h2>
+          <div style="font-size: 0.88rem; color: #334155; line-height: 1.7; display: flex; flex-direction: column; gap: 12px;">
+            <p>
+              <strong>1. Timing Windows:</strong> AC Classes (1A, 2A, 3A, 3E, CC, EC) open daily at <strong>10:00 AM IST</strong>. Non-AC Classes (SL, 2S, FC) open at <strong>11:00 AM IST</strong>, exactly one day prior to the date of journey from the train originating station.
+            </p>
+            <p>
+              <strong>2. Passenger Limit:</strong> A maximum of 4 passengers can be booked per PNR under Tatkal reservation.
+            </p>
+            <p>
+              <strong>3. High-Speed Checkout:</strong> Keep your Master Passenger List pre-saved in your IRCTC profile. Use UPI AutoPay or IRCTC iMudra wallet for seamless instantaneous OTP-free payment settlement.
+            </p>
+            <p>
+              <strong>4. Refund Policy:</strong> As per Railway Board guidelines, no refund of fare is granted on confirmed Tatkal tickets upon cancellation, except under exceptional circumstances (e.g. train delayed by more than 3 hours or train cancellation).
+            </p>
+          </div>
+          <div style="margin-top: 20px;">
+            <button type="button" class="btn-primary-search" style="display: inline-flex; width: auto; padding: 0 24px; align-items: center; gap: 8px;" data-goto-tab="book">
+              <span>Book Tatkal Trains Now</span>
+              <svg class="min-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       5. MODAL ROOTS (COACH VISUALIZER & BOOKING DRAWER)
+       ========================================================================== -->
+  <!-- Coach & Berth Visualizer Modal Root -->
+  <div id="coach-visualizer-modal-root"></div>
+
+  <!-- 3-Step Instant Booking Drawer Modal Root -->
+  <div id="booking-drawer-modal-root"></div>
+
+  <!-- ==========================================================================
+       6. PORTAL FOOTER & STATUTORY ASSURANCE
+       ========================================================================== -->
+  <footer class="portal-footer" role="contentinfo">
+    <div class="footer-top">
+      <div class="footer-grid">
+        <!-- Brand Summary Column -->
+        <div class="footer-col brand-col">
+          <h3 class="footer-brand-title">INDIAN RAILWAYS & IRCTC</h3>
+          <p class="footer-brand-desc">
+            Indian Railway Catering and Tourism Corporation Ltd. (IRCTC) is a 'Mini Ratna (Category-I)' Central Public Sector Enterprise under the Ministry of Railways, Government of India.
+          </p>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="assets/icons/lion_capital.svg" alt="" width="28" height="34" />
+            <img src="assets/icons/indian_railways_seal.svg" alt="" width="32" height="32" />
+            <span style="font-size: 0.74rem; color: #cbd5e1; font-weight: 700;">OFFICIAL DIGITAL PORTAL</span>
+          </div>
+        </div>
+
+        <!-- Railway Services -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">Railway Services</h4>
+          <ul class="footer-links-list">
+            <li><a href="#" data-goto-tab="book">Train Ticket Booking</a></li>
+            <li><a href="#" data-goto-tab="pnr">PNR Status Tracker</a></li>
+            <li><a href="#" data-goto-tab="live">Live Train Running (NTES)</a></li>
+            <li><a href="#" data-goto-tab="tatkal">Tatkal Reservation Hub</a></li>
+            <li><a href="#">Vande Bharat Special Services</a></li>
+          </ul>
+        </div>
+
+        <!-- Customer Care & Policies -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">Passenger Care</h4>
+          <ul class="footer-links-list">
+            <li><a href="#">RailMadad Portal (Grievance)</a></li>
+            <li><a href="#">Customer Care: 139</a></li>
+            <li><a href="#">Cancellation & Refund Rules</a></li>
+            <li><a href="#">Senior Citizen Concessions</a></li>
+            <li><a href="#">Divyangjan Facilities</a></li>
+          </ul>
+        </div>
+
+        <!-- Portfolio Prototype Information -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">Project Information</h4>
+          <p style="font-size: 0.8rem; color: #64748b; line-height: 1.5; margin-bottom: 10px;">
+            An independent full-stack railway reservation prototype designed and built by Shubham Uttekar. Built with Node.js and native SQLite using seeded mock data for architectural and UI evaluation.
+          </p>
+          <span style="font-size: 0.75rem; color: #ffd166; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
+            PORTFOLIO DEMONSTRATION PROTOTYPE
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright & Disclaimer Bottom Strip -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-container">
+        <span>© 2026 Shubham Uttekar. Independent portfolio prototype inspired by Indian Railways / IRCTC design concepts.</span>
+        <span>Not affiliated with, endorsed by, or connected to IRCTC, CRIS, or the Ministry of Railways.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Master Application Script (ES Module) -->
+  <script type="module" src="js/app.js?v=5.0"></script>
+</body>
+</html>

@@ -1,0 +1,593 @@
+/**
+ * Interactive Swagger / OpenAPI Documentation Dashboard
+ * Self-contained, responsive, with live API test console
+ */
+
+function renderDocsHtml() {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRCTC Next-Gen REST API Documentation & Playground</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff671f'><polygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'/></svg>">
+  <style>
+    :root {
+      --bg: #0b1120;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #0284c7;
+      --accent: #ff671f;
+      --green: #10b981;
+      --purple: #8b5cf6;
+      --code-bg: #0f172a;
+      --badge-get: #0284c7;
+      --badge-post: #10b981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 0 0 60px 0;
+    }
+
+    /* Top Hero Header */
+    .api-header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f2e5a 100%);
+      border-bottom: 1px solid var(--card-border);
+      padding: 40px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .api-header::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0; width: 400px;
+      background: radial-gradient(circle at right, rgba(255, 103, 31, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .header-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .badge-orange { background: rgba(255, 103, 31, 0.2); color: #ff8c42; border: 1px solid rgba(255, 103, 31, 0.4); }
+    .badge-teal { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .badge-blue { background: rgba(2, 132, 199, 0.2); color: #38bdf8; border: 1px solid rgba(2, 132, 199, 0.4); }
+    .title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 800px;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 32px auto 0 auto;
+      padding: 0 24px;
+    }
+
+    /* System Stats Strip */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .stat-val {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+
+    /* Endpoints Group */
+    .endpoint-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .endpoint-card:hover {
+      border-color: #475569;
+    }
+    .endpoint-summary-bar {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      background: rgba(15, 23, 42, 0.4);
+    }
+    .endpoint-method-path {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 1rem;
+    }
+    .method-tag {
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+    .method-tag.GET { background: #0284c7; color: #ffffff; }
+    .method-tag.POST { background: #10b981; color: #ffffff; }
+    .path-text {
+      color: #f1f5f9;
+      font-weight: 600;
+    }
+    .endpoint-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Endpoint Details (Expanded) */
+    .endpoint-details {
+      padding: 24px;
+      border-top: 1px solid var(--card-border);
+      background: #0f172a;
+    }
+    .section-heading {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 12px;
+      letter-spacing: 0.05em;
+    }
+
+    /* Playground Form */
+    .playground-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 900px) {
+      .playground-grid { grid-template-columns: 1fr; }
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .form-input, .form-textarea {
+      width: 100%;
+      background: #1e293b;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #ffffff;
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+    .form-textarea {
+      font-family: 'SFMono-Regular', Consolas, monospace;
+      min-height: 140px;
+      resize: vertical;
+    }
+    .form-input:focus, .form-textarea:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    }
+
+    .btn-execute {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.1s, opacity 0.2s;
+    }
+    .btn-execute:hover { opacity: 0.92; }
+    .btn-execute:active { transform: scale(0.98); }
+
+    /* Output Console */
+    .output-console {
+      background: #020617;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 14px;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 0.82rem;
+      overflow-x: auto;
+      max-height: 380px;
+      white-space: pre;
+      color: #38bdf8;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .status-200 { background: #065f46; color: #34d399; }
+    .status-201 { background: #065f46; color: #34d399; }
+    .status-404 { background: #7f1d1d; color: #f87171; }
+    .status-500 { background: #7f1d1d; color: #f87171; }
+
+    /* Quick Links */
+    .quick-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .quick-links a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+    .quick-links a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="api-header">
+    <div class="header-inner">
+      <div class="header-badge-row">
+        <span class="badge badge-orange">IRCTC REST API v1.0.0</span>
+        <span class="badge badge-teal">SQLite 3 (Built-in)</span>
+        <span class="badge badge-blue">Zero Dependencies</span>
+        <span class="badge badge-orange">OpenAPI 3.0.3</span>
+      </div>
+      <h1 class="title">IRCTC Next-Gen RESTful API Explorer</h1>
+      <p class="subtitle">High-throughput Indian Railways backend suite with dynamic berth allocation, real-time timetable searches, authentic 10-digit PNR generation, and live SQLite database synchronization.</p>
+      <div class="quick-links">
+        <a href="/api/openapi.json" target="_blank">📄 View OpenAPI 3.0 JSON</a>
+        <a href="/" target="_blank">🚂 Open Passenger Frontend</a>
+        <a href="/api/health" target="_blank">💓 Live Health Status</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Telemetry Strip -->
+    <div class="stats-strip">
+      <div class="stat-card">
+        <span class="stat-label">System Status</span>
+        <span class="stat-val" style="color: #34d399;">● OPERATIONAL</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Database Engine</span>
+        <span class="stat-val" id="tele-db">SQLite 3</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Active Train Routes</span>
+        <span class="stat-val" id="tele-trains">13 Premier</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Latency / Response</span>
+        <span class="stat-val" style="color: #fbbf24;">&lt; 2 ms (Native)</span>
+      </div>
+    </div>
+
+    <h2 style="font-size: 1.3rem; margin-bottom: 18px; font-weight: 700; color: #e2e8f0;">RESTful API Endpoints</h2>
+
+    <!-- Endpoint 1: GET /api/health -->
+    <div class="endpoint-card">
+      <div class="endpoint-summary-bar" onclick="toggleEndpoint('ep-health')">
+        <div class="endpoint-method-path">
+          <span class="method-tag GET">GET</span>
+          <span class="path-text">/api/health</span>
+        </div>
+        <div class="endpoint-desc">System health, uptime & DB connection diagnostics</div>
+      </div>
+      <div class="endpoint-details" id="ep-health">
+        <div class="playground-grid">
+          <div>
+            <div class="section-heading">Description</div>
+            <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 18px;">
+              Pings the Node.js server, queries SQLite database tables for record counts, and returns timestamped telemetry.
+            </p>
+            <button type="button" class="btn-execute" onclick="executeCall('/api/health', 'GET', null, 'out-health', 'status-health')">
+              Execute Request
+            </button>
+          </div>
+          <div>
+            <div class="section-heading">Response Output</div>
+            <div id="status-health"></div>
+            <div class="output-console" id="out-health">// Click "Execute Request" to test live endpoint</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Endpoint 2: GET /api/trains/search -->
+    <div class="endpoint-card">
+      <div class="endpoint-summary-bar" onclick="toggleEndpoint('ep-search')">
+        <div class="endpoint-method-path">
+          <span class="method-tag GET">GET</span>
+          <span class="path-text">/api/trains/search</span>
+        </div>
+        <div class="endpoint-desc">Dynamic train timetable & class seat availability search</div>
+      </div>
+      <div class="endpoint-details" id="ep-search">
+        <div class="playground-grid">
+          <div>
+            <div class="section-heading">Parameters</div>
+            <div class="form-group">
+              <label class="form-label">From Station Code (from)</label>
+              <input type="text" id="param-search-from" class="form-input" value="NDLS">
+            </div>
+            <div class="form-group">
+              <label class="form-label">To Station Code (to)</label>
+              <input type="text" id="param-search-to" class="form-input" value="BSB">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Quota (GN / TQ / LD / PT)</label>
+              <input type="text" id="param-search-quota" class="form-input" value="GN">
+            </div>
+            <button type="button" class="btn-execute" onclick="runTrainSearch()">
+              Execute Search
+            </button>
+          </div>
+          <div>
+            <div class="section-heading">Response Output</div>
+            <div id="status-search"></div>
+            <div class="output-console" id="out-search">// Ready to execute search</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Endpoint 3: GET /api/trains/:trainNo -->
+    <div class="endpoint-card">
+      <div class="endpoint-summary-bar" onclick="toggleEndpoint('ep-train-no')">
+        <div class="endpoint-method-path">
+          <span class="method-tag GET">GET</span>
+          <span class="path-text">/api/trains/:trainNo</span>
+        </div>
+        <div class="endpoint-desc">Train schedule, route halts, amenities & live GPS telemetry</div>
+      </div>
+      <div class="endpoint-details" id="ep-train-no">
+        <div class="playground-grid">
+          <div>
+            <div class="section-heading">Path Parameters</div>
+            <div class="form-group">
+              <label class="form-label">Train Number (trainNo)</label>
+              <input type="text" id="param-train-no" class="form-input" value="22436">
+              <small style="color: #64748b; font-size: 0.78rem;">Try: 22436 (Vande Bharat), 12002 (Shatabdi), 12952 (Rajdhani), 20801 (Magadh), 82501 (Tejas)</small>
+            </div>
+            <button type="button" class="btn-execute" onclick="runTrainLookup()">
+              Execute Lookup
+            </button>
+          </div>
+          <div>
+            <div class="section-heading">Response Output</div>
+            <div id="status-train-no"></div>
+            <div class="output-console" id="out-train-no">// Output will appear here</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Endpoint 4: POST /api/bookings -->
+    <div class="endpoint-card">
+      <div class="endpoint-summary-bar" onclick="toggleEndpoint('ep-booking')">
+        <div class="endpoint-method-path">
+          <span class="method-tag POST">POST</span>
+          <span class="path-text">/api/bookings</span>
+        </div>
+        <div class="endpoint-desc">Transactional ticket reservation & unique 10-digit PNR assignment</div>
+      </div>
+      <div class="endpoint-details" id="ep-booking">
+        <div class="playground-grid">
+          <div>
+            <div class="section-heading">JSON Request Payload</div>
+            <div class="form-group">
+              <textarea id="payload-booking" class="form-textarea" rows="12">{
+  "trainNo": "22436",
+  "classCode": "CC",
+  "journeyDate": "2026-09-25",
+  "quota": "GN",
+  "travelInsurance": true,
+  "paymentMethod": "UPI / BHIM",
+  "passengers": [
+    {
+      "name": "Rajesh Kumar Sharma",
+      "age": 34,
+      "gender": "M",
+      "berthPref": "Window (WS)",
+      "mealPref": "Veg Meal",
+      "srCitizen": false
+    },
+    {
+      "name": "Sunita Sharma",
+      "age": 32,
+      "gender": "F",
+      "berthPref": "Aisle (AS)",
+      "mealPref": "Veg Meal",
+      "srCitizen": false
+    }
+  ]
+}</textarea>
+            </div>
+            <button type="button" class="btn-execute" onclick="runCreateBooking()">
+              Confirm Reservation & Book
+            </button>
+          </div>
+          <div>
+            <div class="section-heading">Response Output</div>
+            <div id="status-booking"></div>
+            <div class="output-console" id="out-booking">// Executed booking ticket with PNR will display here</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Endpoint 5: GET /api/pnr/:pnrNo -->
+    <div class="endpoint-card">
+      <div class="endpoint-summary-bar" onclick="toggleEndpoint('ep-pnr')">
+        <div class="endpoint-method-path">
+          <span class="method-tag GET">GET</span>
+          <span class="path-text">/api/pnr/:pnrNo</span>
+        </div>
+        <div class="endpoint-desc">Live PNR status enquiry, charting details & allocated berths</div>
+      </div>
+      <div class="endpoint-details" id="ep-pnr">
+        <div class="playground-grid">
+          <div>
+            <div class="section-heading">Path Parameters</div>
+            <div class="form-group">
+              <label class="form-label">10-Digit PNR Number</label>
+              <input type="text" id="param-pnr-no" class="form-input" value="2847193852">
+              <small style="color: #64748b; font-size: 0.78rem;">Sample PNRs: 2847193852 (CNF), 6491028471 (RAC), 8371940285 (WL)</small>
+            </div>
+            <button type="button" class="btn-execute" onclick="runPnrLookup()">
+              Enquire PNR Status
+            </button>
+          </div>
+          <div>
+            <div class="section-heading">Response Output</div>
+            <div id="status-pnr"></div>
+            <div class="output-console" id="out-pnr">// PNR chart record output</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function toggleEndpoint(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.style.display = el.style.display === 'none' ? 'block' : 'none';
+      }
+    }
+
+    async function executeCall(url, method = 'GET', body = null, outId, statusId) {
+      const out = document.getElementById(outId);
+      const statusEl = document.getElementById(statusId);
+      out.textContent = 'Calling ' + url + ' ...';
+      statusEl.innerHTML = '';
+
+      const t0 = performance.now();
+      try {
+        const opts = { method, headers: {} };
+        if (body) {
+          opts.headers['Content-Type'] = 'application/json';
+          opts.body = JSON.stringify(body);
+        }
+
+        const res = await fetch(url, opts);
+        const t1 = performance.now();
+        const duration = Math.round(t1 - t0);
+
+        const data = await res.json();
+        statusEl.innerHTML = '<span class="status-badge status-' + res.status + '">HTTP ' + res.status + ' ' + res.statusText + ' (' + duration + ' ms)</span>';
+        out.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        statusEl.innerHTML = '<span class="status-badge status-500">Error: ' + err.message + '</span>';
+        out.textContent = '// Failed to connect to REST API: ' + err.message;
+      }
+    }
+
+    function runTrainSearch() {
+      const from = document.getElementById('param-search-from').value;
+      const to = document.getElementById('param-search-to').value;
+      const quota = document.getElementById('param-search-quota').value;
+      const url = '/api/trains/search?from=' + encodeURIComponent(from) + '&to=' + encodeURIComponent(to) + '&quota=' + encodeURIComponent(quota);
+      executeCall(url, 'GET', null, 'out-search', 'status-search');
+    }
+
+    function runTrainLookup() {
+      const trainNo = document.getElementById('param-train-no').value;
+      executeCall('/api/trains/' + encodeURIComponent(trainNo), 'GET', null, 'out-train-no', 'status-train-no');
+    }
+
+    function runCreateBooking() {
+      try {
+        const raw = document.getElementById('payload-booking').value;
+        const parsed = JSON.parse(raw);
+        executeCall('/api/bookings', 'POST', parsed, 'out-booking', 'status-booking');
+      } catch (e) {
+        alert('Invalid JSON in payload textarea: ' + e.message);
+      }
+    }
+
+    function runPnrLookup() {
+      const pnr = document.getElementById('param-pnr-no').value;
+      executeCall('/api/pnr/' + encodeURIComponent(pnr), 'GET', null, 'out-pnr', 'status-pnr');
+    }
+
+    // Auto-ping health on load to populate telemetry
+    window.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await fetch('/api/health');
+        if (res.ok) {
+          const d = await res.json();
+          if (d.database) document.getElementById('tele-db').textContent = d.database;
+          if (d.stats && d.stats.trainsLoaded) document.getElementById('tele-trains').textContent = d.stats.trainsLoaded + ' Routes';
+        }
+      } catch (e) {}
+    });
+  </script>
+</body>
+</html>`;
+}
+
+module.exports = { renderDocsHtml };

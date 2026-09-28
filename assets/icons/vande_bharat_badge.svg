@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 80" width="100%" height="100%" role="img" aria-label="Vande Bharat 2.0 Insignia">
+  <defs>
+    <linearGradient id="vbBg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0c2340"/>
+      <stop offset="60%" stop-color="#163b6b"/>
+      <stop offset="100%" stop-color="#0c2340"/>
+    </linearGradient>
+    <linearGradient id="vbSaffron" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff7b25"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="vbGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#138808"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="vbChrome" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#cbd5e1"/>
+      <stop offset="100%" stop-color="#94a3b8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Capsule Frame -->
+  <rect x="2" y="2" width="276" height="76" rx="38" fill="url(#vbBg)" stroke="#38bdf8" stroke-width="1.5"/>
+  <rect x="5" y="5" width="270" height="70" rx="35" fill="none" stroke="#ffffff" stroke-width="0.75" stroke-opacity="0.3"/>
+
+  <!-- Left: Sleek Vande Bharat Aerodynamic Train Nose Icon -->
+  <g transform="translate(18, 12)">
+    <!-- Aerodynamic nose slope -->
+    <path d="M 52 42 L 30 42 C 16 42 6 36 2 28 C -2 19 6 10 18 10 L 52 10 Z" fill="url(#vbChrome)"/>
+    <!-- Dark tinted wraparound windshield -->
+    <path d="M 24 13 C 14 13 8 20 6 25 L 28 25 L 34 13 Z" fill="#030712"/>
+    <path d="M 8 23 C 12 17 18 15 24 15" stroke="#38bdf8" stroke-width="1" fill="none"/>
+    <!-- Aerodynamic tricolor side racing stripe -->
+    <path d="M 4 27 C 6 30 10 32 18 32 L 52 32 L 52 35 L 18 35 C 9 35 5 32 4 27 Z" fill="url(#vbSaffron)"/>
+    <path d="M 18 35 L 52 35 L 52 37 L 18 37 Z" fill="#ffffff"/>
+    <path d="M 18 37 L 52 37 L 52 40 L 18 40 C 12 40 8 38 6 36 Z" fill="url(#vbGreen)"/>
+    <!-- LED Headlight Cluster -->
+    <polygon points="5,29 10,29 8,31 4,31" fill="#fef08a"/>
+    <circle cx="6" cy="30" r="1.5" fill="#ffffff"/>
+  </g>
+
+  <!-- Tricolor Speed Arc Swirl -->
+  <path d="M 72 62 C 105 66 140 60 175 60" stroke="url(#vbGreen)" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M 80 57 C 115 61 150 55 185 55" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.9"/>
+  <path d="M 88 52 C 125 56 160 50 195 50" stroke="url(#vbSaffron)" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+  <!-- Typography -->
+  <g transform="translate(82, 0)">
+    <!-- Hindi Subtitle -->
+    <text x="0" y="24" font-family="'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-weight="700" font-size="11" fill="#ffedd5" letter-spacing="1.5">
+      वन्दे भारत २.०
+    </text>
+
+    <!-- Main Title -->
+    <text x="0" y="44" font-family="'Inter', 'Segoe UI', system-ui, sans-serif" font-weight="900" font-size="17" fill="#ffffff" letter-spacing="1.5">
+      VANDE BHARAT
+    </text>
+
+    <!-- Speed & Tech Tag -->
+    <rect x="128" y="29" width="58" height="18" rx="9" fill="#ff671f"/>
+    <text x="157" y="42" font-family="'Inter', sans-serif" font-weight="800" font-size="9" fill="#ffffff" text-anchor="middle" letter-spacing="0.8">
+      160 KM/H
+    </text>
+  </g>
+</svg>

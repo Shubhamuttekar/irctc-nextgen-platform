@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en" data-contrast="high">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>High Contrast Input Alignment & Icon Visibility Audit & Rough Sketch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000000;
+      --card-bg: #141414;
+      --card-border: #ffd166;
+      --text: #ffffff;
+      --accent: #ffd166;
+      --muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      padding: 32px 24px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .sketch-header {
+      background: #0a0a0a;
+      border: 2px solid var(--accent);
+      border-radius: 16px;
+      padding: 24px 32px;
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 209, 102, 0.15);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .header-title h1 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+
+    .header-title p {
+      color: #e2e8f0;
+      font-size: 0.92rem;
+      margin-top: 4px;
+      max-width: 700px;
+    }
+
+    .view-toggle-group {
+      display: flex;
+      background: #1a1a1a;
+      padding: 4px;
+      border-radius: 10px;
+      border: 1.5px solid var(--accent);
+      gap: 4px;
+    }
+
+    .toggle-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .toggle-btn.active {
+      background: var(--accent);
+      color: #000000;
+    }
+
+    /* Comparison Section */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+      margin-bottom: 36px;
+    }
+
+    @media (min-width: 1024px) {
+      .comparison-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .demo-card {
+      background: #0a0a0a;
+      border: 2px solid #333333;
+      border-radius: 16px;
+      padding: 24px;
+      position: relative;
+    }
+
+    .demo-card.issue-card {
+      border-color: #ef4444;
+    }
+
+    .demo-card.solution-card {
+      border-color: #22c55e;
+      box-shadow: 0 0 20px rgba(34, 197, 94, 0.15);
+    }
+
+    .card-label-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    .badge-error {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid #ef4444;
+    }
+
+    .badge-success {
+      background: rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+      border: 1px solid #22c55e;
+    }
+
+    .demo-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .demo-desc {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      margin-bottom: 20px;
+      min-height: 40px;
+    }
+
+    /* Search Bar Mockup Layout */
+    .search-mockup-wrap {
+      background: #000000;
+      border: 2px solid var(--accent);
+      border-radius: 14px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .search-mock-row-1 {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .search-mock-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .field-card-mock {
+      background: var(--card-bg);
+      border: 1.5px solid var(--accent);
+      border-radius: 10px;
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .caption-mock {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .input-row-mock {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .min-icon {
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    /* ISSUE STYLING (Current Bug in user image) */
+    .issue-view .pill-icon-bug {
+      color: #1e40af; /* DARK BLUE - INVISIBLE ON BLACK */
+    }
+
+    .issue-view .input-nested-box-bug {
+      background: #000000;
+      border: 1.5px solid #ffd166; /* NESTED INNER BOX */
+      border-radius: 6px;
+      padding: 4px 8px;
+      color: #ffffff;
+      font-size: 0.88rem;
+      font-weight: 700;
+      width: 100%;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      outline: none;
+    }
+
+    .issue-callout {
+      margin-top: 14px;
+      padding: 12px;
+      background: rgba(239, 68, 68, 0.1);
+      border-left: 3px solid #ef4444;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      color: #fca5a5;
+    }
+
+    /* SOLUTION STYLING (Apex High Contrast Precision) */
+    .solution-view .pill-icon-fixed {
+      color: var(--accent); /* RADIANT GOLD #ffd166 - 100% VISIBLE */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .solution-view .input-seamless-fixed {
+      background: transparent;
+      border: none; /* NO NESTED BOX */
+      padding: 0;
+      color: #ffffff;
+      font-size: 0.92rem;
+      font-weight: 700;
+      width: 100%;
+      height: 28px;
+      outline: none;
+      display: flex;
+      align-items: center;
+      line-height: 28px;
+    }
+
+    .solution-callout {
+      margin-top: 14px;
+      padding: 12px;
+      background: rgba(34, 197, 94, 0.1);
+      border-left: 3px solid #22c55e;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      color: #86efac;
+    }
+
+    .swap-btn-mock {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #000000;
+      border: 1.5px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+    }
+
+    /* Audit Table */
+    .audit-section {
+      background: #0a0a0a;
+      border: 2px solid var(--accent);
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+
+    .section-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .section-header-row h2 {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    .audit-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .audit-table th {
+      background: #141414;
+      color: var(--accent);
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--accent);
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+    }
+
+    .audit-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #262626;
+      vertical-align: top;
+    }
+
+    .audit-table tr:hover td {
+      background: rgba(255, 209, 102, 0.04);
+    }
+
+    .comp-name {
+      font-weight: 800;
+      color: #ffffff;
+      display: block;
+    }
+
+    .comp-file {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    .status-fix {
+      background: rgba(255, 209, 102, 0.15);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
+
+    /* Verification Checklist */
+    .checklist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .check-card {
+      background: #141414;
+      border: 1.5px solid #262626;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .check-icon {
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .check-title {
+      font-weight: 800;
+      font-size: 0.92rem;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .check-desc {
+      font-size: 0.82rem;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="sketch-header">
+      <div class="header-title">
+        <div class="header-badge">
+          <svg class="min-icon" width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20"/></svg>
+          Accessibility & Visual Integrity Audit
+        </div>
+        <h1>High Contrast Mode: Input Alignment & Icon Visibility</h1>
+        <p>Comprehensive root-cause diagnosis, side-by-side visual sketch, and universal remediation plan across all popups, drawers, modals, cards, and states.</p>
+      </div>
+      <div class="view-toggle-group">
+        <button type="button" class="toggle-btn active" id="btn-show-sidebyside">Side by Side</button>
+        <button type="button" class="toggle-btn" id="btn-show-solution">Solution Only</button>
+      </div>
+    </header>
+
+    <!-- Side-by-Side Comparison -->
+    <section class="comparison-grid" id="comparison-container">
+      <!-- CURRENT DEFECT CARD (User Image) -->
+      <div class="demo-card issue-card issue-view">
+        <span class="card-label-badge badge-error">Current Defect (As in Uploaded Image)</span>
+        <h3 class="demo-title">Nested Inner Box & Dark Invisible Icons</h3>
+        <p class="demo-desc">Universal <code>.form-input</code> rule adds an inner border and padding inside pill containers, causing misalignment. Icons retain hardcoded dark blue <code>#1e40af</code>, disappearing on black.</p>
+
+        <!-- Mockup of Current Bug -->
+        <div class="search-mockup-wrap">
+          <div class="search-mock-row-1">
+            <!-- From Station Buggy -->
+            <div class="field-card-mock">
+              <span class="caption-mock">From Station</span>
+              <div class="input-row-mock">
+                <!-- Dark blue icon: barely visible -->
+                <span class="pill-icon-bug"><svg class="min-icon" width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/></svg></span>
+                <!-- Inner box border bug -->
+                <div class="input-nested-box-bug">New Delhi (NDLS)</div>
+              </div>
+            </div>
+
+            <!-- Swap Btn -->
+            <div class="swap-btn-mock">⇄</div>
+
+            <!-- To Station Buggy -->
+            <div class="field-card-mock">
+              <span class="caption-mock">To Station</span>
+              <div class="input-row-mock">
+                <span class="pill-icon-bug"><svg class="min-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+                <div class="input-nested-box-bug">Varanasi Jn (BSB)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="search-mock-row-2">
+            <!-- Quota Buggy -->
+            <div class="field-card-mock">
+              <span class="caption-mock">Quota</span>
+              <div class="input-row-mock">
+                <span class="pill-icon-bug"><svg class="min-icon" width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 6 12 12 16 14"/></svg></span>
+                <div class="input-nested-box-bug">General (GN)</div>
+              </div>
+            </div>
+
+            <!-- Concession Buggy -->
+            <div class="field-card-mock">
+              <span class="caption-mock">Concession</span>
+              <div class="input-row-mock">
+                <span class="pill-icon-bug"><svg class="min-icon" width="16" height="16" viewBox="0 0 24 24"><circle cx="6" cy="12" r="4"/><circle cx="18" cy="12" r="4"/><line x1="10" y1="12" x2="14" y2="12"/></svg></span>
+                <div class="input-nested-box-bug">Allopathic Doctor (10% Concessio)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="issue-callout">
+          <strong>Defects Present:</strong><br>
+          • ❌ Double borders (card border + inner input box border).<br>
+          • ❌ Input text vertically compressed & shifted out of center.<br>
+          • ❌ Station, Date & Quota outline SVGs invisible (dark blue on black).
+        </div>
+      </div>
+
+      <!-- PROPOSED SOLUTION CARD (Apex High Contrast Precision) -->
+      <div class="demo-card solution-card solution-view">
+        <span class="card-label-badge badge-success">Proposed Fix (Apex High Contrast Precision)</span>
+        <h3 class="demo-title">Seamless Alignment & Glowing Gold Vectors</h3>
+        <p class="demo-desc">Pill inputs strip inner borders & background, aligning cleanly on the baseline. All vector icons explicitly inherit radiant gold <code>#ffd166</code> with full contrast.</p>
+
+        <!-- Mockup of Proposed Fix -->
+        <div class="search-mockup-wrap">
+          <div class="search-mock-row-1">
+            <!-- From Station Fixed -->
+            <div class="field-card-mock">
+              <span class="caption-mock">From Station</span>
+              <div class="input-row-mock">
+                <!-- Radiant Gold Icon -->
+                <span class="pill-icon-fixed"><svg class="min-icon" width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/></svg></span>
+                <!-- Seamless text -->
+                <input type="text" class="input-seamless-fixed" value="New Delhi (NDLS)" readonly />
+              </div>
+            </div>
+
+            <!-- Swap Btn -->
+            <div class="swap-btn-mock">⇄</div>
+
+            <!-- To Station Fixed -->
+            <div class="field-card-mock">
+              <span class="caption-mock">To Station</span>
+              <div class="input-row-mock">
+                <span class="pill-icon-fixed"><svg class="min-icon" width="16" height="16" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+                <input type="text" class="input-seamless-fixed" value="Varanasi Jn (BSB)" readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="search-mock-row-2">
+            <!-- Quota Fixed -->
+            <div class="field-card-mock">
+              <span class="caption-mock">Quota</span>
+              <div class="input-row-mock">
+                <span class="pill-icon-fixed"><svg class="min-icon" width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 6 12 12 16 14"/></svg></span>
+                <input type="text" class="input-seamless-fixed" value="General (GN)" readonly />
+              </div>
+            </div>
+
+            <!-- Concession Fixed -->
+            <div class="field-card-mock">
+              <span class="caption-mock">Concession</span>
+              <div class="input-row-mock">
+                <span class="pill-icon-fixed"><svg class="min-icon" width="16" height="16" viewBox="0 0 24 24"><circle cx="6" cy="12" r="4"/><circle cx="18" cy="12" r="4"/><line x1="10" y1="12" x2="14" y2="12"/></svg></span>
+                <input type="text" class="input-seamless-fixed" value="Allopathic Doctor (10% Concessio)" readonly />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="solution-callout">
+          <strong>Key Improvements:</strong><br>
+          • ✅ Zero double borders: only clean outer card outline.<br>
+          • ✅ Perfect vertical centering with 28px height & 0 padding inside pills.<br>
+          • ✅ Icons illuminated in official AAA Gold <code>#ffd166</code> (7.5:1 contrast ratio).
+        </div>
+      </div>
+    </section>
+
+    <!-- Universal Sweep Component Audit Table -->
+    <section class="audit-section">
+      <div class="section-header-row">
+        <div>
+          <h2>Universal Platform Audit & Target Remediation</h2>
+          <p style="color: #94a3b8; font-size: 0.88rem; margin-top: 4px;">Zero-regression sweep covering all popups, drawers, modals, cards, and input states across 8 core modules.</p>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="audit-table">
+          <thead>
+            <tr>
+              <th>Component / Area</th>
+              <th>Current High Contrast Defect</th>
+              <th>Remediation Fix</th>
+              <th>Verification State</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="comp-name">2-Row Search Engine Pills</span>
+                <span class="comp-file">js/components/searchEngine.js</span>
+              </td>
+              <td>
+                • Generic <code>.form-input</code> creates nested 1.5px gold box inside pills.<br>
+                • <code>.pill-prefix-icon</code> stays hardcoded dark blue <code>#1e40af</code>.<br>
+                • Text vertically pushed down and clipped.
+              </td>
+              <td>
+                • Set <code>.field-pill-card .form-input, .field-pill-card .form-select</code> to <code>border: none !important; background: transparent !important; padding: 0 !important; height: 28px !important;</code>.<br>
+                • Set <code>.pill-prefix-icon</code> to <code>color: #ffd166 !important;</code>.<br>
+                • Invert native date picker icon with <code>filter: invert(1)</code>.
+              </td>
+              <td><span class="status-badge status-fix">Target #1</span></td>
+            </tr>
+
+            <tr>
+              <td>
+                <span class="comp-name">Quick Utility Action Cards</span>
+                <span class="comp-file">js/components/searchEngine.js</span>
+              </td>
+              <td>
+                • PNR & Live Train icon boxes have dark backgrounds with muted contrast.
+              </td>
+              <td>
+                • Set <code>.utility-action-card .u-icon-box</code> to <code>background: #1f1f1f !important; color: #ffd166 !important; border: 1px solid #ffd166 !important;</code>.<br>
+                • Ensure arrows and title text maintain WCAG AAA compliance.
+              </td>
+              <td><span class="status-badge status-fix">Target #2</span></td>
+            </tr>
+
+            <tr>
+              <td>
+                <span class="comp-name">Filter Checkboxes Strip</span>
+                <span class="comp-file">js/components/searchEngine.js</span>
+              </td>
+              <td>
+                • Active checkmark (<code>✓</code>) rendered in white on bright gold background, resulting in low contrast.
+              </td>
+              <td>
+                • Explicitly set <code>.custom-checkbox input:checked + .checkbox-indicator::after</code> to <code>color: #000000 !important; font-weight: 900 !important;</code>.
+              </td>
+              <td><span class="status-badge status-fix">Target #3</span></td>
+            </tr>
+
+            <tr>
+              <td>
+                <span class="comp-name">IRCTC Login Modal</span>
+                <span class="comp-file">js/components/headerCapsule.js</span>
+              </td>
+              <td>
+                • <code>.auth-field-icon</code> and eye toggle retain muted slate <code>#94a3b8</code> / <code>#64748b</code> on black.<br>
+                • Focus outlines inside input pill might conflict.
+              </td>
+              <td>
+                • Set <code>.auth-field-icon</code> and <code>.btn-toggle-eye</code> to <code>color: #ffd166 !important;</code>.<br>
+                • Ensure <code>.auth-text-field</code> remains borderless and seamlessly centered inside <code>.auth-input-pill</code>.
+              </td>
+              <td><span class="status-badge status-fix">Target #4</span></td>
+            </tr>
+
+            <tr>
+              <td>
+                <span class="comp-name">Booking Drawer Wizard</span>
+                <span class="comp-file">js/components/bookingDrawer.js</span>
+              </td>
+              <td>
+                • Standalone passenger inputs (<code>.inp-p-name</code>, <code>.inp-p-age</code>) need crisp borders while keeping internal selects clean.<br>
+                • Remove button icon and insurance toggle need explicit gold accents.
+              </td>
+              <td>
+                • Preserve 1.5px gold border for standalone inputs in <code>.passenger-form-card</code> while ensuring 100% readable white text on black.<br>
+                • Color all drawer icons (ticket, trash, shield, card, bank) in radiant gold.
+              </td>
+              <td><span class="status-badge status-fix">Target #5</span></td>
+            </tr>
+
+            <tr>
+              <td>
+                <span class="comp-name">PNR & Live Train Trackers</span>
+                <span class="comp-file">js/components/pnrTracker.js & liveTrainTracker.js</span>
+              </td>
+              <td>
+                • PNR search prefix and button hover states need border consistency.<br>
+                • Live train dropdown select needs explicit option contrast.
+              </td>
+              <td>
+                • Set <code>select option</code> to <code>background: #000000 !important; color: #ffffff !important;</code> across all browsers.<br>
+                • Ensure search buttons have solid gold backgrounds with bold black text.
+              </td>
+              <td><span class="status-badge status-fix">Target #6</span></td>
+            </tr>
+
+            <tr>
+              <td>
+                <span class="comp-name">Coach Visualizer & Seating Bays</span>
+                <span class="comp-file">js/components/coachVisualizer.js</span>
+              </td>
+              <td>
+                • 2D blueprint berth SVG lines and facility icons (lavatory, washbasin) must maintain crisp visibility.
+              </td>
+              <td>
+                • Set berth borders to <code>#ffd166 !important;</code> and blueprint SVGs to <code>stroke: #ffd166 !important;</code> with dark grey berth fills.
+              </td>
+              <td><span class="status-badge status-fix">Target #7</span></td>
+            </tr>
+
+            <tr>
+              <td>
+                <span class="comp-name">Capsule Dropdowns & Utility Flyouts</span>
+                <span class="comp-file">js/components/headerCapsule.js</span>
+              </td>
+              <td>
+                • Dropdown items (all 29 icons) must maintain gold outline consistency on hover without color shifts.
+              </td>
+              <td>
+                • Ensure <code>.d-icon-svg</code> and <code>.capsule-flyout-item</code> invert cleanly to black text on gold background upon hover.
+              </td>
+              <td><span class="status-badge status-fix">Target #8</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Verification Plan Grid -->
+      <div class="checklist-grid">
+        <div class="check-card">
+          <div class="check-icon">
+            <svg class="min-icon" width="20" height="20" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <div class="check-title">Zero Nested Input Borders</div>
+            <div class="check-desc">All pill containers (From, To, Date, Quota, Concession) maintain a single unified outer gold boundary with 0px inner input borders.</div>
+          </div>
+        </div>
+
+        <div class="check-card">
+          <div class="check-icon">
+            <svg class="min-icon" width="20" height="20" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <div class="check-title">Universal Vector Illumination</div>
+            <div class="check-desc">Every prefix icon, action icon, and status indicator turns into vibrant gold <code>#ffd166</code> on black backgrounds.</div>
+          </div>
+        </div>
+
+        <div class="check-card">
+          <div class="check-icon">
+            <svg class="min-icon" width="20" height="20" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <div class="check-title">Zero Cross-Screen Regressions</div>
+            <div class="check-desc">Both normal mode (Navy/White theme) and High-Contrast mode (Obsidian/Gold) maintain pristine alignment and font sizes across mobile and desktop.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const btnSideBySide = document.getElementById('btn-show-sidebyside');
+    const btnSolution = document.getElementById('btn-show-solution');
+    const compContainer = document.getElementById('comparison-container');
+    const issueCard = document.querySelector('.issue-card');
+
+    btnSideBySide.addEventListener('click', () => {
+      btnSideBySide.classList.add('active');
+      btnSolution.classList.remove('active');
+      issueCard.style.display = 'block';
+      compContainer.style.gridTemplateColumns = window.innerWidth >= 1024 ? '1fr 1fr' : '1fr';
+    });
+
+    btnSolution.addEventListener('click', () => {
+      btnSolution.classList.add('active');
+      btnSideBySide.classList.remove('active');
+      issueCard.style.display = 'none';
+      compContainer.style.gridTemplateColumns = '1fr';
+    });
+  </script>
+</body>
+</html>

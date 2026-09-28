@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rough Sketch Design: Redesigned IRCTC Login Form & Search Bar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-blue: #0252cc;
+      --primary-blue-hover: #0141a4;
+      --navy-900: #0c2340;
+      --navy-800: #163b6b;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+      --white: #ffffff;
+      --gold: #ffd166;
+      --saffron: #ff671f;
+      --green: #138808;
+      --card-shadow: 0 12px 35px -8px rgba(12, 35, 64, 0.12), 0 4px 12px -2px rgba(12, 35, 64, 0.06);
+      --modal-shadow: 0 25px 60px -15px rgba(12, 35, 64, 0.35), 0 10px 24px -5px rgba(12, 35, 64, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #eef2f6;
+      color: var(--slate-800);
+      min-height: 100vh;
+      padding: 30px 20px 60px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Top Control Bar */
+    .sketch-header {
+      max-width: 1240px;
+      margin: 0 auto 30px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: var(--white);
+      padding: 18px 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--slate-200);
+    }
+
+    .sketch-title-block h1 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--navy-900);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sketch-title-block p {
+      font-size: 0.88rem;
+      color: var(--slate-600);
+      margin-top: 4px;
+    }
+
+    .badge-sketch {
+      display: inline-block;
+      padding: 3px 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-radius: 9999px;
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .theme-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--navy-900);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px 18px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      background: #1e3a8a;
+      transform: translateY(-1px);
+    }
+
+    .sketch-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .section-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid var(--slate-200);
+    }
+
+    .section-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--slate-200);
+    }
+
+    .section-header-row h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--navy-900);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-desc {
+      font-size: 0.86rem;
+      color: var(--slate-600);
+      line-height: 1.5;
+    }
+
+    /* ==========================================================================
+       PART 1: REDESIGNED LOGIN MODAL SKETCH (Matching media_1790176476034.png)
+       ========================================================================== */
+    .login-sketch-stage {
+      display: flex;
+      justify-content: center;
+      padding: 30px 15px;
+      background: linear-gradient(135deg, rgba(2, 82, 204, 0.06), rgba(255, 103, 31, 0.05));
+      border-radius: 16px;
+      position: relative;
+    }
+
+    .irctc-login-dialog {
+      width: 100%;
+      max-width: 450px;
+      background: #ffffff;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: var(--modal-shadow);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      position: relative;
+      animation: floatIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes floatIn {
+      from { transform: translateY(12px) scale(0.97); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    /* Modal Banner Graphic */
+    /* Modal Banner Graphic */
+    .login-dialog-banner {
+      position: relative;
+      height: 135px;
+      background: #fdf5ec;
+      overflow: hidden;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .login-banner-bg-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .btn-login-close-round {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #ffffff;
+      color: #0c2340;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      font-size: 14px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .btn-login-close-round:hover {
+      background: #f1f5f9;
+      transform: scale(1.08);
+    }
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .login-close-circle:hover {
+      background: #f1f5f9;
+      transform: scale(1.08);
+    }
+
+    /* Tab Switcher: USER LOGIN vs AGENT LOGIN */
+    .login-tabs-row {
+      display: flex;
+      background: #ffffff;
+      border-bottom: 1px solid var(--slate-200);
+    }
+
+    .login-tab-item {
+      flex: 1;
+      padding: 15px 10px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--slate-600);
+      background: none;
+      border: none;
+      border-bottom: 2.5px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .login-tab-item.active {
+      color: var(--primary-blue);
+      border-bottom-color: var(--primary-blue);
+      background: rgba(2, 82, 204, 0.03);
+    }
+
+    .login-tab-item:hover:not(.active) {
+      background: var(--slate-50);
+      color: var(--navy-900);
+    }
+
+    /* Form Body */
+    .login-dialog-body {
+      padding: 24px 28px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Input Pill Group with Floating Label Effect */
+    .auth-input-pill {
+      background: #f1f5f9;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+      cursor: text;
+    }
+
+    .auth-input-pill:focus-within {
+      background: #ffffff;
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3.5px rgba(2, 82, 204, 0.15);
+    }
+
+    .auth-field-stack {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .auth-label-caption {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--slate-600);
+      text-transform: none;
+      letter-spacing: 0.02em;
+    }
+
+    .auth-core-input {
+      border: none;
+      background: transparent;
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: var(--navy-900);
+      outline: none;
+      margin-top: 2px;
+      width: 100%;
+      font-family: inherit;
+    }
+
+    .auth-core-input::placeholder {
+      color: var(--slate-400);
+      font-weight: 400;
+    }
+
+    .auth-field-icon {
+      color: var(--slate-600);
+      font-size: 1.15rem;
+      margin-left: 8px;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .forgot-link-wrap {
+      text-align: center;
+      margin-top: -4px;
+    }
+
+    .forgot-pass-link {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary-blue);
+      text-decoration: underline;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .forgot-pass-link:hover {
+      color: var(--primary-blue-hover);
+    }
+
+    /* Big Royal Blue LOGIN Pill Button */
+    .btn-auth-primary {
+      background: linear-gradient(135deg, #0252cc, #1e40af);
+      color: #ffffff;
+      border: none;
+      border-radius: 9999px;
+      padding: 15px 24px;
+      font-size: 0.98rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(2, 82, 204, 0.35);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-auth-primary:hover {
+      background: linear-gradient(135deg, #0141a4, #1b3594);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(2, 82, 204, 0.45);
+    }
+
+    .btn-auth-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-auth-primary .auth-btn-icon {
+      font-size: 1.1rem;
+      display: inline-block;
+    }
+
+    /* OR Divider */
+    .auth-divider-row {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 4px 0;
+    }
+
+    .auth-divider-row::before,
+    .auth-divider-row::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid var(--slate-200);
+    }
+
+    .auth-divider-text {
+      padding: 0 14px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--slate-400);
+      letter-spacing: 0.08em;
+    }
+
+    /* Sign Up Secondary Outline Button */
+    .btn-auth-secondary {
+      background: #ffffff;
+      color: var(--slate-700);
+      border: 1.5px solid var(--slate-300);
+      border-radius: 9999px;
+      padding: 13px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-auth-secondary strong {
+      color: var(--primary-blue);
+      font-weight: 800;
+    }
+
+    .btn-auth-secondary:hover {
+      background: var(--slate-50);
+      border-color: var(--primary-blue);
+      transform: translateY(-1px);
+    }
+
+    /* ==========================================================================
+       PART 2: REDESIGNED SEARCH & BOOKING BAR (Matching media_1790176556037.png)
+       ========================================================================== */
+    .search-sketch-stage {
+      background: url('assets/icons/tricolor_ribbon.svg') repeat-x top,
+                  linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+      padding: 40px 24px;
+      border-radius: 18px;
+      border: 1px solid var(--slate-200);
+      position: relative;
+    }
+
+    /* Floating Card Widget Container */
+    .irctc-unified-search-card {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 16px 45px -8px rgba(12, 35, 64, 0.14), 0 4px 14px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      padding: 16px 20px;
+      display: flex;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    /* Main Left Grid (75% width) */
+    .search-main-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Row 1: From - Swap - To - Date */
+    .search-row-1 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .field-pill-card {
+      flex: 1;
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .field-pill-card:hover {
+      border-color: #cbd5e1;
+      background: #f8fafc;
+    }
+
+    .field-pill-card:focus-within {
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(2, 82, 204, 0.12);
+      background: #ffffff;
+    }
+
+    .field-pill-icon {
+      font-size: 1.25rem;
+      color: var(--slate-600);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+    }
+
+    .field-pill-text-stack {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .field-pill-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--slate-600);
+      margin-bottom: 2px;
+    }
+
+    .field-pill-value {
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: var(--navy-900);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .field-pill-card input {
+      border: none;
+      background: transparent;
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: var(--navy-900);
+      outline: none;
+      width: 100%;
+      font-family: inherit;
+    }
+
+    /* 180° Station Swap Button */
+    .station-swap-circle-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--primary-blue);
+      color: #ffffff;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(2, 82, 204, 0.35);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease;
+      flex-shrink: 0;
+      z-index: 2;
+    }
+
+    .station-swap-circle-btn:hover {
+      background: var(--primary-blue-hover);
+      transform: rotate(180deg) scale(1.1);
+    }
+
+    /* Date Pill Card */
+    .date-pill-card {
+      flex: 0.95;
+      justify-content: space-between;
+    }
+
+    /* Row 2: Quota - Concession - Search Trains Button */
+    .search-row-2 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .select-dropdown-pill {
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .caret-down-icon {
+      font-size: 0.85rem;
+      color: var(--primary-blue);
+      font-weight: 800;
+      margin-left: 6px;
+    }
+
+    /* Big Search Trains CTA Pill */
+    .btn-search-trains-primary {
+      flex: 1;
+      height: 52px;
+      background: linear-gradient(135deg, #0252cc 0%, #1e40af 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 9999px;
+      padding: 0 26px;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(2, 82, 204, 0.35);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+    }
+
+    .btn-search-trains-primary:hover {
+      background: linear-gradient(135deg, #0141a4 0%, #1b3594 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(2, 82, 204, 0.45);
+    }
+
+    .btn-search-trains-primary:active {
+      transform: translateY(0);
+    }
+
+    /* Vertical Divider between Search and Quick Utilities */
+    .search-vertical-divider {
+      width: 1px;
+      background: #bfdbfe;
+      margin: 4px 0;
+      flex-shrink: 0;
+    }
+
+    /* Quick Utilities Right Column (25% width) */
+    .quick-utilities-column {
+      width: 220px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .utility-action-card {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .utility-action-card:hover {
+      border-color: var(--primary-blue);
+      background: rgba(2, 82, 204, 0.04);
+      transform: translateX(3px);
+    }
+
+    .utility-icon-pill {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #eff6ff;
+      color: var(--primary-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .utility-text-label {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--navy-900);
+      white-space: nowrap;
+    }
+
+    /* ==========================================================================
+       HIGH CONTRAST MODE STYLING (html[data-contrast="high"])
+       ========================================================================== */
+    html[data-contrast="high"] body {
+      background: #000000;
+      color: #ffffff;
+    }
+
+    html[data-contrast="high"] .sketch-header,
+    html[data-contrast="high"] .section-card,
+    html[data-contrast="high"] .irctc-login-dialog,
+    html[data-contrast="high"] .irctc-unified-search-card {
+      background: #000000;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 1px var(--gold);
+    }
+
+    html[data-contrast="high"] .sketch-title-block h1,
+    html[data-contrast="high"] .section-header-row h2,
+    html[data-contrast="high"] .auth-core-input,
+    html[data-contrast="high"] .field-pill-value,
+    html[data-contrast="high"] .field-pill-card input,
+    html[data-contrast="high"] .utility-text-label {
+      color: #ffffff;
+    }
+
+    html[data-contrast="high"] .sketch-title-block p,
+    html[data-contrast="high"] .section-desc,
+    html[data-contrast="high"] .auth-label-caption,
+    html[data-contrast="high"] .field-pill-label {
+      color: var(--gold);
+    }
+
+    html[data-contrast="high"] .auth-input-pill,
+    html[data-contrast="high"] .field-pill-card,
+    html[data-contrast="high"] .utility-action-card {
+      background: #000000;
+      border-color: var(--gold);
+    }
+
+    html[data-contrast="high"] .btn-auth-primary,
+    html[data-contrast="high"] .btn-search-trains-primary {
+      background: var(--gold);
+      color: #000000;
+      border: 2px solid #ffffff;
+      box-shadow: none;
+    }
+
+    html[data-contrast="high"] .login-tab-item.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+      background: #111111;
+    }
+
+    html[data-contrast="high"] .login-tab-item:not(.active) {
+      color: #94a3b8;
+    }
+
+    html[data-contrast="high"] .station-swap-circle-btn {
+      background: var(--gold);
+      color: #000000;
+      border: 1px solid #ffffff;
+    }
+
+    html[data-contrast="high"] .search-vertical-divider {
+      background: var(--gold);
+    }
+
+    /* Comparison Callout Cards */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .comp-box {
+      padding: 16px;
+      border-radius: 12px;
+      background: #f8fafc;
+      border: 1px solid var(--slate-200);
+    }
+
+    .comp-box h3 {
+      font-size: 0.88rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .comp-box ul {
+      padding-left: 20px;
+      font-size: 0.82rem;
+      color: var(--slate-700);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 992px) {
+      .irctc-unified-search-card {
+        flex-direction: column;
+      }
+      .search-vertical-divider {
+        width: 100%;
+        height: 1px;
+        margin: 10px 0;
+      }
+      .quick-utilities-column {
+        width: 100%;
+        flex-direction: row;
+      }
+      .utility-action-card {
+        flex: 1;
+      }
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Control Bar -->
+  <header class="sketch-header">
+    <div class="sketch-title-block">
+      <span class="badge-sketch">Design Phase • Architecture Proposal</span>
+      <h1>🎨 Redesigned IRCTC Login Form & Search Bar Rough Sketch</h1>
+      <p>Precision 1:1 blueprint based on user-shared original IRCTC references (<code>media_1790176476034.png</code> &amp; <code>media_1790176556037.png</code>).</p>
+    </div>
+    <div>
+      <button type="button" class="theme-toggle-btn" id="btn-toggle-contrast" onclick="toggleContrast()">
+        <span>👁️ Toggle High Contrast Mode</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="sketch-container">
+
+    <!-- ==========================================================================
+         SECTION 1: REDESIGNED LOGIN MODAL SKETCH
+         ========================================================================== -->
+    <section class="section-card">
+      <div class="section-header-row">
+        <div>
+          <h2>1. Redesigned Official IRCTC Login Modal</h2>
+          <p class="section-desc">Replacing the current basic login prompt with the authentic Vande Bharat header banner, User vs Agent tabs, floating labels, password eye toggle, and royal blue pill button.</p>
+        </div>
+        <span class="badge-sketch">Reference: media_1790176476034.png</span>
+      </div>
+
+      <!-- Live Interactive Sketch of Login Modal -->
+      <div class="login-sketch-stage">
+        <div class="irctc-login-dialog">
+          
+          <!-- Banner Graphic -->
+          <div class="login-dialog-banner">
+            <img src="assets/images/vande_bharat_login_banner_clean.png" alt="Vande Bharat Express - Indian Railways & IRCTC" class="login-banner-bg-img" />
+            <button type="button" class="btn-login-close-round" title="Close Login Dialog">✕</button>
+          </div>
+
+          <!-- Tabs: USER LOGIN vs AGENT LOGIN -->
+          <div class="login-tabs-row" role="tablist">
+            <button type="button" class="login-tab-item active" id="tab-user-login" onclick="switchLoginTab('user')">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+              <span>USER LOGIN</span>
+            </button>
+            <button type="button" class="login-tab-item" id="tab-agent-login" onclick="switchLoginTab('agent')">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/>
+                <path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/>
+                <circle cx="12" cy="12" r="2"/>
+                <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/>
+                <path d="M19.1 4.9C23 8.8 23 15.2 19.1 19.1"/>
+              </svg>
+              <span>AGENT LOGIN</span>
+            </button>
+          </div>
+
+          <!-- Form Body -->
+          <div class="login-dialog-body">
+            <!-- Username Input -->
+            <div class="auth-input-pill">
+              <div class="auth-field-stack">
+                <label class="auth-label-caption" for="sketch-username">Username</label>
+                <input type="text" id="sketch-username" class="auth-core-input" placeholder="Enter Username" value="indian_rail_traveller" />
+              </div>
+              <span class="auth-field-icon" title="User Account">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+              </span>
+            </div>
+
+            <!-- Password Input with Toggle -->
+            <div class="auth-input-pill">
+              <div class="auth-field-stack">
+                <label class="auth-label-caption" for="sketch-password">Password</label>
+                <input type="password" id="sketch-password" class="auth-core-input" placeholder="Enter password" value="VandeBharat@2026" />
+              </div>
+              <span class="auth-field-icon" id="pw-toggle-btn" title="Toggle password visibility" onclick="togglePasswordVisibility()">
+                <svg id="eye-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </span>
+            </div>
+
+            <!-- Forgot Account Details Link -->
+            <div class="forgot-link-wrap">
+              <a href="javascript:void(0)" class="forgot-pass-link">Forgot account details?</a>
+            </div>
+
+            <!-- Big Royal Blue LOGIN Button -->
+            <button type="button" class="btn-auth-primary">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 16 16 12 12 8"/>
+                <line x1="8" y1="12" x2="16" y2="12"/>
+              </svg>
+              <span>LOGIN</span>
+            </button>
+
+            <!-- OR Divider -->
+            <div class="auth-divider-row">
+              <span class="auth-divider-text">OR</span>
+            </div>
+
+            <!-- Sign Up Button -->
+            <button type="button" class="btn-auth-secondary">
+              Don't have an account? <strong>Sign Up</strong>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Feature Comparison -->
+      <div class="comparison-grid">
+        <div class="comp-box">
+          <h3 style="color: #0252cc;">✨ Key Features in Redesigned Login Form:</h3>
+          <ul>
+            <li><strong>Vande Bharat Header Banner</strong>: Authentic Indian Railways seal &amp; IRCTC official circular logo.</li>
+            <li><strong>Dual Persona Switcher</strong>: USER LOGIN vs AGENT LOGIN tabs with animated royal blue active underline.</li>
+            <li><strong>Floating Pill Inputs</strong>: Soft rounded background, small top caption label, and right-aligned icons.</li>
+            <li><strong>Password Visibility Eye Toggle</strong>: Instant one-click toggle between password masking and plain text.</li>
+            <li><strong>Persistent Modal Shell</strong>: Full GPU entrance/exit animations without flashing or disappearing.</li>
+          </ul>
+        </div>
+        <div class="comp-box">
+          <h3 style="color: #166534;">♿ Accessibility &amp; Standards:</h3>
+          <ul>
+            <li>Full keyboard navigation: <kbd>Tab</kbd> cycle, <kbd>Enter</kbd> to submit, <kbd>Escape</kbd> to close.</li>
+            <li>WCAG AAA High Contrast mode compatibility with gold/obsidian inversion.</li>
+            <li>Multilingual support: compatible with English, Hindi, Bengali, Marathi, and Tamil.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SECTION 2: REDESIGNED SEARCH & BOOKING TICKET BAR SKETCH
+         ========================================================================== -->
+    <section class="section-card">
+      <div class="section-header-row">
+        <div>
+          <h2>2. Redesigned Train Booking &amp; Searching Section</h2>
+          <p class="section-desc">Replacing the current 5-column grid with the authentic IRCTC 2-row layout: From, 180° Station Swap, To, Journey Date, Quota, Concession, Royal Blue Search CTA, and the dedicated Quick Utilities column (Check PNR Status, Track Your Train).</p>
+        </div>
+        <span class="badge-sketch">Reference: media_1790176556037.png</span>
+      </div>
+
+      <!-- Live Interactive Sketch of Search Bar -->
+      <div class="search-sketch-stage">
+        <div class="irctc-unified-search-card">
+          
+          <!-- Left Main Search Zone (75%) -->
+          <div class="search-main-column">
+            
+            <!-- Row 1: From Station, Swap Button, To Station, Journey Date -->
+            <div class="search-row-1">
+              
+              <!-- From Station -->
+              <div class="field-pill-card">
+                <span class="field-pill-icon">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="8"/>
+                  </svg>
+                </span>
+                <div class="field-pill-text-stack">
+                  <span class="field-pill-label">From</span>
+                  <input type="text" id="sketch-from" value="NDLS - New Delhi" placeholder="Select Source" />
+                </div>
+              </div>
+
+              <!-- 180° Station Swap Button -->
+              <button type="button" class="station-swap-circle-btn" id="btn-sketch-swap" title="Swap Source & Destination Stations" onclick="swapSketchStations()">
+                ⇄
+              </button>
+
+              <!-- To Station -->
+              <div class="field-pill-card">
+                <span class="field-pill-icon">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                </span>
+                <div class="field-pill-text-stack">
+                  <span class="field-pill-label">To</span>
+                  <input type="text" id="sketch-to" value="BSB - Varanasi Jn" placeholder="Select Destination" />
+                </div>
+              </div>
+
+              <!-- Journey Date -->
+              <div class="field-pill-card date-pill-card">
+                <div class="field-pill-text-stack">
+                  <span class="field-pill-label">Date</span>
+                  <span class="field-pill-value" id="sketch-date-val">24 Sep 2026</span>
+                </div>
+                <span class="field-pill-icon" style="color: var(--primary-blue);">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                </span>
+              </div>
+
+            </div>
+
+            <!-- Row 2: Quota, Concession, Search Trains CTA Button -->
+            <div class="search-row-2">
+              
+              <!-- Quota Select -->
+              <div class="field-pill-card select-dropdown-pill">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span class="field-pill-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M12 2a10 10 0 0 1 10 10H12V2z"/>
+                    </svg>
+                  </span>
+                  <div class="field-pill-text-stack">
+                    <span class="field-pill-label">Quota</span>
+                    <span class="field-pill-value" id="sketch-quota-val">General</span>
+                  </div>
+                </div>
+                <span class="caret-down-icon">⌄</span>
+              </div>
+
+              <!-- Concession Select -->
+              <div class="field-pill-card select-dropdown-pill">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span class="field-pill-icon">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="6" cy="6" r="3"/>
+                      <circle cx="18" cy="18" r="3"/>
+                      <circle cx="6" cy="18" r="3"/>
+                      <line x1="6" y1="9" x2="6" y2="15"/>
+                      <line x1="8.5" y1="16.5" x2="15.5" y2="16.5"/>
+                    </svg>
+                  </span>
+                  <div class="field-pill-text-stack">
+                    <span class="field-pill-label">Concession</span>
+                    <span class="field-pill-value" id="sketch-concession-val">None</span>
+                  </div>
+                </div>
+                <span class="caret-down-icon">⌄</span>
+              </div>
+
+              <!-- Big Royal Blue Search Trains CTA Button -->
+              <button type="button" class="btn-search-trains-primary" onclick="alert('Search Trains triggered for ' + document.getElementById('sketch-from').value + ' ➔ ' + document.getElementById('sketch-to').value)">
+                <span>Search Trains</span>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"/>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+              </button>
+
+            </div>
+
+          </div>
+
+          <!-- Vertical Hairline Accent Divider -->
+          <div class="search-vertical-divider"></div>
+
+          <!-- Right Quick Utilities Column (25%) -->
+          <div class="quick-utilities-column">
+            
+            <!-- Utility 1: Check PNR Status -->
+            <a href="javascript:void(0)" class="utility-action-card" onclick="alert('Switching to PNR Status tab!')">
+              <div class="utility-icon-pill">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="6" width="20" height="12" rx="2"/>
+                  <line x1="6" y1="10" x2="6" y2="14"/>
+                  <line x1="10" y1="10" x2="14" y2="10"/>
+                  <line x1="18" y1="10" x2="18" y2="14"/>
+                </svg>
+              </div>
+              <span class="utility-text-label">Check PNR Status</span>
+            </a>
+
+            <!-- Utility 2: Track Your Train -->
+            <a href="javascript:void(0)" class="utility-action-card" onclick="alert('Switching to Live Train Tracking GPS simulator!')">
+              <div class="utility-icon-pill">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="4" y="3" width="16" height="16" rx="2"/>
+                  <path d="M4 11h16"/>
+                  <path d="M12 3v8"/>
+                  <path d="m8 19-2 3"/>
+                  <path d="m16 19 2 3"/>
+                </svg>
+              </div>
+              <span class="utility-text-label">Track Your Train</span>
+            </a>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Feature Comparison -->
+      <div class="comparison-grid">
+        <div class="comp-box">
+          <h3 style="color: #0252cc;">✨ Highlights of the Redesigned Search Section:</h3>
+          <ul>
+            <li><strong>Authentic 2-Row Layout</strong>: Replaces cramped horizontal cards with spacious, clean pill inputs.</li>
+            <li><strong>Smooth 180° Station Swap</strong>: Smoothly inverts From and To stations with cubic-bezier rotation physics.</li>
+            <li><strong>Quick Utilities Integration</strong>: Right-hand cards allow direct 1-click access to <strong>Check PNR Status</strong> and <strong>Track Your Train</strong> without needing to navigate menus.</li>
+            <li><strong>Seamless Date &amp; Quota Selectors</strong>: Clean popover dropdowns for Tatkal, Premium Tatkal, Ladies, and Concessions.</li>
+          </ul>
+        </div>
+        <div class="comp-box">
+          <h3 style="color: #166534;">📐 Preservation of Existing Redesign Super-Powers:</h3>
+          <ul>
+            <li>Maintains the <strong>Unified Availability Matrix</strong> directly below the search bar.</li>
+            <li>Maintains <strong>Interactive Coach &amp; Berth Visualizer</strong> linkages.</li>
+            <li>Maintains <strong>Instant Booking Drawer</strong> and <strong>Real-time Tatkal Timer</strong>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // Tab switching in Login Modal
+    function switchLoginTab(tab) {
+      const userTab = document.getElementById('tab-user-login');
+      const agentTab = document.getElementById('tab-agent-login');
+      const usernameInput = document.getElementById('sketch-username');
+
+      if (tab === 'user') {
+        userTab.classList.add('active');
+        agentTab.classList.remove('active');
+        usernameInput.placeholder = 'Enter Username';
+        usernameInput.value = 'indian_rail_traveller';
+      } else {
+        agentTab.classList.add('active');
+        userTab.classList.remove('active');
+        usernameInput.placeholder = 'Enter IRCTC Authorized Agent ID';
+        usernameInput.value = 'AGT_NDLS_88291';
+      }
+    }
+
+    // Toggle Password Visibility
+    function togglePasswordVisibility() {
+      const input = document.getElementById('sketch-password');
+      const icon = document.getElementById('eye-icon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.innerHTML = `
+          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+          <line x1="1" y1="1" x2="23" y2="23"/>
+        `;
+      } else {
+        input.type = 'password';
+        icon.innerHTML = `
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
+        `;
+      }
+    }
+
+    // Swap stations in search sketch
+    function swapSketchStations() {
+      const fromEl = document.getElementById('sketch-from');
+      const toEl = document.getElementById('sketch-to');
+      const temp = fromEl.value;
+      fromEl.value = toEl.value;
+      toEl.value = temp;
+
+      const swapBtn = document.getElementById('btn-sketch-swap');
+      swapBtn.style.transform = 'rotate(180deg) scale(1.15)';
+      setTimeout(() => {
+        swapBtn.style.transform = '';
+      }, 350);
+    }
+
+    // High Contrast Mode Toggle
+    function toggleContrast() {
+      const html = document.documentElement;
+      const isHigh = html.getAttribute('data-contrast') === 'high';
+      if (isHigh) {
+        html.removeAttribute('data-contrast');
+      } else {
+        html.setAttribute('data-contrast', 'high');
+      }
+    }
+  </script>
+</body>
+</html>

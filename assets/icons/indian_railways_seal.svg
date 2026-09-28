@@ -1,0 +1,213 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="100%" height="100%" role="img" aria-label="Official Seal of Indian Railways - भारतीय रेल">
+  <defs>
+    <!-- Official Indian Railways Crimson Gradients -->
+    <radialGradient id="irCrimsonRadial" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#b91c1c"/>
+      <stop offset="60%" stop-color="#991b1b"/>
+      <stop offset="85%" stop-color="#7f1d1d"/>
+      <stop offset="100%" stop-color="#580e1a"/>
+    </radialGradient>
+    <linearGradient id="irCrimsonLinear" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#991b1b"/>
+      <stop offset="50%" stop-color="#7f1d1d"/>
+      <stop offset="100%" stop-color="#4c0519"/>
+    </linearGradient>
+
+    <!-- Regal Indian Railways Gold Gradients -->
+    <linearGradient id="irGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffbeb"/>
+      <stop offset="25%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#eab308"/>
+      <stop offset="75%" stop-color="#ca8a04"/>
+      <stop offset="100%" stop-color="#854d0e"/>
+    </linearGradient>
+    <linearGradient id="irGoldLight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#fef08a"/>
+      <stop offset="100%" stop-color="#eab308"/>
+    </linearGradient>
+    <linearGradient id="irGoldDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ca8a04"/>
+      <stop offset="100%" stop-color="#713f12"/>
+    </linearGradient>
+
+    <!-- Deep Navy Core Gradients -->
+    <linearGradient id="irCoreNavy" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#08182b"/>
+      <stop offset="50%" stop-color="#0c2340"/>
+      <stop offset="100%" stop-color="#040d18"/>
+    </linearGradient>
+
+    <!-- Reusable 5-Point Golden Star -->
+    <g id="star17">
+      <polygon points="0,-7.5 2.2,-2.3 7.5,-2.3 3.3,1 4.9,6.3 0,2.8 -4.9,6.3 -3.3,1 -7.5,-2.3 -2.2,-2.3" fill="url(#irGold)" stroke="#713f12" stroke-width="0.5"/>
+    </g>
+
+    <!-- Curved Text Arcs -->
+    <!-- Top Arc: from left to right (radius 106) -->
+    <path id="arcTopText" d="M 44 160 A 116 116 0 0 1 276 160" fill="none"/>
+    <!-- Bottom Arc: from left to right inverted so text is right-side-up (radius 106) -->
+    <path id="arcBottomText" d="M 276 160 A 116 116 0 0 1 44 160" fill="none"/>
+    
+    <!-- Drop Shadow Filter for central badge -->
+    <filter id="medallionShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- ================= 1. OUTER CRIMSON CREST BASE ================= -->
+  <!-- Outer Gold Rim -->
+  <circle cx="160" cy="160" r="156" fill="url(#irGold)" stroke="#713f12" stroke-width="1.5"/>
+  <circle cx="160" cy="160" r="151" fill="#7f1d1d"/>
+  
+  <!-- Outer Beaded Periphery -->
+  <circle cx="160" cy="160" r="149" fill="url(#irCrimsonRadial)"/>
+  <circle cx="160" cy="160" r="147" fill="none" stroke="url(#irGold)" stroke-width="1.5" stroke-dasharray="3 3"/>
+
+  <!-- ================= 2. THE 17 GOLDEN RAILWAY STARS ================= -->
+  <!-- 17 Golden Stars representing 17 Indian Railway Zones (step = 360/17 = 21.17647°) -->
+  <g transform="translate(160, 160)">
+    <use href="#star17" transform="rotate(0) translate(0, -137)"/>
+    <use href="#star17" transform="rotate(21.176) translate(0, -137)"/>
+    <use href="#star17" transform="rotate(42.353) translate(0, -137)"/>
+    <use href="#star17" transform="rotate(63.529) translate(0, -137)"/>
+    <use href="#star17" transform="rotate(84.706) translate(0, -137)"/>
+    <use href="#star17" transform="rotate(105.882) translate(0, -137)"/>
+    <use href="#star17" transform="rotate(127.059) translate(0, -137)"/>
+    <use href="#star17" transform="rotate(148.235) translate(0, -137)"/>
+    <use href="#star17" transform="rotate(169.412) translate(0, -137)"/>
+    <use href="#star17" transform="rotate(190.588) translate(0, -137)"/>
+    <use href="#star17" transform="rotate(211.765) translate(0, -137)"/>
+    <use href="#star17" transform="rotate(232.941) translate(0, -137)"/>
+    <use href="#star17" transform="rotate(254.118) translate(0, -137)"/>
+    <use href="#star17" transform="rotate(275.294) translate(0, -137)"/>
+    <use href="#star17" transform="rotate(296.471) translate(0, -137)"/>
+    <use href="#star17" transform="rotate(317.647) translate(0, -137)"/>
+    <use href="#star17" transform="rotate(338.824) translate(0, -137)"/>
+  </g>
+
+  <!-- ================= 3. MIDDLE CRIMSON TEXT RING ================= -->
+  <circle cx="160" cy="160" r="126" fill="url(#irGold)" stroke="#713f12" stroke-width="1"/>
+  <circle cx="160" cy="160" r="124" fill="url(#irCrimsonLinear)" stroke="#4c0519" stroke-width="2"/>
+  <circle cx="160" cy="160" r="92" fill="none" stroke="url(#irGold)" stroke-width="2.5"/>
+
+  <!-- Top Inscription: भारतीय रेल -->
+  <text font-family="'Noto Sans Devanagari', 'Segoe UI', Arial, sans-serif" font-weight="900" font-size="19" fill="#ffffff" letter-spacing="4" filter="url(#medallionShadow)">
+    <textPath href="#arcTopText" startOffset="50%" text-anchor="middle">
+      भारतीय रेल
+    </textPath>
+  </text>
+
+  <!-- Bottom Inscription: INDIAN RAILWAYS -->
+  <text font-family="'Inter', 'Segoe UI', 'Montserrat', Arial, sans-serif" font-weight="900" font-size="14.5" fill="url(#irGoldLight)" letter-spacing="4" filter="url(#medallionShadow)">
+    <textPath href="#arcBottomText" startOffset="50%" text-anchor="middle">
+      INDIAN RAILWAYS
+    </textPath>
+  </text>
+
+  <!-- Side Star Separators -->
+  <g transform="translate(160, 160)">
+    <polygon points="-114,-2 -111,-8 -116,-5 -121,-8 -118,-2 -122,2 -116,0 -110,2" fill="url(#irGold)" transform="rotate(-90 -115 -2)"/>
+    <polygon points="114,-2 111,-8 116,-5 121,-8 118,-2 122,2 116,0 110,2" fill="url(#irGold)" transform="rotate(90 115 -2)"/>
+  </g>
+
+  <!-- ================= 4. CENTRAL GOLDEN MEDALLION ================= -->
+  <!-- Inner Navy & Crimson Core -->
+  <circle cx="160" cy="160" r="90" fill="url(#irCoreNavy)" stroke="url(#irGold)" stroke-width="2.5" filter="url(#medallionShadow)"/>
+  <circle cx="160" cy="160" r="86" fill="none" stroke="#eab308" stroke-width="1" stroke-opacity="0.6"/>
+
+  <!-- ================= 5. THE ICONIC LOCOMOTIVE WHEEL & RAILS ================= -->
+  <!-- Perspective Railway Tracks at Bottom -->
+  <g stroke="url(#irGold)" stroke-linecap="round">
+    <!-- Ties / Sleepers -->
+    <line x1="126" y1="216" x2="194" y2="216" stroke-width="3" stroke="#854d0e"/>
+    <line x1="120" y1="225" x2="200" y2="225" stroke-width="3.5" stroke="#ca8a04"/>
+    <line x1="112" y1="235" x2="208" y2="235" stroke-width="4" stroke="url(#irGold)"/>
+    <!-- Rails in perspective converging upward -->
+    <line x1="130" y1="236" x2="142" y2="210" stroke-width="4.5" stroke="url(#irGold)"/>
+    <line x1="190" y1="236" x2="178" y2="210" stroke-width="4.5" stroke="url(#irGold)"/>
+    <!-- Rail inner sheen -->
+    <line x1="130" y1="236" x2="142" y2="210" stroke-width="1.8" stroke="#ffffff"/>
+    <line x1="190" y1="236" x2="178" y2="210" stroke-width="1.8" stroke="#ffffff"/>
+  </g>
+
+  <!-- The Steam Locomotive Driver Wheel (16 Spokes) -->
+  <g transform="translate(160, 172)">
+    <!-- Wheel Rim & Tyre -->
+    <circle cx="0" cy="0" r="42" fill="none" stroke="url(#irGold)" stroke-width="5"/>
+    <circle cx="0" cy="0" r="39" fill="none" stroke="#713f12" stroke-width="1"/>
+    <circle cx="0" cy="0" r="34" fill="#08182b" stroke="url(#irGold)" stroke-width="2"/>
+    
+    <!-- 16 Radial Spokes -->
+    <g stroke="url(#irGold)" stroke-width="2" stroke-linecap="round">
+      <line x1="0" y1="-34" x2="0" y2="34"/>
+      <line x1="-34" y1="0" x2="34" y2="0"/>
+      <line x1="-24" y1="-24" x2="24" y2="24"/>
+      <line x1="-24" y1="24" x2="24" y2="-24"/>
+      <line x1="-13" y1="-31.5" x2="13" y2="31.5"/>
+      <line x1="13" y1="-31.5" x2="-13" y2="31.5"/>
+      <line x1="-31.5" y1="-13" x2="31.5" y2="13"/>
+      <line x1="-31.5" y1="13" x2="31.5" y2="-13"/>
+    </g>
+
+    <!-- Semi-Circular Counterweight Balance -->
+    <path d="M -30 -14 A 33 33 0 0 1 30 -14 L 20 -8 A 21 21 0 0 0 -20 -8 Z" fill="url(#irGold)" stroke="#854d0e" stroke-width="1"/>
+
+    <!-- Central Axle Hub -->
+    <circle cx="0" cy="0" r="10" fill="url(#irGold)" stroke="#713f12" stroke-width="1.5"/>
+    <circle cx="0" cy="0" r="5" fill="#1e293b" stroke="#ffffff" stroke-width="1"/>
+  </g>
+
+  <!-- ================= 6. THE STEAM LOCOMOTIVE PILOT & FRONT BOILER ================= -->
+  <g transform="translate(160, 168)">
+    <!-- Pilot / Cowcatcher Wedge Grille -->
+    <polygon points="-24,30 24,30 16,42 -16,42" fill="#7f1d1d" stroke="url(#irGold)" stroke-width="2"/>
+    <line x1="-12" y1="30" x2="-9" y2="41" stroke="url(#irGold)" stroke-width="1.5"/>
+    <line x1="-4" y1="30" x2="-3" y2="41" stroke="url(#irGold)" stroke-width="1.5"/>
+    <line x1="4" y1="30" x2="3" y2="41" stroke="url(#irGold)" stroke-width="1.5"/>
+    <line x1="12" y1="30" x2="9" y2="41" stroke="url(#irGold)" stroke-width="1.5"/>
+
+    <!-- Buffer Beam (Crimson with Gold Studs) -->
+    <rect x="-30" y="22" width="60" height="9" rx="2" fill="#b91c1c" stroke="url(#irGold)" stroke-width="1.5"/>
+    <!-- Left Buffer -->
+    <circle cx="-25" cy="26.5" r="4.5" fill="url(#irGold)" stroke="#713f12" stroke-width="1"/>
+    <!-- Right Buffer -->
+    <circle cx="25" cy="26.5" r="4.5" fill="url(#irGold)" stroke="#713f12" stroke-width="1"/>
+
+    <!-- Boiler Front Barrel Face -->
+    <circle cx="0" cy="2" r="24" fill="#0c2340" stroke="url(#irGold)" stroke-width="2.5"/>
+    <circle cx="0" cy="2" r="21" fill="#1e293b" stroke="#ca8a04" stroke-width="1" stroke-dasharray="2 3"/>
+
+    <!-- Central High-Intensity Golden Headlamp -->
+    <circle cx="0" cy="-4" r="9" fill="url(#irGold)" stroke="#ffffff" stroke-width="1.5"/>
+    <circle cx="0" cy="-4" r="5" fill="#fffbeb"/>
+    <polygon points="0,-12 3,-6 -3,-6" fill="url(#irGold)"/>
+
+    <!-- Boiler Smokebox Door Star -->
+    <polygon points="0,11 2,16 7,16 3,19 4.5,23 0,20.5 -4.5,23 -3,19 -7,16 -2,16" fill="url(#irGold)"/>
+  </g>
+
+  <!-- ================= 7. ASHOKA LION CAPITAL ATOP CREST ================= -->
+  <!-- Golden Ashoka Lion Capital crowning the Indian Railways Crest -->
+  <g transform="translate(160, 102)" fill="url(#irGold)" stroke="#713f12" stroke-width="0.7">
+    <!-- Abacus Base -->
+    <rect x="-16" y="24" width="32" height="5" rx="1.5" fill="url(#irGold)"/>
+    <!-- Mini Ashoka Chakra in Abacus -->
+    <circle cx="0" cy="26.5" r="2" fill="#08182b" stroke="#ffffff" stroke-width="0.5"/>
+
+    <!-- Center Lion -->
+    <path d="M 0 0 C -4 0 -6 3 -6 8 C -6 12 -4 15 -2 17 C -3 19 -3 21 0 24 C 3 21 3 19 2 17 C 4 15 6 12 6 8 C 6 3 4 0 0 0 Z"/>
+    <!-- Center Lion Mane & Details -->
+    <path d="M -4 5 C -7 8 -7 13 -4 18 C -2 20 0 21 0 21 C 0 21 2 20 4 18 C 7 13 7 8 4 5" fill="none" stroke="#713f12" stroke-width="0.8"/>
+    <!-- Snout & Ears -->
+    <circle cx="-1.5" cy="5.5" r="0.8" fill="#580e1a"/>
+    <circle cx="1.5" cy="5.5" r="0.8" fill="#580e1a"/>
+    <path d="M -1 8 L 0 9 L 1 8 Z" fill="#580e1a"/>
+    
+    <!-- Left Lion (Profile) -->
+    <path d="M -5 4 C -9 3 -12 7 -12 12 C -12 16 -10 19 -7 21 C -7 23 -6 24 -4 24 L -4 18 C -7 17 -8 14 -8 11 C -8 7 -6 5 -5 4 Z"/>
+    
+    <!-- Right Lion (Profile) -->
+    <path d="M 5 4 C 9 3 12 7 12 12 C 12 16 10 19 7 21 C 7 23 6 24 4 24 L 4 18 C 7 17 8 14 8 11 C 8 7 6 5 5 4 Z"/>
+  </g>
+</svg>

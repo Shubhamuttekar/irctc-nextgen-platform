@@ -1,0 +1,25 @@
+{
+  "name": "irctc-nextgen-backend",
+  "version": "1.0.0",
+  "description": "Production-grade Node.js/Express REST API and SQLite Database Suite for IRCTC Next-Gen Platform",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "node test-api.js"
+  },
+  "keywords": [
+    "irctc",
+    "railway",
+    "rest-api",
+    "sqlite",
+    "nodejs",
+    "open-api",
+    "swagger"
+  ],
+  "author": "IRCTC Engineering Architecture",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

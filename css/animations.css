@@ -1,0 +1,650 @@
+/**
+ * IRCTC Modern Web Redesign - Animations & Micro-Interactions
+ * Modern CSS Standards: @starting-style, transition-behavior: allow-discrete, prefers-reduced-motion
+ */
+
+/* ==========================================================================
+   1. MODERN MODAL & DRAWER TRANSITIONS (.is-open & .is-closing State Classes)
+   ========================================================================== */
+.booking-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(12, 35, 64, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.28s ease, visibility 0.28s ease;
+  will-change: opacity;
+}
+.booking-drawer-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.booking-drawer-overlay.is-closing {
+  opacity: 0;
+  visibility: visible;
+  pointer-events: none;
+}
+
+.booking-drawer {
+  transform: translate3d(100%, 0, 0);
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.booking-drawer-overlay.is-open .booking-drawer {
+  transform: translate3d(0, 0, 0);
+}
+.booking-drawer-overlay.is-closing .booking-drawer {
+  transform: translate3d(100%, 0, 0);
+}
+
+.coach-visualizer-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  will-change: opacity;
+}
+.coach-visualizer-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.coach-visualizer-modal.is-closing {
+  opacity: 0;
+  visibility: visible;
+  pointer-events: none;
+}
+
+.coach-modal-content {
+  transform: scale(0.96) translate3d(0, 12px, 0);
+  opacity: 0;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  will-change: transform, opacity;
+}
+.coach-visualizer-modal.is-open .coach-modal-content {
+  transform: scale(1) translate3d(0, 0, 0);
+  opacity: 1;
+}
+.coach-visualizer-modal.is-closing .coach-modal-content {
+  transform: scale(0.96) translate3d(0, 12px, 0);
+  opacity: 0;
+}
+
+.capsule-modal-overlay {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+.capsule-modal-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.capsule-modal-overlay.is-closing {
+  opacity: 0;
+  visibility: visible;
+  pointer-events: none;
+}
+
+.capsule-modal-panel {
+  transform: scale(0.96) translate3d(0, 10px, 0);
+  opacity: 0;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+}
+.capsule-modal-overlay.is-open .capsule-modal-panel {
+  transform: scale(1) translate3d(0, 0, 0);
+  opacity: 1;
+}
+.capsule-modal-overlay.is-closing .capsule-modal-panel {
+  transform: scale(0.96) translate3d(0, 10px, 0);
+  opacity: 0;
+}
+
+/* Capsule Dropdown & Sub-Flyout Menus (@starting-style & allow-discrete) */
+.capsule-dropdown-menu {
+  display: none;
+  opacity: 0;
+  transform: scale(0.97) translateY(-6px);
+  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              display 0.22s allow-discrete;
+}
+
+.capsule-dropdown-wrap.open .capsule-dropdown-menu {
+  display: flex;
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+@starting-style {
+  .capsule-dropdown-wrap.open .capsule-dropdown-menu {
+    opacity: 0;
+    transform: scale(0.97) translateY(-6px);
+  }
+}
+
+.dropdown-flyout-sublist {
+  display: none;
+  opacity: 0;
+  transform: scale(0.97) translateX(-6px);
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              display 0.2s allow-discrete;
+}
+
+.dropdown-subitem-wrap:hover .dropdown-flyout-sublist,
+.dropdown-subitem-wrap.flyout-open .dropdown-flyout-sublist,
+.dropdown-subitem-wrap:focus-within .dropdown-flyout-sublist {
+  display: flex;
+  opacity: 1;
+  transform: scale(1) translateX(0);
+}
+
+@starting-style {
+  .dropdown-subitem-wrap:hover .dropdown-flyout-sublist,
+  .dropdown-subitem-wrap.flyout-open .dropdown-flyout-sublist,
+  .dropdown-subitem-wrap:focus-within .dropdown-flyout-sublist {
+    opacity: 0;
+    transform: scale(0.97) translateX(-6px);
+  }
+}
+
+/* Staggered micro-transitions for items on reveal */
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item,
+.dropdown-subitem-wrap:hover .dropdown-flyout-sublist .flyout-item,
+.dropdown-subitem-wrap.flyout-open .dropdown-flyout-sublist .flyout-item,
+.dropdown-subitem-wrap:focus-within .dropdown-flyout-sublist .flyout-item {
+  animation: dropdownItemReveal 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes dropdownItemReveal {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(1),
+.dropdown-flyout-sublist .flyout-item:nth-child(1) { animation-delay: 0.015s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(2),
+.dropdown-flyout-sublist .flyout-item:nth-child(2) { animation-delay: 0.03s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(3),
+.dropdown-flyout-sublist .flyout-item:nth-child(3) { animation-delay: 0.045s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(4),
+.dropdown-flyout-sublist .flyout-item:nth-child(4) { animation-delay: 0.06s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(5),
+.dropdown-flyout-sublist .flyout-item:nth-child(5) { animation-delay: 0.075s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(6),
+.dropdown-flyout-sublist .flyout-item:nth-child(6) { animation-delay: 0.09s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(7),
+.dropdown-flyout-sublist .flyout-item:nth-child(7) { animation-delay: 0.105s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(8),
+.dropdown-flyout-sublist .flyout-item:nth-child(8) { animation-delay: 0.12s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(9),
+.dropdown-flyout-sublist .flyout-item:nth-child(9) { animation-delay: 0.135s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(10),
+.dropdown-flyout-sublist .flyout-item:nth-child(10) { animation-delay: 0.15s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(11),
+.dropdown-flyout-sublist .flyout-item:nth-child(11) { animation-delay: 0.165s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(12),
+.dropdown-flyout-sublist .flyout-item:nth-child(12) { animation-delay: 0.18s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(13),
+.dropdown-flyout-sublist .flyout-item:nth-child(13) { animation-delay: 0.195s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(14),
+.dropdown-flyout-sublist .flyout-item:nth-child(14) { animation-delay: 0.21s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(15),
+.dropdown-flyout-sublist .flyout-item:nth-child(15) { animation-delay: 0.225s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(16),
+.dropdown-flyout-sublist .flyout-item:nth-child(16) { animation-delay: 0.24s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(17),
+.dropdown-flyout-sublist .flyout-item:nth-child(17) { animation-delay: 0.255s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(18),
+.dropdown-flyout-sublist .flyout-item:nth-child(18) { animation-delay: 0.27s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(19),
+.dropdown-flyout-sublist .flyout-item:nth-child(19) { animation-delay: 0.285s; }
+.capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item:nth-child(20),
+.dropdown-flyout-sublist .flyout-item:nth-child(20) { animation-delay: 0.30s; }
+
+/* ==========================================================================
+   2. KEYFRAME ANIMATIONS & PULSES
+   ========================================================================== */
+@keyframes pulse-dot {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+@keyframes pulse-spark {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 0.7;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.35s ease forwards;
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.pulse-spark {
+  display: inline-block;
+  animation: pulse-spark 2s infinite ease-in-out;
+}
+
+/* ==========================================================================
+   3. ACCESSIBILITY: PREFERS REDUCED MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .booking-drawer {
+    transform: none !important;
+  }
+
+  .coach-modal-content {
+    transform: none !important;
+  }
+
+  .capsule-modal-panel {
+    transform: none !important;
+  }
+
+  .swap-stations-btn.rotated {
+    transform: none !important;
+    border-color: var(--irctc-saffron-500) !important;
+  }
+
+  .pulse-spark,
+  .clock-live-dot,
+  .live-gps-pulse {
+    animation: none !important;
+  }
+
+  .capsule-dropdown-menu,
+  .dropdown-flyout-sublist {
+    transform: none !important;
+    transition: opacity 0.01s !important;
+  }
+
+  .capsule-dropdown-wrap.open .capsule-dropdown-menu .dropdown-list-item,
+  .dropdown-flyout-sublist .flyout-item {
+    animation: none !important;
+  }
+
+  .dropdown-list-item::before,
+  .flyout-item::before,
+  .d-icon-badge,
+  .d-arrow {
+    transition: none !important;
+  }
+}
+
+/* ==========================================================================
+   4. RESPONSIVE DESIGN BREAKPOINTS (Mobile 375px, Tablet 768px, Desktop 1440px)
+   ========================================================================== */
+
+/* Constrained Displays Tiered Wrapping for A+ Font Scaling (max-width: 1320px) */
+@media (max-width: 1320px) {
+  html[data-font-size="lg"] .header-container {
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+  }
+  html[data-font-size="lg"] #capsule-nav-container {
+    order: 3 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    justify-content: center !important;
+    margin-top: 6px !important;
+  }
+}
+
+/* Laptops (max-width: 1200px) */
+@media (max-width: 1200px) {
+  .header-container {
+    gap: 12px;
+  }
+  .capsule-pill {
+    padding: 3px 6px;
+    gap: 2px;
+  }
+  .capsule-btn {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+  .irctc-logo-wrapper {
+    width: 140px;
+    height: 44px;
+  }
+  .helpline-badge {
+    padding: 5px 10px;
+    font-size: 0.74rem;
+  }
+}
+
+/* Tablets & Small Laptops (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .search-form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .swap-button-container {
+    grid-column: span 2;
+    padding: 0;
+    margin: -4px auto;
+  }
+  .search-form-grid .station-group {
+    grid-column: span 1;
+  }
+  .search-form-grid .date-group,
+  .search-form-grid .quota-group {
+    grid-column: span 1;
+  }
+  .search-form-grid .submit-group {
+    grid-column: span 2;
+  }
+
+  .tatkal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .header-container {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  #capsule-nav-container {
+    order: 3;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 6px 0;
+    justify-content: flex-start;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  #capsule-nav-container::-webkit-scrollbar {
+    display: none;
+  }
+  .capsule-nav-bar {
+    width: max-content;
+    justify-content: flex-start;
+  }
+  .capsule-pill {
+    white-space: nowrap;
+  }
+  .dropdown-flyout-sublist {
+    position: static;
+    margin-left: 12px;
+    max-width: 100%;
+    box-shadow: none;
+    border-left: 2px solid var(--irctc-saffron-500);
+  }
+}
+
+/* Tablets (max-width: 768px) */
+@media (max-width: 768px) {
+  .hero-motion-banner {
+    height: 340px;
+  }
+  .hero-top-cluster {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .vande-bharat-badge-wrap {
+    width: 200px;
+    height: 54px;
+  }
+  .hero-bottom-cluster {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hero-feature-tags {
+    display: none;
+  }
+
+  .search-widget-card {
+    padding: 18px;
+    margin-top: -24px;
+  }
+  .search-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .swap-button-container {
+    grid-column: span 1;
+    margin: 4px auto;
+  }
+  .search-form-grid .station-group,
+  .search-form-grid .date-group,
+  .search-form-grid .quota-group,
+  .search-form-grid .submit-group {
+    grid-column: span 1;
+  }
+
+  .header-nav {
+    display: none; /* Mobile navigation toggle */
+  }
+
+  /* Official Redesigned 2-Row Search & Quick Utilities (v4.5) */
+  .irctc-unified-search-card {
+    padding: 16px !important;
+  }
+  .unified-search-layout {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .search-vertical-divider {
+    display: none;
+  }
+  .quick-utilities-column {
+    min-width: 100%;
+    flex-direction: row;
+    gap: 10px;
+  }
+  .quick-utilities-column .utility-action-card {
+    flex: 1;
+  }
+  .search-row-1 {
+    grid-template-columns: 1fr auto 1fr;
+  }
+  .search-row-1 .field-date {
+    grid-column: 1 / -1;
+  }
+  .search-row-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .search-row-2 .btn-search-trains-primary {
+    grid-column: 1 / -1;
+  }
+
+  .train-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .train-quick-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .train-schedule-strip {
+    flex-direction: column;
+    gap: 14px;
+    text-align: center;
+  }
+  .schedule-point.destination {
+    align-items: center;
+  }
+
+  .train-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .booking-cta-cluster {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .payment-tabs-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .ers-journey-table {
+    grid-template-columns: 1fr;
+  }
+  .ers-pnr-security-row {
+    flex-direction: column;
+    gap: 14px;
+    text-align: center;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile Phones (max-width: 480px) */
+@media (max-width: 480px) {
+  .gov-top-strip {
+    padding: 4px 12px;
+  }
+  .gov-strip-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .portal-main-header {
+    padding: 10px 12px;
+  }
+  .branding-cluster {
+    gap: 10px;
+  }
+  .irctc-logo-wrapper {
+    width: 130px;
+    height: 40px;
+  }
+  .header-actions {
+    gap: 8px;
+  }
+  .helpline-badge {
+    padding: 4px 8px;
+    font-size: 0.72rem;
+  }
+  .btn-user-login {
+    padding: 6px 14px 8px 14px;
+    font-size: 0.8rem;
+  }
+  .page-container {
+    padding: 12px;
+  }
+
+  .matrix-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .slot-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .slot-countdown-box {
+    width: 100%;
+    text-align: left;
+  }
+  .countdown-digits {
+    font-size: 1.05rem;
+  }
+
+  .passenger-grid-inputs {
+    grid-template-columns: 1fr;
+  }
+  .passenger-grid-inputs .span-2 {
+    grid-column: span 1;
+  }
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Official Search Bar & Login Dialog Mobile Overrides (v4.5) */
+  .quick-utilities-column {
+    flex-direction: column;
+  }
+  .search-row-1 {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .station-swap-circle-btn {
+    align-self: center;
+    margin: -4px 0;
+  }
+  .search-row-2 {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .irctc-login-dialog {
+    width: 94vw !important;
+    max-width: 94vw !important;
+  }
+}
+

@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A+ Font Size Header Overlap Diagnosis & Rough Sketch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #071224;
+      --navy-950: #040d1a;
+      --navy-900: #0c2340;
+      --navy-800: #163b6b;
+      --saffron: #ff671f;
+      --gold: #ffd166;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      padding: 32px 24px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .sketch-header {
+      background: var(--navy-900);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 24px 32px;
+      margin-bottom: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .badge-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 103, 31, 0.15);
+      border: 1px solid var(--saffron);
+      color: var(--saffron);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .sketch-header h1 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+
+    .sketch-header p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-top: 4px;
+      max-width: 720px;
+    }
+
+    .controls-toolbar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 8px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .ctrl-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .font-btns-group {
+      display: flex;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 3px;
+      border-radius: 8px;
+    }
+
+    .font-btn {
+      padding: 4px 12px;
+      border: none;
+      background: transparent;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.82rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .font-btn.active {
+      background: var(--saffron);
+      color: #ffffff;
+    }
+
+    /* Comparison Panels */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+      margin-bottom: 36px;
+    }
+
+    .panel-card {
+      background: var(--navy-900);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .panel-card.error-card {
+      border: 2px solid #ef4444;
+    }
+
+    .panel-card.fix-card {
+      border: 2px solid #22c55e;
+      box-shadow: 0 0 24px rgba(34, 197, 94, 0.15);
+    }
+
+    .panel-top-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .badge-error {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid #ef4444;
+    }
+
+    .badge-fix {
+      background: rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+      border: 1px solid #22c55e;
+    }
+
+    .panel-title {
+      font-size: 1.2rem;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    .panel-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    /* Interactive Header Sandbox Container */
+    .sandbox-frame {
+      background: #0c2340;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      overflow: hidden;
+      padding: 16px 20px;
+      position: relative;
+      min-height: 84px;
+    }
+
+    /* Header elements inside sandbox */
+    .mock-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      width: 100%;
+      position: relative;
+    }
+
+    .mock-branding {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 5;
+    }
+
+    .mock-emblem {
+      width: 32px;
+      height: 38px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: #cbd5e1;
+    }
+
+    .mock-seal {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: #cbd5e1;
+    }
+
+    .mock-irctc-logo {
+      height: 38px;
+      padding: 4px 12px;
+      background: #ffffff;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    }
+
+    .mock-irctc-logo strong {
+      color: #0c2340;
+      font-size: 0.95rem;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .mock-irctc-logo span {
+      color: #ff671f;
+      font-size: 0.58rem;
+      line-height: 1;
+      font-weight: 800;
+      margin-top: 2px;
+    }
+
+    /* MOCK BUGGY CAPSULE: Causes Overlap */
+    .mock-capsule-container-bug {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      position: relative;
+    }
+
+    .mock-capsule-pill-bug {
+      display: inline-flex;
+      align-items: center;
+      background: linear-gradient(180deg, #0056a6 0%, #003e7d 100%);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.24);
+      border-radius: 9999px;
+      padding: 4px 8px;
+      gap: 3px;
+      white-space: nowrap;
+      /* When A+ is clicked, this pill expands to ~880px and bleeds LEFT onto the logo! */
+      position: relative;
+    }
+
+    /* Force the bug visual in current panel */
+    .error-card .mock-capsule-pill-bug {
+      margin-left: -70px; /* SIMULATES THE EXACT LEFTWARD BLEED FROM JUSTIFY-CONTENT: CENTER */
+      border: 2px solid #ef4444;
+    }
+
+    .overlap-callout-marker {
+      position: absolute;
+      top: -12px;
+      left: 175px;
+      background: #ef4444;
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      z-index: 20;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* MOCK FIXED CAPSULE: Apex Solution */
+    .mock-capsule-container-fixed {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .mock-capsule-pill-fixed {
+      display: inline-flex;
+      align-items: center;
+      background: linear-gradient(180deg, #0056a6 0%, #003e7d 100%);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.24);
+      border-radius: 9999px;
+      padding: 3px 6px;
+      gap: 2px;
+      white-space: nowrap;
+    }
+
+    .mock-capsule-pill-fixed .mock-btn {
+      padding: 6px 11px;
+      font-size: 0.78rem;
+      letter-spacing: 0.3px;
+    }
+
+    .mock-btn {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.86rem;
+      padding: 8px 14px;
+      border-radius: 9999px;
+      cursor: default;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .mock-btn.active {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .mock-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .mock-helpline {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 9999px;
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    .mock-login {
+      background: var(--saffron);
+      border: none;
+      border-radius: 9999px;
+      padding: 6px 16px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    /* Explanation Boxes */
+    .cause-box {
+      margin-top: 16px;
+      padding: 14px;
+      background: rgba(239, 68, 68, 0.08);
+      border-left: 3px solid #ef4444;
+      border-radius: 6px;
+      font-size: 0.84rem;
+      color: #fca5a5;
+      line-height: 1.6;
+    }
+
+    .fix-box {
+      margin-top: 16px;
+      padding: 14px;
+      background: rgba(34, 197, 94, 0.08);
+      border-left: 3px solid #22c55e;
+      border-radius: 6px;
+      font-size: 0.84rem;
+      color: #86efac;
+      line-height: 1.6;
+    }
+
+    /* Architecture Strategy Table */
+    .strategy-section {
+      background: var(--navy-900);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+
+    .strategy-section h2 {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .strategy-section p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-bottom: 20px;
+    }
+
+    .strat-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .strat-table th {
+      background: rgba(0, 0, 0, 0.3);
+      color: var(--gold);
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 2px solid var(--gold);
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .strat-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      vertical-align: top;
+    }
+
+    .strat-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .code-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #93c5fd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="sketch-header">
+      <div>
+        <div class="badge-wrap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          Accessibility Diagnosis & Architecture Review
+        </div>
+        <h1>A+ Font Scaling: Navigation Menu & Logo Overlap</h1>
+        <p>Comprehensive root cause analysis and proposed dual-layer responsive strategy to eliminate collision between the capsule navigation menu and the official Government & IRCTC logos.</p>
+      </div>
+
+      <div class="controls-toolbar">
+        <span class="ctrl-label">Current Scale:</span>
+        <div class="font-btns-group">
+          <button type="button" class="font-btn" data-scale="sm">A-</button>
+          <button type="button" class="font-btn" data-scale="md">A</button>
+          <button type="button" class="font-btn active" data-scale="lg">A+ (Active)</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Comparison Panels -->
+    <div class="comparison-grid">
+      <!-- CURRENT DEFECT -->
+      <div class="panel-card error-card">
+        <span class="panel-top-badge badge-error">Current Defect (As Shown In Screenshot)</span>
+        <h3 class="panel-title">Capsule Overflows Leftward onto IRCTC Logo</h3>
+        <p class="panel-desc">When <code>data-font-size="lg"</code> is active, the 7 navigation buttons expand to 880px+. Because the container uses <code>justify-content: center</code> without boundary protection, the excess width spills equally left and right, colliding with the branding cluster.</p>
+
+        <!-- Sandbox Simulation -->
+        <div class="sandbox-frame">
+          <div class="overlap-callout-marker">⚠️ OVERLAP BUG: HOME pill sits on IRCTC logo</div>
+          <div class="mock-header-row">
+            <!-- Branding -->
+            <div class="mock-branding">
+              <div class="mock-emblem">🇮🇳</div>
+              <div class="mock-seal">🚂</div>
+              <div class="mock-irctc-logo">
+                <strong>IRCTC</strong>
+                <span>INDIAN RAILWAYS</span>
+              </div>
+            </div>
+
+            <!-- Buggy Centered Pill -->
+            <div class="mock-capsule-container-bug">
+              <div class="mock-capsule-pill-bug">
+                <button class="mock-btn active">HOME</button>
+                <button class="mock-btn">TRAINS ⌄</button>
+                <button class="mock-btn">MEALS ⌄</button>
+                <button class="mock-btn">LOYALTY ⌄</button>
+                <button class="mock-btn">E-WALLET ⌄</button>
+                <button class="mock-btn">ALERTS</button>
+                <button class="mock-btn">CONTACT US</button>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="mock-actions">
+              <div class="mock-helpline">Helpline: 139</div>
+              <button class="mock-login">LOGIN</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="cause-box">
+          <strong>Underlying Root Causes:</strong><br>
+          1. <code>html[data-font-size="lg"]</code> scales 1rem to 18px (+12.5%), making the 7-tab pill wider than the available space.<br>
+          2. <code>.capsule-nav-bar</code> has <code>justify-content: center</code>, which expands equally on both sides when overflowing.<br>
+          3. <code>.branding-cluster</code> lacks <code>flex-shrink: 0</code> and a rigid isolation boundary, allowing the pill to trespass over it.
+        </div>
+      </div>
+
+      <!-- PROPOSED SOLUTION -->
+      <div class="panel-card fix-card">
+        <span class="panel-top-badge badge-fix">Proposed Fix (Dual-Layer Responsive Architecture)</span>
+        <h3 class="panel-title">Adaptive Proportional Sizing & Rigid Logo Sanctuary</h3>
+        <p class="panel-desc">Under <code>html[data-font-size="lg"]</code>, the capsule applies compact button padding (<code>6px 11px</code>) and micro-gap, shrinking the pill to fit with 100px+ margin. Logo cluster is shielded with <code>flex-shrink: 0</code> and safe flex alignment.</p>
+
+        <!-- Sandbox Simulation -->
+        <div class="sandbox-frame">
+          <div class="mock-header-row">
+            <!-- Branding -->
+            <div class="mock-branding">
+              <div class="mock-emblem">🇮🇳</div>
+              <div class="mock-seal">🚂</div>
+              <div class="mock-irctc-logo">
+                <strong>IRCTC</strong>
+                <span>INDIAN RAILWAYS</span>
+              </div>
+            </div>
+
+            <!-- Fixed Pill with Adaptive Padding -->
+            <div class="mock-capsule-container-fixed">
+              <div class="mock-capsule-pill-fixed">
+                <button class="mock-btn active">HOME</button>
+                <button class="mock-btn">TRAINS ⌄</button>
+                <button class="mock-btn">MEALS ⌄</button>
+                <button class="mock-btn">LOYALTY ⌄</button>
+                <button class="mock-btn">E-WALLET ⌄</button>
+                <button class="mock-btn">ALERTS</button>
+                <button class="mock-btn">CONTACT US</button>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="mock-actions">
+              <div class="mock-helpline">Helpline: 139</div>
+              <button class="mock-login">LOGIN</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="fix-box">
+          <strong>Key Architectural Guarantees:</strong><br>
+          • ✅ <strong>Logo Sanctuary:</strong> <code>.branding-cluster { flex-shrink: 0; }</code> ensures the logos can never be compressed or overlapped.<br>
+          • ✅ <strong>Adaptive Button Proportion:</strong> Under <code>A+</code>, buttons dynamically scale padding from <code>8px 16px</code> to <code>6px 11px</code>, preserving sleek single-row layout.<br>
+          • ✅ <strong>Constrained Screen Safety:</strong> On smaller screens (<1280px) with <code>A+</code>, gracefully wraps capsule to a centered row 2, completely preventing collision.
+        </div>
+      </div>
+    </div>
+
+    <!-- Strategy Matrix -->
+    <section class="strategy-section">
+      <h2>Proposed Universal Implementation Plan</h2>
+      <p>Precision CSS rules to be applied across the platform header to safeguard typography scaling across all screen resolutions:</p>
+
+      <table class="strat-table">
+        <thead>
+          <tr>
+            <th>Layer / Selector</th>
+            <th>Proposed Rule</th>
+            <th>Objective</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <strong>Branding Sanctuary</strong><br>
+              <span class="code-tag">.branding-cluster</span>
+            </td>
+            <td>
+              <code>flex-shrink: 0 !important; z-index: 10; position: relative;</code>
+            </td>
+            <td>Guarantees that the Lion Capital, Railways Seal, and IRCTC logo can never be encroached upon or squished by adjacent elements.</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Capsule Bounds Protection</strong><br>
+              <span class="code-tag">#capsule-nav-container</span>
+            </td>
+            <td>
+              <code>min-width: 0; justify-content: safe center;</code>
+            </td>
+            <td>Prevents flex items from overflowing to the left when container space is tight.</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>A+ Adaptive Capsule Scaling</strong><br>
+              <span class="code-tag">html[data-font-size="lg"] .capsule-pill</span>
+            </td>
+            <td>
+              <code>padding: 3px 6px !important; gap: 2px !important;</code>
+            </td>
+            <td>Tightens outer capsule container padding when root font size is 18px.</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>A+ Adaptive Button Sizing</strong><br>
+              <span class="code-tag">html[data-font-size="lg"] .capsule-btn</span>
+            </td>
+            <td>
+              <code>padding: 6px 11px !important; font-size: 0.8rem !important; letter-spacing: 0.3px !important;</code>
+            </td>
+            <td>Reduces button footprint by ~200px across the 7 tabs, allowing it to fit effortlessly on a single row alongside branding and actions.</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Constrained Screen Wrap Fallback</strong><br>
+              <span class="code-tag">@media (max-width: 1280px)</span>
+            </td>
+            <td>
+              <code>html[data-font-size="lg"] .header-container { flex-wrap: wrap; }</code><br>
+              <code>html[data-font-size="lg"] #capsule-nav-container { order: 3; width: 100%; margin-top: 8px; }</code>
+            </td>
+            <td>On smaller laptop screens running <code>A+</code>, allows the capsule menu to drop cleanly to a second centered row rather than causing layout distortion.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</body>
+</html>

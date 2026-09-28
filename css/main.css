@@ -1,0 +1,638 @@
+/**
+ * IRCTC Modern Web Redesign - Core Styles & Design Tokens
+ * Official Palette: Deep Navy (#0c2340), Vibrant Saffron (#ff671f), India Green (#138808)
+ */
+
+:root {
+  /* Official Gov / IRCTC Brand Palette */
+  --irctc-navy-950: #051324;
+  --irctc-navy-900: #0c2340;
+  --irctc-navy-800: #163b6b;
+  --irctc-navy-700: #1e40af;
+  --irctc-navy-600: #2563eb;
+
+  --irctc-saffron-500: #ff671f;
+  --irctc-saffron-600: #ea580c;
+  --irctc-saffron-700: #c2410c;
+  --irctc-saffron-50: #fff7ed;
+
+  --irctc-green-600: #138808;
+  --irctc-green-500: #16a34a;
+
+  /* Railway Availability Status Colors */
+  --status-available: #059669;
+  --status-available-bg: #ecfdf5;
+  --status-available-border: #a7f3d0;
+
+  --status-rac: #d97706;
+  --status-rac-bg: #fffbeb;
+  --status-rac-border: #fde68a;
+
+  --status-wl: #dc2626;
+  --status-wl-bg: #fef2f2;
+  --status-wl-border: #fecaca;
+
+  /* Neutrals & UI Surface Colors */
+  --surface-bg: #f4f7fb;
+  --surface-card: #ffffff;
+  --surface-elevated: #ffffff;
+  --surface-subtle: #f8fafc;
+  --surface-border: #e2e8f0;
+  --surface-border-subtle: #cbd5e1;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-inverse: #ffffff;
+
+  /* Elevation Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.08);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.09), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.12), 0 8px 10px -6px rgb(0 0 0 / 0.08);
+  --shadow-drawer: -8px 0 32px 0 rgba(12, 35, 64, 0.25);
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 9999px;
+
+  /* Base Typography Scale (md by default) */
+  --base-font-size: 16px;
+  --font-sans: 'Inter', 'Noto Sans Devanagari', 'Nirmala UI', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  --font-hindi: 'Noto Sans Devanagari', 'Inter', system-ui, sans-serif;
+}
+
+/* Root HTML with dynamic font-size transition */
+html {
+  font-size: var(--base-font-size);
+  transition: font-size 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Accessibility: Font Size Scaling */
+html[data-font-size="sm"] {
+  --base-font-size: 14px;
+}
+html[data-font-size="md"] {
+  --base-font-size: 16px;
+}
+html[data-font-size="lg"] {
+  --base-font-size: 18px;
+}
+
+/* Accessibility: High Contrast Mode */
+html[data-contrast="high"] {
+  --surface-bg: #000000;
+  --surface-card: #0a0a0a;
+  --surface-elevated: #141414;
+  --surface-subtle: #1a1a1a;
+  --surface-border: #facc15;
+  --surface-border-subtle: #ffd166;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #fef08a;
+  --text-muted: #e2e8f0;
+  
+  --irctc-navy-950: #000000;
+  --irctc-navy-900: #ffffff;
+  --irctc-navy-800: #f8fafc;
+  --irctc-navy-700: #f1f5f9;
+  --irctc-navy-600: #93c5fd;
+
+  --irctc-saffron-500: #ffd166;
+  --irctc-saffron-600: #facc15;
+  --irctc-saffron-700: #fef08a;
+  --irctc-saffron-50: #1c1917;
+  
+  --status-available: #22c55e;
+  --status-available-bg: #052e16;
+  --status-available-border: #22c55e;
+  --status-rac: #f59e0b;
+  --status-rac-bg: #451a03;
+  --status-rac-border: #f59e0b;
+  --status-wl: #ef4444;
+  --status-wl-bg: #450a0a;
+  --status-wl-border: #ef4444;
+}
+
+/* Ensure headers stay obsidian black in high contrast mode */
+html[data-contrast="high"] .portal-main-header,
+html[data-contrast="high"] .gov-top-strip {
+  background: #000000 !important;
+  border-bottom: 2px solid #ffd166 !important;
+}
+
+html[data-contrast="high"] .lang-select {
+  background: #000000 !important;
+  border: 1.5px solid #ffd166 !important;
+  color: #ffffff !important;
+}
+
+html[data-contrast="high"] .lang-select option {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+html[data-contrast="high"] .helpline-badge {
+  color: #ffd166 !important;
+  border-color: #ffd166 !important;
+  background: rgba(255, 209, 102, 0.1) !important;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--base-font-size);
+  color: var(--text-primary);
+  background-color: var(--surface-bg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Links & Buttons Reset */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Utility Helpers */
+.hidden {
+  display: none !important;
+}
+.text-saffron {
+  color: var(--irctc-saffron-500) !important;
+}
+.text-green {
+  color: var(--status-available) !important;
+}
+.text-bold {
+  font-weight: 700 !important;
+}
+
+/* Skip to Content for Screen Readers */
+.skip-to-content {
+  position: absolute;
+  top: -60px;
+  left: 12px;
+  background: var(--irctc-saffron-500);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  z-index: 9999;
+  font-weight: 700;
+  transition: top 0.2s ease;
+}
+.skip-to-content:focus {
+  top: 12px;
+}
+
+/* ==========================================================================
+   1. GOVERNMENT OF INDIA & ACCESSIBILITY TOP STRIP
+   ========================================================================== */
+.gov-top-strip {
+  background-color: var(--irctc-navy-950);
+  color: #cbd5e1;
+  font-size: 0.82rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 5px 24px;
+}
+.gov-strip-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.gov-title-col {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.gov-flag-icon {
+  font-size: 1.1rem;
+}
+.gov-text-en {
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+.gov-text-hi {
+  color: #94a3b8;
+  font-family: var(--font-hindi);
+}
+
+.gov-a11y-col {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.a11y-font-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.a11y-label {
+  color: #94a3b8;
+  font-size: 0.76rem;
+  margin-right: 4px;
+}
+.btn-font-scale {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.76rem;
+  font-weight: 700;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+.btn-font-scale:hover {
+  transform: translateY(-1px) scale(1.06);
+  background: rgba(255, 255, 255, 0.18);
+}
+.btn-font-scale:active {
+  transform: scale(0.95);
+}
+.btn-font-scale.active {
+  background: #ff671f;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 103, 31, 0.5);
+  transform: scale(1.08);
+}
+
+.btn-contrast-toggle {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.76rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+.btn-contrast-toggle:hover,
+.btn-contrast-toggle.active {
+  background: #facc15;
+  color: #000000;
+  font-weight: 700;
+}
+
+.lang-picker {
+  display: flex;
+  align-items: center;
+}
+.lang-select {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-sm);
+  padding: 2px 8px;
+  font-size: 0.78rem;
+  outline: none;
+}
+.lang-select option {
+  background: var(--irctc-navy-900);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   2. MAIN PORTAL HEADER & AUTHENTIC BRANDING
+   ========================================================================== */
+.portal-main-header {
+  background: var(--irctc-navy-900);
+  color: #ffffff;
+  padding: 12px 24px;
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Official 3-Insignias Branding Cluster */
+.branding-cluster {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  flex-shrink: 0 !important;
+  z-index: 10;
+  position: relative;
+}
+.emblem-wrapper {
+  width: 38px;
+  height: 44px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.railways-seal-wrapper {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.irctc-logo-wrapper {
+  height: 42px;
+  width: auto;
+  max-width: 195px;
+  flex-shrink: 0;
+  background: #ffffff;
+  border-radius: 9px;
+  padding: 3px 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.irctc-logo-wrapper:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.brand-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+.brand-divider {
+  width: 1.5px;
+  height: 38px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Main Navigation Tabs */
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.main-nav-tab {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  color: #e2e8f0;
+  font-weight: 600;
+  font-size: 0.92rem;
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.main-nav-tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+.main-nav-tab.active {
+  background: var(--irctc-saffron-500);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(255, 103, 31, 0.4);
+}
+.nav-tab-icon {
+  font-size: 1.1rem;
+}
+
+/* User & Helpline Cluster */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0 !important;
+}
+.helpline-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ffd166;
+  white-space: nowrap;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  user-select: none;
+}
+.helpline-badge:hover {
+  transform: translateY(-1px) scale(1.04);
+  background: rgba(255, 209, 102, 0.18);
+  border-color: #ffd166;
+  box-shadow: 0 4px 14px rgba(255, 209, 102, 0.25);
+}
+.helpline-badge:active {
+  transform: scale(0.97);
+}
+.btn-user-login {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 24px 10px 24px;
+  background: linear-gradient(135deg, #0c2340 0%, #163b6b 100%);
+  border: 1.5px solid rgba(56, 189, 248, 0.35);
+  border-radius: var(--radius-md);
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(12, 35, 64, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+.btn-user-login .tricolor-rail-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3.5px;
+  background: linear-gradient(90deg, #ff671f 33.3%, #ffffff 33.3%, #ffffff 66.6%, #138808 66.6%);
+  transition: height 0.25s ease, filter 0.25s ease;
+}
+.btn-user-login:hover {
+  transform: translateY(-2px);
+  border-color: #38bdf8;
+  box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, #133b6d 0%, #1e4b85 100%);
+}
+.btn-user-login:hover .tricolor-rail-line {
+  height: 5px;
+  filter: drop-shadow(0 -2px 6px rgba(255, 103, 31, 0.6));
+}
+.btn-user-login:active {
+  transform: scale(0.97);
+}
+
+/* Tricolor Decorative Ribbon */
+.portal-tricolor-ribbon {
+  height: 4.5px;
+  background: linear-gradient(to bottom, #ff671f 33.3%, #ffffff 33.3%, #ffffff 66.6%, #138808 66.6%);
+  width: 100%;
+}
+
+/* ==========================================================================
+   3. APP CONTAINER & FOOTER
+   ========================================================================== */
+.portal-main-content {
+  flex: 1;
+  width: 100%;
+}
+.page-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Portal Footer */
+.portal-footer {
+  background: var(--irctc-navy-950);
+  color: #94a3b8;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: auto;
+}
+.footer-top {
+  padding: 36px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.footer-grid {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1.2fr;
+  gap: 32px;
+}
+.footer-brand-title {
+  color: #ffffff;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+.footer-brand-desc {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #64748b;
+  margin-bottom: 14px;
+}
+.footer-col-title {
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.footer-links-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.84rem;
+}
+.footer-links-list a:hover {
+  color: var(--irctc-saffron-500);
+}
+
+.footer-bottom {
+  padding: 16px 24px;
+  font-size: 0.8rem;
+  text-align: center;
+  color: #64748b;
+}
+.footer-bottom-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Floating REST API / SQLite Status Pill */
+.api-status-indicator {
+  position: fixed;
+  bottom: 18px;
+  left: 20px;
+  z-index: 9990;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  user-select: none;
+}
+.api-status-indicator.online {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34d399;
+}
+.api-status-indicator.offline {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+}
+.api-status-indicator .status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.api-status-indicator .green-dot {
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulse-dot 2s infinite ease-in-out;
+}
+.api-status-indicator .orange-dot {
+  background: #f59e0b;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.85); }
+}

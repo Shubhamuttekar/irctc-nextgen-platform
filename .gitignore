@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Temporary and audit logs
+*.log
+*.pdf
+emoji_audit_report.txt
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Environment files
+.env
+.env.local

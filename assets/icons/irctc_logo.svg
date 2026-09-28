@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 90" width="100%" height="100%" role="img" aria-label="Official IRCTC Corporate Logo - Indian Railway Catering and Tourism Corporation Ltd.">
+  <defs>
+    <!-- IRCTC Official National Saffron Gradient -->
+    <linearGradient id="irctcSaffronGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff7b25"/>
+      <stop offset="60%" stop-color="#ff671f"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+
+    <!-- IRCTC Official Deep Railway Navy Gradient -->
+    <linearGradient id="irctcNavyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#163b6b"/>
+      <stop offset="60%" stop-color="#0c2340"/>
+      <stop offset="100%" stop-color="#05172e"/>
+    </linearGradient>
+
+    <!-- Gold Accent Gradient -->
+    <linearGradient id="irctcGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd166"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+
+    <filter id="logoSubtleShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#0c2340" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- ================= 1. OFFICIAL IRCTC CIRCULAR MONOGRAM ================= -->
+  <!-- Centered at x=45, y=45, Radius ~38 -->
+  <g transform="translate(45, 45)" filter="url(#logoSubtleShadow)">
+    <!-- Base Disc White Backing for crisp rendering on any surface -->
+    <circle cx="0" cy="0" r="38" fill="#ffffff"/>
+
+    <!-- Outer Saffron Upper-Right Curved Aerodynamic Arc -->
+    <!-- Sweeps from top-left, curves around top and right, tapering into arrowhead -->
+    <path d="M -26 -16 C -18 -32 6 -38 24 -26 C 36 -17 39 -3 37 12 L 28 8 C 30 -2 27 -12 18 -18 C 6 -26 -12 -22 -20 -11 Z" fill="url(#irctcSaffronGrad)"/>
+
+    <!-- Outer Navy Lower-Left Curved Aerodynamic Arc -->
+    <!-- Sweeps from bottom-right, curves around bottom and left, tapering into arrowhead -->
+    <path d="M 26 16 C 18 32 -6 38 -24 26 C -36 17 -39 3 -37 -12 L -28 -8 C -30 2 -27 12 -18 18 C -6 26 12 22 20 11 Z" fill="url(#irctcNavyGrad)"/>
+
+    <!-- Main Interlocking Dynamic Railway Swoosh (Saffron - Clockwise) -->
+    <path d="M -30 -4 C -28 -22 0 -34 20 -24 C 28 -20 33 -12 34 -4 L 25 -4 C 24 -10 20 -15 14 -18 C 0 -24 -20 -14 -22 -4 Z" fill="url(#irctcSaffronGrad)"/>
+    <polygon points="34,-4 39,-14 26,-9" fill="url(#irctcSaffronGrad)"/>
+
+    <!-- Main Interlocking Dynamic Railway Swoosh (Navy - Counter-Clockwise) -->
+    <path d="M 30 4 C 28 22 0 34 -20 24 C -28 20 -33 12 -34 4 L -25 4 C -24 10 -20 15 -14 18 C 0 24 20 14 22 4 Z" fill="url(#irctcNavyGrad)"/>
+    <polygon points="-34,4 -39,14 -26,9" fill="url(#irctcNavyGrad)"/>
+
+    <!-- Central Wheel & Railway Track Motion Core -->
+    <!-- Navy concentric track ring -->
+    <circle cx="0" cy="0" r="16" fill="none" stroke="url(#irctcNavyGrad)" stroke-width="3"/>
+    
+    <!-- Saffron concentric hub ring -->
+    <circle cx="0" cy="0" r="11" fill="none" stroke="url(#irctcSaffronGrad)" stroke-width="2.5"/>
+
+    <!-- 4 Cardinal Spoke Ties / Movement Markers -->
+    <rect x="-1.5" y="-17" width="3" height="5" rx="0.8" fill="url(#irctcSaffronGrad)"/>
+    <rect x="-1.5" y="12" width="3" height="5" rx="0.8" fill="url(#irctcNavyGrad)"/>
+    <rect x="-17" y="-1.5" width="5" height="3" rx="0.8" fill="url(#irctcNavyGrad)"/>
+    <rect x="12" y="-1.5" width="5" height="3" rx="0.8" fill="url(#irctcSaffronGrad)"/>
+
+    <!-- Center Golden Axis Medallion -->
+    <circle cx="0" cy="0" r="6" fill="url(#irctcGoldGrad)" stroke="#b45309" stroke-width="0.7"/>
+    <circle cx="0" cy="0" r="2.5" fill="#0c2340"/>
+  </g>
+
+  <!-- ================= 2. VERTICAL ACCENT DIVIDER ================= -->
+  <line x1="94" y1="14" x2="94" y2="76" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- ================= 3. AUTHORITATIVE BRAND WORDMARK & TYPOGRAPHY ================= -->
+  <g transform="translate(108, 0)">
+    <!-- Hindi Brand Designation -->
+    <text x="0" y="24" font-family="'Noto Sans Devanagari', 'Segoe UI', Arial, sans-serif" font-weight="800" font-size="14.5" fill="#ff671f" letter-spacing="1">
+      आईआरसीटीसी
+    </text>
+
+    <!-- Authoritative Brand Acronym "IRCTC" in Official Deep Navy -->
+    <text x="0" y="55" font-family="'Inter', 'Arial Black', -apple-system, sans-serif" font-weight="900" font-size="34" fill="#0c2340" letter-spacing="1.5">
+      IRCTC
+    </text>
+
+    <!-- Full English Corporate Designation -->
+    <text x="0" y="70" font-family="'Inter', 'Segoe UI', system-ui, sans-serif" font-weight="700" font-size="8.8" fill="#1e3a5f" letter-spacing="0.2">
+      Indian Railway Catering and Tourism Corporation Ltd.
+    </text>
+
+    <!-- Central Government Enterprise Tagline -->
+    <text x="0" y="81" font-family="'Inter', 'Segoe UI', system-ui, sans-serif" font-weight="600" font-size="7.5" fill="#b45309" letter-spacing="0.3">
+      A Govt. of India Enterprise | Mini Ratna (Category-I)
+    </text>
+  </g>
+</svg>

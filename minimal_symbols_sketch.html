@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimalistic Vector Symbols vs Emojis - Design Blueprint & Audit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-blue: #0252cc;
+      --primary-blue-hover: #0141a4;
+      --navy-900: #0c2340;
+      --navy-800: #163b6b;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --gold: #ffd166;
+      --emerald: #059669;
+      --amber: #d97706;
+      --rose: #dc2626;
+      --card-shadow: 0 10px 30px -5px rgba(12, 35, 64, 0.08), 0 4px 10px -2px rgba(12, 35, 64, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #eef2f6;
+      color: var(--slate-800);
+      min-height: 100vh;
+      padding: 30px 20px 80px;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    .sketch-header {
+      max-width: 1200px;
+      margin: 0 auto 30px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: #ffffff;
+      padding: 20px 26px;
+      border-radius: 18px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--slate-200);
+    }
+
+    .sketch-title-block h1 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--navy-900);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sketch-title-block p {
+      font-size: 0.88rem;
+      color: var(--slate-600);
+      margin-top: 5px;
+    }
+
+    .badge-tag {
+      display: inline-block;
+      padding: 3px 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-radius: 9999px;
+      background: #dbeafe;
+      color: #1e40af;
+      margin-bottom: 6px;
+    }
+
+    .btn-toggle-contrast {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--navy-900);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px 18px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-toggle-contrast:hover {
+      background: #1e3a8a;
+      transform: translateY(-1px);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid var(--slate-200);
+    }
+
+    .card-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--navy-900);
+      margin-bottom: 6px;
+    }
+
+    .card-subtitle {
+      font-size: 0.86rem;
+      color: var(--slate-600);
+      margin-bottom: 22px;
+      line-height: 1.5;
+    }
+
+    /* Comparison Section: Login Tabs */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 12px;
+    }
+
+    .compare-panel {
+      border: 2px solid var(--slate-200);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fafbfc;
+    }
+
+    .compare-panel.before {
+      border-color: #fca5a5;
+    }
+
+    .compare-panel.after {
+      border-color: #93c5fd;
+      background: #ffffff;
+    }
+
+    .compare-panel-header {
+      padding: 12px 18px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .compare-panel.before .compare-panel-header {
+      background: #fef2f2;
+      color: #991b1b;
+      border-bottom: 1px solid #fecaca;
+    }
+
+    .compare-panel.after .compare-panel-header {
+      background: #eff6ff;
+      color: #1e40af;
+      border-bottom: 1px solid #bfdbfe;
+    }
+
+    .compare-panel-body {
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .tabs-mockup {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      background: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--slate-200);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    .tab-mock {
+      flex: 1;
+      padding: 14px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .tab-mock.active-emoji {
+      color: #0252cc;
+      border-bottom-color: #0252cc;
+    }
+
+    .tab-mock.inactive-emoji {
+      color: #64748b;
+    }
+
+    .tab-mock.active-minimal {
+      color: #0252cc;
+      border-bottom-color: #0252cc;
+      background: rgba(2, 82, 204, 0.03);
+    }
+
+    .tab-mock.inactive-minimal {
+      color: #475569;
+    }
+
+    /* Minimalist Vector Icon Style */
+    .min-icon {
+      width: 18px;
+      height: 18px;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      stroke: currentColor;
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+
+    .explanation-box {
+      font-size: 0.84rem;
+      color: var(--slate-600);
+      line-height: 1.6;
+      width: 100%;
+    }
+
+    .explanation-box ul {
+      padding-left: 20px;
+      margin-top: 6px;
+    }
+
+    /* Universal Symbols Matrix */
+    .symbol-category {
+      margin-top: 24px;
+    }
+
+    .cat-heading {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--navy-800);
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--slate-200);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .symbols-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+    }
+
+    .symbols-table th {
+      background: var(--slate-100);
+      color: var(--slate-700);
+      font-weight: 700;
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--slate-200);
+    }
+
+    .symbols-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--slate-200);
+      vertical-align: middle;
+    }
+
+    .symbols-table tr:hover {
+      background: #fafbfc;
+    }
+
+    .emoji-pill {
+      font-size: 1.25rem;
+      padding: 4px 10px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .min-icon-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      color: #0252cc;
+      font-weight: 700;
+    }
+
+    .file-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      background: var(--slate-100);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--slate-700);
+    }
+
+    /* High Contrast Overrides */
+    html[data-contrast="high"] body {
+      background: #000000;
+      color: #ffffff;
+    }
+
+    html[data-contrast="high"] .sketch-header,
+    html[data-contrast="high"] .card,
+    html[data-contrast="high"] .compare-panel,
+    html[data-contrast="high"] .tabs-mockup {
+      background: #000000 !important;
+      border-color: var(--gold) !important;
+      box-shadow: 0 0 0 1px var(--gold);
+    }
+
+    html[data-contrast="high"] .sketch-title-block h1,
+    html[data-contrast="high"] .card-title,
+    html[data-contrast="high"] .cat-heading {
+      color: #ffffff !important;
+    }
+
+    html[data-contrast="high"] .sketch-title-block p,
+    html[data-contrast="high"] .card-subtitle,
+    html[data-contrast="high"] .explanation-box {
+      color: var(--gold) !important;
+    }
+
+    html[data-contrast="high"] .tab-mock.active-minimal {
+      color: var(--gold) !important;
+      border-bottom-color: var(--gold) !important;
+      background: #111111 !important;
+    }
+
+    html[data-contrast="high"] .tab-mock.inactive-minimal {
+      color: #cbd5e1 !important;
+    }
+
+    html[data-contrast="high"] .min-icon-pill {
+      background: #000000 !important;
+      border-color: var(--gold) !important;
+      color: var(--gold) !important;
+    }
+
+    html[data-contrast="high"] .symbols-table th {
+      background: #111111;
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    html[data-contrast="high"] .symbols-table td {
+      border-bottom-color: #222222;
+      color: #ffffff;
+    }
+
+    html[data-contrast="high"] .file-tag {
+      background: #111111;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+    }
+
+    @media (max-width: 768px) {
+      .compare-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="sketch-header">
+    <div class="sketch-title-block">
+      <span class="badge-tag">Design Audit &amp; Proposal</span>
+      <h1>📐 Universal Minimalistic Symbols Conversion</h1>
+      <p>Replacing cartoonish OS emoji characters with crisp, resolution-independent SVG vector symbols across all portal views.</p>
+    </div>
+    <button type="button" class="btn-toggle-contrast" onclick="toggleContrast()">
+      <span>🌓 Toggle High Contrast Mode</span>
+    </button>
+  </header>
+
+  <div class="container">
+
+    <!-- Section 1: Focus on Login Form Tabs (User Request) -->
+    <section class="card">
+      <h2 class="card-title">1. Login Form Tab Symbols: Before vs After</h2>
+      <p class="card-subtitle">
+        Addressing the exact issue shown in your reference screenshot (<code>media_1790228976326.png</code>): converting emoji characters (<code>👤</code>, <code>📶</code>) into precision minimalistic outline vector symbols matching the official IRCTC aesthetic.
+      </p>
+
+      <div class="compare-grid">
+        <!-- Before Panel -->
+        <div class="compare-panel before">
+          <div class="compare-panel-header">
+            <span>❌ Current State (Cartoonish Emojis)</span>
+            <span>Unprofessional</span>
+          </div>
+          <div class="compare-panel-body">
+            <div class="tabs-mockup">
+              <div class="tab-mock active-emoji">
+                <span style="font-size: 1.25rem;">👤</span>
+                <span>USER LOGIN</span>
+              </div>
+              <div class="tab-mock inactive-emoji">
+                <span style="font-size: 1.25rem;">📶</span>
+                <span>AGENT LOGIN</span>
+              </div>
+            </div>
+            <div class="explanation-box">
+              <p><strong>Drawbacks:</strong></p>
+              <ul>
+                <li>Renders differently across iOS, Android, macOS, and Windows.</li>
+                <li>Appears cartoonish, clashing with the official Indian Railways corporate branding.</li>
+                <li>Does not inherit CSS text colors, hover transitions, or High Contrast inversion.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- After Panel -->
+        <div class="compare-panel after">
+          <div class="compare-panel-header">
+            <span>✅ Proposed State (Minimalist Vector Symbols)</span>
+            <span>Authoritative</span>
+          </div>
+          <div class="compare-panel-body">
+            <div class="tabs-mockup">
+              <div class="tab-mock active-minimal">
+                <!-- Clean Minimalist User Outline SVG -->
+                <svg class="min-icon" viewBox="0 0 24 24">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span>USER LOGIN</span>
+              </div>
+              <div class="tab-mock inactive-minimal">
+                <!-- Clean Minimalist Agent / Broadcast Waves Outline SVG -->
+                <svg class="min-icon" viewBox="0 0 24 24">
+                  <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/>
+                  <path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/>
+                  <circle cx="12" cy="12" r="2"/>
+                  <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/>
+                  <path d="M19.1 4.9C23 8.8 23 15.2 19.1 19.1"/>
+                </svg>
+                <span>AGENT LOGIN</span>
+              </div>
+            </div>
+            <div class="explanation-box">
+              <p><strong>Benefits:</strong></p>
+              <ul>
+                <li>Identical razor-sharp rendering on all screens and pixel densities.</li>
+                <li>Inherits currentColor dynamically (royal blue on active, slate on idle, gold in high contrast).</li>
+                <li>100% vector line weight (2.2px) matching modern Government of India design systems.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Universal Sweep Audit of All Emojis Across the Website -->
+    <section class="card">
+      <h2 class="card-title">2. Universal Sweep: Audit of All Emojis Across All 10 Portal Files</h2>
+      <p class="card-subtitle">
+        Every emoji across all navigation menus, modals, cards, drawers, and status badges has been cataloged below with its precision minimalistic vector SVG replacement.
+      </p>
+
+      <!-- Category A: Identity, Authentication & Communication -->
+      <div class="symbol-category">
+        <h3 class="cat-heading">
+          <svg class="min-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Authentication, Helplines &amp; Emergency (Header &amp; Login Modal)
+        </h3>
+        <table class="symbols-table">
+          <thead>
+            <tr>
+              <th style="width: 15%;">Location</th>
+              <th style="width: 15%;">Current Emoji</th>
+              <th style="width: 35%;">Proposed Minimalist Symbol</th>
+              <th style="width: 35%;">Design Purpose &amp; Rationale</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="file-tag">headerCapsule.js</span></td>
+              <td><span class="emoji-pill">👤</span> User Login</td>
+              <td>
+                <span class="min-icon-pill">
+                  <svg class="min-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  User Silhouette Outline
+                </span>
+              </td>
+              <td>Crisp single-passenger profile with geometric arc torso.</td>
+            </tr>
+            <tr>
+              <td><span class="file-tag">headerCapsule.js</span></td>
+              <td><span class="emoji-pill">📶</span> Agent Login</td>
+              <td>
+                <span class="min-icon-pill">
+                  <svg class="min-icon" viewBox="0 0 24 24"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.2 19.1 19.1"/></svg>
+                  CRIS Agent Network Waves
+                </span>
+              </td>
+              <td>Broadcast arcs indicating authorized travel agent terminal network.</td>
+            </tr>
+            <tr>
+              <td><span class="file-tag">index.html</span> / <span class="file-tag">app.js</span></td>
+              <td><span class="emoji-pill">📞</span> Helpline 139</td>
+              <td>
+                <span class="min-icon-pill">
+                  <svg class="min-icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  Modern Handset Outline
+                </span>
+              </td>
+              <td>Replaces red/black telephone emoji with clean telephone vector.</td>
+            </tr>
+            <tr>
+              <td><span class="file-tag">app.js</span></td>
+              <td><span class="emoji-pill">🚨 🏥 🚑</span> Emergency Modals</td>
+              <td>
+                <span class="min-icon-pill">
+                  <svg class="min-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                  Emergency Bell / Cross
+                </span>
+              </td>
+              <td>Replaces ambulance/siren emojis with professional emergency vector marks.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Category B: Railway Operations, Navigation & Search -->
+      <div class="symbol-category">
+        <h3 class="cat-heading">
+          <svg class="min-icon" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16"/><path d="M12 3v8"/><path d="m8 19-2 3"/><path d="m16 19 2 3"/></svg>
+          Railway Search, Stations, Tickets &amp; Visualizers
+        </h3>
+        <table class="symbols-table">
+          <thead>
+            <tr>
+              <th style="width: 15%;">Location</th>
+              <th style="width: 15%;">Current Emoji</th>
+              <th style="width: 35%;">Proposed Minimalist Symbol</th>
+              <th style="width: 35%;">Design Purpose &amp; Rationale</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="file-tag">searchEngine.js</span></td>
+              <td><span class="emoji-pill">📍</span> To Station</td>
+              <td>
+                <span class="min-icon-pill">
+                  <svg class="min-icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  Location Pin Vector
+                </span>
+              </td>
+              <td>Minimalist outline location teardrop pin.</td>
+            </tr>
+            <tr>
+              <td><span class="file-tag">searchEngine.js</span></td>
+              <td><span class="emoji-pill">📅</span> Journey Date</td>
+              <td>
+                <span class="min-icon-pill">
+                  <svg class="min-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  Calendar Grid
+                </span>
+              </td>
+              <td>Vector calendar grid with binding pins.</td>
+            </tr>
+            <tr>
+              <td><span class="file-tag">searchEngine.js</span> / <span class="file-tag">bookingDrawer.js</span></td>
+              <td><span class="emoji-pill">🎫</span> Ticket &amp; PNR</td>
+              <td>
+                <span class="min-icon-pill">
+                  <svg class="min-icon" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="10" x2="6" y2="14"/><line x1="10" y1="10" x2="14" y2="10"/><line x1="18" y1="10" x2="18" y2="14"/></svg>
+                  Railway Ticket Coupon
+                </span>
+              </td>
+              <td>Perforated railway coupon vector with ticket stub notches.</td>
+            </tr>
+            <tr>
+              <td><span class="file-tag">coachVisualizer.js</span></td>
+              <td><span class="emoji-pill">💺</span> Coach &amp; Berths</td>
+              <td>
+                <span class="min-icon-pill">
+                  <svg class="min-icon" viewBox="0 0 24 24"><path d="M6 19v2"/><path d="M18 19v2"/><path d="M4 11V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v4"/><path d="M4 11h16v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-5Z"/></svg>
+                  Ergonomic Railway Seat
+                </span>
+              </td>
+              <td>Replaces generic blue chair emoji with architectural coach seat outline.</td>
+            </tr>
+            <tr>
+              <td><span class="file-tag">coachVisualizer.js</span></td>
+              <td><span class="emoji-pill">🚽 🚰 🚶</span> Coach Facilities</td>
+              <td>
+                <span class="min-icon-pill">
+                  <svg class="min-icon" viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><path d="m9 20 3-6 3 6"/><path d="M6 8h12"/></svg>
+                  Restroom &amp; Basin Vector Icons
+                </span>
+              </td>
+              <td>Universal architectural blueprint symbols for vestibules and lavatories.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Category C: Security, Tatkal & Payment -->
+      <div class="symbol-category">
+        <h3 class="cat-heading">
+          <svg class="min-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Security, Tatkal &amp; Payment (Kavach, Gateway, eWallet)
+        </h3>
+        <table class="symbols-table">
+          <thead>
+            <tr>
+              <th style="width: 15%;">Location</th>
+              <th style="width: 15%;">Current Emoji</th>
+              <th style="width: 35%;">Proposed Minimalist Symbol</th>
+              <th style="width: 35%;">Design Purpose &amp; Rationale</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="file-tag">tatkalTimer.js</span> / <span class="file-tag">index.html</span></td>
+              <td><span class="emoji-pill">⚡</span> Tatkal Speed Pulse</td>
+              <td>
+                <span class="min-icon-pill">
+                  <svg class="min-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                  Sharp Lightning Bolt Outline
+                </span>
+              </td>
+              <td>Precision vector bolt without yellow cartoonish emoji fill.</td>
+            </tr>
+            <tr>
+              <td><span class="file-tag">bookingDrawer.js</span> / <span class="file-tag">index.html</span></td>
+              <td><span class="emoji-pill">🔒</span> 256-Bit NPCI Security</td>
+              <td>
+                <span class="min-icon-pill">
+                  <svg class="min-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  Padlock Security Vector
+                </span>
+              </td>
+              <td>Standard banking security padlock symbol.</td>
+            </tr>
+            <tr>
+              <td><span class="file-tag">bookingDrawer.js</span></td>
+              <td><span class="emoji-pill">💳 🏦 ⏳</span> Payment Methods</td>
+              <td>
+                <span class="min-icon-pill">
+                  <svg class="min-icon" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                  Credit Card / NetBanking Vector
+                </span>
+              </td>
+              <td>Monochrome payment card with magnetic stripe and smart chip lines.</td>
+            </tr>
+            <tr>
+              <td><span class="file-tag">bookingDrawer.js</span> / <span class="file-tag">pnrTracker.js</span></td>
+              <td><span class="emoji-pill">🖨</span> Print / Download ERS Ticket</td>
+              <td>
+                <span class="min-icon-pill">
+                  <svg class="min-icon" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                  Printer Document Vector
+                </span>
+              </td>
+              <td>Clean document printer vector icon with feeder tray.</td>
+            </tr>
+            <tr>
+              <td><span class="file-tag">pnrTracker.js</span></td>
+              <td><span class="emoji-pill">🟢 🟡 🔴</span> PNR Status Badges</td>
+              <td>
+                <span class="min-icon-pill">
+                  <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#059669;"></span>
+                  Vector Status Indicator Dot
+                </span>
+              </td>
+              <td>Pure CSS pulsating micro-dots (CNF Green, RAC Amber, WL Red) with crisp borders.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+  </div>
+
+  <script>
+    function toggleContrast() {
+      const html = document.documentElement;
+      const isHigh = html.getAttribute('data-contrast') === 'high';
+      if (isHigh) {
+        html.removeAttribute('data-contrast');
+      } else {
+        html.setAttribute('data-contrast', 'high');
+      }
+    }
+  </script>
+</body>
+</html>
