@@ -5,13 +5,12 @@
 const OPENAPI_SPEC = {
   openapi: '3.0.3',
   info: {
-    title: 'IRCTC Next-Gen Railway REST API Suite',
+    title: 'IRCTC Redesign Prototype REST API Suite',
     version: '1.0.0',
-    description: 'Production-grade enterprise RESTful API and SQLite engine powering Indian Railways Next-Gen ticketing, live telemetry, and passenger records.',
+    description: 'Independent prototype RESTful API and SQLite engine demonstrating railway reservation flows, simulated train search, transactional booking, and demo PNR queries.',
     contact: {
-      name: 'IRCTC Engineering Platform',
-      url: 'https://irctc.co.in',
-      email: 'tech-support@irctc.co.in'
+      name: 'Shubham Uttekar',
+      url: 'https://github.com/Shubhamuttekar/irctc-nextgen-platform'
     },
     license: {
       name: 'MIT',
@@ -21,7 +20,7 @@ const OPENAPI_SPEC = {
   servers: [
     {
       url: 'http://localhost:8086',
-      description: 'Local Production REST API Server'
+      description: 'Local Development REST API Server'
     },
     {
       url: '',
@@ -32,14 +31,14 @@ const OPENAPI_SPEC = {
     { name: 'System', description: 'API Health, telemetry, and uptime indicators' },
     { name: 'Trains', description: 'Train lookup, search engine, halts and dynamic availability' },
     { name: 'Bookings', description: 'Transactional reservation and instant PNR generation' },
-    { name: 'PNR Status', description: 'Real-time passenger charting and berth allocation' }
+    { name: 'PNR Status', description: 'Simulated passenger charting and berth allocation' }
   ],
   paths: {
     '/api/health': {
       get: {
         tags: ['System'],
         summary: 'System Health & Diagnostic Telemetry',
-        description: 'Returns real-time server uptime, SQLite database connectivity state, and loaded metrics.',
+        description: 'Returns current server uptime, SQLite database connectivity state, and loaded metrics.',
         operationId: 'getHealth',
         responses: {
           '200': {
@@ -216,7 +215,7 @@ const OPENAPI_SPEC = {
       post: {
         tags: ['Bookings'],
         summary: 'Instant Railway Ticket Reservation',
-        description: 'Calculates exact fare breakdown with GST & reservation surcharge, reserves seats atomically, and assigns authentic 10-digit PNR.',
+        description: 'Calculates fare breakdown with GST & reservation surcharge, reserves seats atomically, and assigns a 10-digit demo PNR.',
         operationId: 'createBooking',
         requestBody: {
           required: true,
@@ -283,7 +282,7 @@ const OPENAPI_SPEC = {
       get: {
         tags: ['PNR Status'],
         summary: 'Check PNR Status & Charting Details',
-        description: 'Fetches real-time passenger confirmation status, allocated coach & berth numbers, and station chart status.',
+        description: 'Fetches simulated passenger confirmation status, allocated coach & berth numbers, and station chart status.',
         operationId: 'getPnrStatus',
         parameters: [
           {

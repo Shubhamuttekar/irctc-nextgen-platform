@@ -293,8 +293,8 @@ function renderDocsHtml() {
         <span class="badge badge-blue">Zero Dependencies</span>
         <span class="badge badge-orange">OpenAPI 3.0.3</span>
       </div>
-      <h1 class="title">IRCTC Next-Gen RESTful API Explorer</h1>
-      <p class="subtitle">High-throughput Indian Railways backend suite with dynamic berth allocation, real-time timetable searches, authentic 10-digit PNR generation, and live SQLite database synchronization.</p>
+      <h1 class="title">IRCTC Redesign Prototype API Explorer</h1>
+      <p class="subtitle">Full-stack railway prototype REST API with dynamic berth allocation, timetable search, demo 10-digit PNR generation, and native SQLite persistence.</p>
       <div class="quick-links">
         <a href="/api/openapi.json" target="_blank">📄 View OpenAPI 3.0 JSON</a>
         <a href="/" target="_blank">🚂 Open Passenger Frontend</a>

@@ -86,7 +86,7 @@ export class CoachVisualizer {
                 <span class="modal-icon"><svg class="min-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3"/><path d="M3 11v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/><path d="M5 18v2"/><path d="M19 18v2"/></svg></span>
                 <div>
                   <h2 id="coach-modal-title" class="modal-title">Interactive Coach & Berth Visualizer</h2>
-                  <p class="modal-subtitle" id="coach-modal-subtitle">${trainTitle} • Real-time Coach Blueprint</p>
+                  <p class="modal-subtitle" id="coach-modal-subtitle">${trainTitle} • Interactive Coach Blueprint</p>
                 </div>
               </div>
               <button type="button" class="btn-modal-close" id="btn-close-coach-modal" aria-label="Close Visualizer">✕</button>
@@ -108,7 +108,7 @@ export class CoachVisualizer {
 
     const subtitle = this.container.querySelector('#coach-modal-subtitle');
     if (subtitle && this.currentTrain) {
-      subtitle.textContent = `${this.currentTrain.trainNo} - ${this.currentTrain.trainName} • Real-time Coach Blueprint`;
+      subtitle.textContent = `${this.currentTrain.trainNo} - ${this.currentTrain.trainName} • Interactive Coach Blueprint`;
     }
 
     const interior = this.container.querySelector('#coach-modal-interior');

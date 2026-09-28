@@ -1,7 +1,7 @@
 /**
- * Production SQLite Database Layer for IRCTC Next-Gen Platform
+ * SQLite Database Layer for IRCTC Next-Gen Prototype
  * Powered by Node.js native built-in SQLite engine (node:sqlite)
- * Zero external npm dependencies required!
+ * Zero external npm dependencies required
  */
 
 const fs = require('node:fs');
@@ -1026,7 +1026,7 @@ function getTrainByNo(trainNo) {
 }
 
 /**
- * Generate authentic 10-digit PNR (Indian Railways zone-prefixed)
+ * Generate 10-digit demo PNR (zone-prefixed format)
  */
 function generatePnr() {
   const prefix = ['2', '4', '6', '8'][Math.floor(Math.random() * 4)];
@@ -1083,7 +1083,7 @@ function createBooking({ trainNo, classCode, journeyDate, quota = 'GN', passenge
   const isTatkal = quota === 'TQ' || quota === 'PT';
   const baseRate = isTatkal ? (cls.tatkalFare || cls.fare * 1.2) : cls.fare;
 
-  // Authentic Indian Railways Fare Calculation Engine
+  // Fare Calculation Engine (Base Fare + GST + Surcharges)
   const passengerCount = passengers.length;
   const rawBaseTotal = baseRate * passengerCount;
   const reservationCharge = ['1A', 'EC'].includes(classCode) ? 60 * passengerCount : (['2A', '3A', 'CC'].includes(classCode) ? 40 * passengerCount : 20 * passengerCount);

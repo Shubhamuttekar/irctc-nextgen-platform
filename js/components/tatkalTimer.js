@@ -1,6 +1,6 @@
 /**
- * Real-Time Tatkal Countdown Hub & Clock
- * Synchronizes to 10:00 AM (AC Tatkal) and 11:00 AM (Non-AC Tatkal)
+ * Tatkal Countdown Hub & Clock
+ * Synchronizes to configured 10:00 AM (AC Tatkal) and 11:00 AM (Non-AC Tatkal) opening times
  */
 
 export class TatkalTimer {

@@ -11,6 +11,17 @@ An independent full-stack railway reservation prototype inspired by the Indian R
 
 ---
 
+## ⚡ Quick Evaluation & Live Demo
+
+| Question | Evaluation Details |
+| :--- | :--- |
+| **What is this?** | An independent full-stack railway reservation prototype inspired by the Indian Railways (IRCTC) booking workflow. |
+| **What does it demonstrate?** | Clean modular vanilla web architecture, a native Node.js REST API with zero external dependencies, transactional SQLite persistence, and accessible UI design. |
+| **Can I see it live?** | **[Launch Live Web Demo](https://shubhamuttekar.github.io/irctc-nextgen-platform/)** (hosted on GitHub Pages with offline-resilient client). |
+| **Quick Run (3 steps)** | `git clone https://github.com/Shubhamuttekar/irctc-nextgen-platform.git`<br>`cd irctc-nextgen-platform`<br>`node server/index.js` (Open `http://localhost:8086`) |
+
+---
+
 ## 📑 Table of Contents
 1. [Project Overview](#1-project-overview)
 2. [Problem and Product Concept](#2-problem-and-product-concept)
@@ -33,12 +44,27 @@ An independent full-stack railway reservation prototype inspired by the Indian R
 
 The **IRCTC Redesign Prototype** explores how modern web development patterns can streamline high-density public utility workflows. 
 
-The application implements a complete reservation lifecycle: searching for trains between station codes, inspecting multi-class seat counts, visualizing coach berth layouts, creating transactional bookings with 10-digit PNR generation, and querying real-time booking and charting statuses.
+The application implements a complete reservation lifecycle: searching for trains between station codes, inspecting multi-class seat counts, visualizing coach berth layouts, creating transactional bookings with 10-digit PNR generation, and querying simulated booking and charting statuses.
 
 The system is self-contained:
 * **Backend:** Built using Node.js standard libraries (`node:http`) and Node v22's native SQLite module (`node:sqlite`). It requires **zero external NPM packages**.
 * **Frontend:** Modular vanilla ES6 JavaScript with native DOM templates, custom event orchestration, and an HTML5 Canvas train animation.
 * **Resilience:** An offline-first Smart Gateway client (`apiClient.js`) that automatically falls back to local structured data if the backend is unreachable.
+
+### Clean Repository Layout
+
+```text
+irctc-nextgen-platform/
+├── assets/                 # Vector SVGs, icons, and official insignia assets
+├── css/                    # Modular stylesheets (main, components, animations)
+├── docs/
+│   └── design-exploration/ # Iterative design sketches, audits, and research artifacts
+├── js/                     # Client application (ES modules, components, utilities)
+├── server/                 # REST API, OpenAPI docs, SQLite database & test suite
+├── index.html              # Main single-page application entry point
+├── README.md               # Technical documentation and case study
+└── LICENSE                 # MIT License
+```
 
 ---
 
@@ -51,7 +77,7 @@ High-volume reservation websites often suffer from user experience challenges:
 
 ### Concept Solutions in this Prototype:
 * **Unified Availability Matrix:** Displays seat counts and fares across all available classes (1A, 2A, 3A, CC, EC, SL) simultaneously on each train card.
-* **Interactive Coach Visualizer:** Renders authentic 2D coach berth configurations (Chair Car, Sleeper, 3-Tier AC, 2-Tier AC) with clear labels for Lower, Middle, Upper, Side Lower, Side Upper, and Window seats.
+* **Interactive Coach Visualizer:** Renders realistic 2D coach berth configurations (Chair Car, Sleeper, 3-Tier AC, 2-Tier AC) with clear labels for Lower, Middle, Upper, Side Lower, Side Upper, and Window seats.
 * **Graceful Degradation:** The client abstracts network requests through a smart gateway that falls back to structured immutable data if API calls fail, preserving interface usability.
 
 ---
@@ -65,7 +91,7 @@ High-volume reservation websites often suffer from user experience challenges:
 * **3-Step Reservation Drawer:** Progressive form collecting passenger details, meal preferences, travel insurance opt-ins, and simulated payment selection.
 * **Simulated Digital E-Ticket:** Generates printable ticket views with breakdown calculations (Base fare + GST + Superfast charge) and client-side vector QR codes.
 * **PNR Status Enquiry:** Look up booking records, allocated coach/berth details, and charting status indicators (*CHART PREPARED* vs *CHART NOT PREPARED*).
-* **Tatkal Countdown Timers:** Live synchronized countdown clocks tracking official Tatkal opening times (10:00 AM for AC, 11:00 AM for Non-AC).
+* **Tatkal Countdown Timers:** Countdown clocks based on configured AC and Non-AC Tatkal opening times (10:00 AM for AC, 11:00 AM for Non-AC).
 * **Accessibility-Focused Controls:** High Contrast toggle and 3-tier font size scaling (`A-` / `A` / `A+`).
 * **Multilingual Localization:** Client-side dictionary translations across 5 languages: English, हिन्दी (Hindi), বাংলা (Bengali), தமிழ் (Tamil), and मराठी (Marathi).
 * **Canvas Train Animation:** Procedural animation of the Vande Bharat 2.0 express built with HTML5 Canvas 2D and `requestAnimationFrame`.
@@ -197,7 +223,7 @@ The booking lifecycle represents a multi-step transactional pipeline:
       │  COMMIT (Rolls back if seats are insufficient)
       ▼
 [8. PNR Generation & Confirmation]
-      │  Generates authentic 10-digit numeric PNR (e.g., 4829104821)
+      │  Generates a 10-digit numeric demo PNR (e.g., 4829104821)
       ▼
 [9. E-Ticket Render]
          Client displays printable digital ticket with booking summary and scannable QR code
@@ -324,7 +350,7 @@ node test-api.js
 * **Tradeoff:** SQLite writes are serialized (single-writer). For a distributed, multi-region production deployment with millions of concurrent writes, a distributed database like PostgreSQL or CockroachDB would be required. For a self-contained portfolio prototype, SQLite provides the optimal balance of relational integrity and zero-friction setup.
 
 ### 2. Why Vanilla ES6 Modules over Frameworks (React/Vue/Angular)?
-* **Fast Initial Render:** Avoids 150KB–400KB of bundled framework runtimes, resulting in fast First Contentful Paint.
+* **Direct Platform Execution:** Avoids a framework runtime and build pipeline for this prototype. This keeps the project self-contained and demonstrates native browser APIs directly.
 * **No Build Step Required:** Uses native browser ES module imports (`import { HeaderCapsule } from './components/headerCapsule.js'`), allowing code to be served directly without Babel or Webpack.
 * **Demonstrates Core Web APIs:** Showcases native DOM manipulation, Custom Events, and Canvas 2D rendering without relying on framework abstractions.
 * **Tradeoff:** State synchronization across distant components requires manual event orchestration rather than automatic reactive re-renders.

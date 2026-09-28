@@ -1,5 +1,5 @@
 /**
- * Production API Client Utility with Resilient Offline Fallback
+ * API Client Utility with Resilient Offline Fallback
  * Seamlessly interfaces with Node.js/SQLite REST API on port 8086
  * Automatically falls back to local dataset if backend is unreachable
  */

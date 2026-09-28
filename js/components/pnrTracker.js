@@ -69,7 +69,7 @@ export class PnrTracker {
             <span class="pnr-icon"><svg class="min-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
             <div>
               <h2 class="section-title">Passenger Name Record (PNR) Status Enquiry</h2>
-              <p class="section-subtitle">Real-time Passenger Charting & SQLite Reservation Database Synchronization</p>
+              <p class="section-subtitle">Simulated Passenger Charting & SQLite Reservation Database Synchronization</p>
             </div>
           </div>
 

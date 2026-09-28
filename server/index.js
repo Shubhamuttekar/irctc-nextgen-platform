@@ -1,7 +1,7 @@
 /**
- * IRCTC Next-Gen Enterprise RESTful API Server
+ * IRCTC Next-Gen Prototype RESTful API Server
  * Built with Node.js built-in HTTP and SQLite (node:sqlite)
- * Zero external npm dependencies - 100% self-contained & resilient
+ * Zero external npm dependencies - self-contained & resilient prototype
  */
 
 const http = require('node:http');

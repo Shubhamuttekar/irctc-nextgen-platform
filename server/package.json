@@ -1,7 +1,7 @@
 {
   "name": "irctc-nextgen-backend",
   "version": "1.0.0",
-  "description": "Production-grade Node.js/Express REST API and SQLite Database Suite for IRCTC Next-Gen Platform",
+  "description": "Full-stack Node.js REST API and native SQLite prototype suite for the IRCTC redesign project",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -17,7 +17,7 @@
     "open-api",
     "swagger"
   ],
-  "author": "IRCTC Engineering Architecture",
+  "author": "Shubham Uttekar",
   "license": "MIT",
   "engines": {
     "node": ">=20.0.0"
